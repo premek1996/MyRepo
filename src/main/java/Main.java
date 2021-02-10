@@ -1,7 +1,6 @@
-import domain.Commit;
-import historytrackers.ClassHistoryTracker;
-import processmetrics.NumberOfDistinctCommitters;
-import processmetrics.NumberOfRevisions;
+import domain.Committer;
+import gitapi.CommittersApi;
+import historytrackers.ClassChangeHistoryTracker;
 
 import java.io.IOException;
 import java.util.List;
@@ -13,11 +12,14 @@ public class Main {
     private static final String filePath = "client/idrepo/ui/src/main/java/org/apache/syncope/client/ui/commons/ConnIdSpecialName.java";
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        ClassHistoryTracker classHistoryTracker = new ClassHistoryTracker(repoPath, filePath);
-        List<Commit> commits = classHistoryTracker.getCommits();
+        ClassChangeHistoryTracker classHistoryTracker = new ClassChangeHistoryTracker(repoPath, filePath);
+
+        List<String> commits = classHistoryTracker.getHashCommits();
         System.out.println("Commits: " + commits);
-        NumberOfRevisions.calculate(commits);
-        NumberOfDistinctCommitters.calculate(commits);
+
+        List<Committer> committers = CommittersApi.getCommitters(repoPath);
+        System.out.println(committers);
+
     }
 
 }
