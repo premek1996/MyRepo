@@ -1,13 +1,28 @@
 package domain;
 
+import java.util.Date;
+
 public class Commit {
 
     private final String hash;
     private final Developer developer;
+    private final int addedLinesNumber;
+    private final int deletedLinesNumber;
+    private final int modifiedLinesNumber;
+    private final Date date;
 
-    private Commit(String hash, Developer developer) {
+    private Commit(String hash,
+                   Developer developer,
+                   int addedLinesNumber,
+                   int deletedLinesNumber,
+                   int modifiedLinesNumber,
+                   Date date) {
         this.hash = hash;
         this.developer = developer;
+        this.addedLinesNumber = addedLinesNumber;
+        this.deletedLinesNumber = deletedLinesNumber;
+        this.modifiedLinesNumber = modifiedLinesNumber;
+        this.date = date;
     }
 
     public static CommitBuilder builder() {
@@ -22,23 +37,63 @@ public class Commit {
         return developer;
     }
 
+    public int getAddedLinesNumber() {
+        return addedLinesNumber;
+    }
+
+    public int getDeletedLinesNumber() {
+        return deletedLinesNumber;
+    }
+
+    public int getModifiedLinesNumber() {
+        return modifiedLinesNumber;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
     public static class CommitBuilder {
 
         private String hash;
         private Developer developer;
+        private int addedLinesNumber;
+        private int deletedLinesNumber;
+        private int modifiedLinesNumber;
+        private Date date;
 
         public CommitBuilder withHash(String hash) {
             this.hash = hash;
             return this;
         }
 
-        public CommitBuilder withCommitter(Developer developer) {
+        public CommitBuilder withDeveloper(Developer developer) {
             this.developer = developer;
             return this;
         }
 
+        public CommitBuilder withAddedLinesNumber(int addedLinesNumber) {
+            this.addedLinesNumber = addedLinesNumber;
+            return this;
+        }
+
+        public CommitBuilder withDeletedLinesNumber(int deletedLinesNumber) {
+            this.deletedLinesNumber = deletedLinesNumber;
+            return this;
+        }
+
+        public CommitBuilder withModifiedLinesNumber(int modifiedLinesNumber) {
+            this.modifiedLinesNumber = modifiedLinesNumber;
+            return this;
+        }
+
+        public CommitBuilder withDate(Date date) {
+            this.date = date;
+            return this;
+        }
+
         public Commit build() {
-            return new Commit(hash, developer);
+            return new Commit(hash, developer, addedLinesNumber, deletedLinesNumber, modifiedLinesNumber, date);
         }
 
     }
