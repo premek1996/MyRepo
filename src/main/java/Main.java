@@ -1,5 +1,5 @@
-import domain.Committer;
-import gitapi.CommittersApi;
+import domain.Developer;
+import gitapi.DevelopersApi;
 import historytrackers.ClassChangeHistoryTracker;
 
 import java.io.IOException;
@@ -17,8 +17,8 @@ public class Main {
         List<String> commits = classHistoryTracker.getHashCommits();
         System.out.println("Commits: " + commits);
 
-        List<Committer> committers = CommittersApi.getCommitters(repoPath);
-        System.out.println(committers);
+        List<Developer> developers = DevelopersApi.getDevelopers(repoPath);
+        System.out.println(developers);
 
     }
 

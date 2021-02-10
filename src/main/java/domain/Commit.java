@@ -3,11 +3,11 @@ package domain;
 public class Commit {
 
     private final String hash;
-    private final Committer committer;
+    private final Developer developer;
 
-    private Commit(String hash, Committer committer) {
+    private Commit(String hash, Developer developer) {
         this.hash = hash;
-        this.committer = committer;
+        this.developer = developer;
     }
 
     public static CommitBuilder builder() {
@@ -18,27 +18,27 @@ public class Commit {
         return hash;
     }
 
-    public Committer getCommitter() {
-        return committer;
+    public Developer getDeveloper() {
+        return developer;
     }
 
     public static class CommitBuilder {
 
         private String hash;
-        private Committer committer;
+        private Developer developer;
 
         public CommitBuilder withHash(String hash) {
             this.hash = hash;
             return this;
         }
 
-        public CommitBuilder withCommitter(Committer committer) {
-            this.committer = committer;
+        public CommitBuilder withCommitter(Developer developer) {
+            this.developer = developer;
             return this;
         }
 
         public Commit build() {
-            return new Commit(hash, committer);
+            return new Commit(hash, developer);
         }
 
     }
