@@ -11,7 +11,8 @@ import java.util.stream.Collectors;
 public class DevelopersApi {
 
     public static List<Developer> getDevelopers(String repoPath) {
-        List<String> command = new ArrayList<>(Arrays.asList("git", "shortlog", "--summary", "--numbered", "--email", "--all"));
+        List<String> command = new ArrayList<>
+                (Arrays.asList("git", "shortlog", "--summary", "--numbered", "--email", "--all"));
         List<String> processLogs = ProcessExecutor.getProcessLogs(repoPath, command);
         return mapProcessLogsToDevelopers(processLogs);
     }

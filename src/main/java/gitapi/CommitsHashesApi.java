@@ -10,7 +10,8 @@ import java.util.stream.Collectors;
 public class CommitsHashesApi {
 
     public static List<String> getCommitsHashesWhichChangedFile(String repoPath, String filePath) {
-        List<String> command = new ArrayList<>(Arrays.asList("git", "log", "--follow", "--oneline", "--", filePath));
+        List<String> command = new ArrayList<>
+                (Arrays.asList("git", "log", "--follow", "--oneline", "--", filePath));
         List<String> processLogs = ProcessExecutor.getProcessLogs(repoPath, command);
         return mapProcessLogsToCommitsHashes(processLogs);
     }
