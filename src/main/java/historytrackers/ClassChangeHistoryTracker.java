@@ -40,6 +40,7 @@ public class ClassChangeHistoryTracker {
 
     private List<Commit> determineCommits() {
         List<String> commitsHashes = CommitsHashesApi.getCommitsHashesWhichChangedFile(repoPath, filePath);
+        System.out.println(commitsHashes);
         return new ArrayList<>();
     }
 

@@ -8,20 +8,17 @@ public class Commit {
     private final Developer developer;
     private final int addedLinesNumber;
     private final int deletedLinesNumber;
-    private final int modifiedLinesNumber;
     private final Date date;
 
     private Commit(String hash,
                    Developer developer,
                    int addedLinesNumber,
                    int deletedLinesNumber,
-                   int modifiedLinesNumber,
                    Date date) {
         this.hash = hash;
         this.developer = developer;
         this.addedLinesNumber = addedLinesNumber;
         this.deletedLinesNumber = deletedLinesNumber;
-        this.modifiedLinesNumber = modifiedLinesNumber;
         this.date = date;
     }
 
@@ -46,8 +43,9 @@ public class Commit {
     }
 
     public int getModifiedLinesNumber() {
-        return modifiedLinesNumber;
+        return addedLinesNumber + deletedLinesNumber;
     }
+
 
     public Date getDate() {
         return date;
@@ -59,7 +57,6 @@ public class Commit {
         private Developer developer;
         private int addedLinesNumber;
         private int deletedLinesNumber;
-        private int modifiedLinesNumber;
         private Date date;
 
         public CommitBuilder withHash(String hash) {
@@ -82,18 +79,13 @@ public class Commit {
             return this;
         }
 
-        public CommitBuilder withModifiedLinesNumber(int modifiedLinesNumber) {
-            this.modifiedLinesNumber = modifiedLinesNumber;
-            return this;
-        }
-
         public CommitBuilder withDate(Date date) {
             this.date = date;
             return this;
         }
 
         public Commit build() {
-            return new Commit(hash, developer, addedLinesNumber, deletedLinesNumber, modifiedLinesNumber, date);
+            return new Commit(hash, developer, addedLinesNumber, deletedLinesNumber, date);
         }
 
     }
