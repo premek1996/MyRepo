@@ -1,4 +1,5 @@
 import domain.Developer;
+import domain.InvestigatedSourceElement;
 import gitapi.DevelopersApi;
 import historytrackers.ClassChangeHistoryTracker;
 
@@ -13,12 +14,15 @@ public class Main {
     private static final String currentHashCommit = "114c412afbfba24ffb4fbc804e5308a823a16a78";
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        ClassChangeHistoryTracker classHistoryTracker = new ClassChangeHistoryTracker(repoPath, filePath, currentHashCommit);
 
-        //List<String> commits = classHistoryTracker.getCommits();
-        //System.out.println("Commits: " + commits);
+        InvestigatedSourceElement investigatedSourceElement = InvestigatedSourceElement.builder()
+                .withRepoPath(repoPath)
+                .withFilePath(filePath)
+                .withCurrentHashCommit(currentHashCommit)
+                .build();
 
-        List<Developer> developers = DevelopersApi.getDevelopers(repoPath);
+        ClassChangeHistoryTracker classHistoryTracker = new ClassChangeHistoryTracker(investigatedSourceElement);
+
 
     }
 

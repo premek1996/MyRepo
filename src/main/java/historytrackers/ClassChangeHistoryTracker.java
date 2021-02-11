@@ -1,28 +1,26 @@
 package historytrackers;
 
 import domain.Commit;
-import gitapi.CommitDateApi;
+import domain.CommitBasicInfo;
+import domain.Developer;
+import domain.InvestigatedSourceElement;
+import gitapi.CommitBasicInfoApi;
 import gitapi.CommitsHashesApi;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ClassChangeHistoryTracker {
 
+    private final InvestigatedSourceElement investigatedSourceElement;
     private final String repoPath;
     private final String filePath;
-    private final String currentHashCommit;
-    private final Date currentDate;
     private final List<Commit> commits;
 
-    public ClassChangeHistoryTracker(String repoPath,
-                                     String filePath,
-                                     String currentHashCommit) {
-        this.repoPath = repoPath;
-        this.filePath = filePath;
-        this.currentHashCommit = currentHashCommit;
-        this.currentDate = determineCurrentDate();
+    public ClassChangeHistoryTracker(InvestigatedSourceElement investigatedSourceElement) {
+        this.investigatedSourceElement = investigatedSourceElement;
+        this.repoPath = investigatedSourceElement.getRepoPath();
+        this.filePath = investigatedSourceElement.getFilePath();
         this.commits = determineCommits();
     }
 
@@ -30,18 +28,24 @@ public class ClassChangeHistoryTracker {
         return commits;
     }
 
-    public Date getCurrentDate() {
-        return currentDate;
-    }
-
-    private Date determineCurrentDate() {
-        return CommitDateApi.getCommitDate(repoPath, currentHashCommit);
-    }
-
     private List<Commit> determineCommits() {
         List<String> commitsHashes = CommitsHashesApi.getCommitsHashesWhichChangedFile(repoPath, filePath);
-        System.out.println(commitsHashes);
-        return new ArrayList<>();
+        return mapCommitsHashesToCommits(commitsHashes);
+    }
+
+    private List<Commit> mapCommitsHashesToCommits(List<String> commitsHashes) {
+        return commitsHashes.stream()
+                .map(this::mapHashCommitToCommit)
+                .collect(Collectors.toList());
+    }
+
+    private Commit mapHashCommitToCommit(String hashCommit) {
+        CommitBasicInfo commitBasicInfo = CommitBasicInfoApi.getCommitBasicInfo(repoPath, hashCommit);
+        System.out.println(commitBasicInfo);
+
+        Developer developer = investigatedSourceElement.getDeveloper(commitBasicInfo.getMail());
+        System.out.println(developer);
+        return Commit.builder().build();
     }
 
 }
