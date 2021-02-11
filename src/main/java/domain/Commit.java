@@ -5,17 +5,20 @@ import java.util.Date;
 public class Commit {
 
     private final String hash;
+    private final String message;
     private final Developer developer;
     private final int addedLinesNumber;
     private final int deletedLinesNumber;
     private final Date date;
 
     private Commit(String hash,
+                   String message,
                    Developer developer,
                    int addedLinesNumber,
                    int deletedLinesNumber,
                    Date date) {
         this.hash = hash;
+        this.message = message;
         this.developer = developer;
         this.addedLinesNumber = addedLinesNumber;
         this.deletedLinesNumber = deletedLinesNumber;
@@ -28,6 +31,10 @@ public class Commit {
 
     public String getHash() {
         return hash;
+    }
+
+    public String getMessage() {
+        return message;
     }
 
     public Developer getDeveloper() {
@@ -46,7 +53,6 @@ public class Commit {
         return addedLinesNumber + deletedLinesNumber;
     }
 
-
     public Date getDate() {
         return date;
     }
@@ -54,6 +60,7 @@ public class Commit {
     public static class CommitBuilder {
 
         private String hash;
+        private String message;
         private Developer developer;
         private int addedLinesNumber;
         private int deletedLinesNumber;
@@ -61,6 +68,11 @@ public class Commit {
 
         public CommitBuilder withHash(String hash) {
             this.hash = hash;
+            return this;
+        }
+
+        public CommitBuilder withMessage(String message) {
+            this.message = message;
             return this;
         }
 
@@ -85,7 +97,7 @@ public class Commit {
         }
 
         public Commit build() {
-            return new Commit(hash, developer, addedLinesNumber, deletedLinesNumber, date);
+            return new Commit(hash, message, developer, addedLinesNumber, deletedLinesNumber, date);
         }
 
     }

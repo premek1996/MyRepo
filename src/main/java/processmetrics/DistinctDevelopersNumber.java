@@ -3,16 +3,21 @@ package processmetrics;
 import domain.Commit;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
+/*
+The metric counts the number of distinct authors, usually developers,
+who committed their changes in a given Java class/method during the development
+of the investigated release of a software system.
+ */
 
 public class DistinctDevelopersNumber {
 
     public static void calculate(List<Commit> commits) {
-        int distinctDevelopersNumber = commits.stream()
+        int distinctDevelopersNumber = (int) commits.stream()
                 .map(Commit::getDeveloper)
-                .collect(Collectors.toSet())
-                .size();
-        System.out.println("Number of distinct committers: " + distinctDevelopersNumber);
+                .distinct()
+                .count();
+        System.out.println("Number of distinct developers: " + distinctDevelopersNumber);
     }
 
 }
