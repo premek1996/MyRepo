@@ -15,7 +15,7 @@ public class DeveloperCommitsAverageNumber {
         double developerCommitsAverageNumber = commits.stream()
                 .map(Commit::getDeveloper)
                 .distinct()
-                .mapToInt(Developer::getCommitsNumber)
+                .mapToInt(Developer::getCommits)
                 .average()
                 .orElse(0);
         System.out.println("The average number of commits per developer: " + developerCommitsAverageNumber);

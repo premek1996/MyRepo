@@ -3,11 +3,11 @@ package domain;
 public class Developer {
 
     private final String mail;
-    private final int commitsNumber;
+    private final int commits;
 
-    private Developer(String mail, int commitsNumber) {
+    private Developer(String mail, int commits) {
         this.mail = mail;
-        this.commitsNumber = commitsNumber;
+        this.commits = commits;
     }
 
     public static DeveloperBuilder builder() {
@@ -18,35 +18,35 @@ public class Developer {
         return mail;
     }
 
-    public int getCommitsNumber() {
-        return commitsNumber;
+    public int getCommits() {
+        return commits;
     }
 
     @Override
     public String toString() {
         return "Developer{" +
                 "mail='" + mail + '\'' +
-                ", commitsNumber=" + commitsNumber +
+                ", commits=" + commits +
                 '}';
     }
 
     public static class DeveloperBuilder {
 
         private String mail;
-        private int commitsNumber;
+        private int commits;
 
         public DeveloperBuilder withMail(String mail) {
             this.mail = mail;
             return this;
         }
 
-        public DeveloperBuilder withCommitsNumber(int commitsNumber) {
-            this.commitsNumber = commitsNumber;
+        public DeveloperBuilder withCommits(int commits) {
+            this.commits = commits;
             return this;
         }
 
         public Developer build() {
-            return new Developer(mail, commitsNumber);
+            return new Developer(mail, commits);
         }
 
     }

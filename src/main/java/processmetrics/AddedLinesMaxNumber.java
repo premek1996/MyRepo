@@ -13,7 +13,7 @@ public class AddedLinesMaxNumber {
 
     public static void calculate(List<Commit> commits) {
         int addedLinesMaxNumber = commits.stream()
-                .mapToInt(Commit::getAddedLinesNumber)
+                .mapToInt(Commit::getAddedLines)
                 .max()
                 .orElse(0);
         System.out.println("Max number of added lines: " + addedLinesMaxNumber);

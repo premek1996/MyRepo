@@ -1,4 +1,4 @@
-package historytrackers;
+package changehistorytrackers;
 
 import domain.Commit;
 import domain.CommitBasicInfo;
@@ -41,10 +41,7 @@ public class ClassChangeHistoryTracker {
 
     private Commit mapHashCommitToCommit(String hashCommit) {
         CommitBasicInfo commitBasicInfo = CommitBasicInfoApi.getCommitBasicInfo(repoPath, hashCommit);
-        System.out.println(commitBasicInfo);
-
         Developer developer = investigatedSourceElement.getDeveloper(commitBasicInfo.getMail());
-        System.out.println(developer);
         return Commit.builder().build();
     }
 

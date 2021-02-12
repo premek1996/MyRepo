@@ -7,21 +7,21 @@ public class Commit {
     private final String hash;
     private final String message;
     private final Developer developer;
-    private final int addedLinesNumber;
-    private final int deletedLinesNumber;
+    private final int addedLines;
+    private final int deletedLines;
     private final Date date;
 
     private Commit(String hash,
                    String message,
                    Developer developer,
-                   int addedLinesNumber,
-                   int deletedLinesNumber,
+                   int addedLines,
+                   int deletedLines,
                    Date date) {
         this.hash = hash;
         this.message = message;
         this.developer = developer;
-        this.addedLinesNumber = addedLinesNumber;
-        this.deletedLinesNumber = deletedLinesNumber;
+        this.addedLines = addedLines;
+        this.deletedLines = deletedLines;
         this.date = date;
     }
 
@@ -41,16 +41,16 @@ public class Commit {
         return developer;
     }
 
-    public int getAddedLinesNumber() {
-        return addedLinesNumber;
+    public int getAddedLines() {
+        return addedLines;
     }
 
-    public int getDeletedLinesNumber() {
-        return deletedLinesNumber;
+    public int getDeletedLines() {
+        return deletedLines;
     }
 
-    public int getModifiedLinesNumber() {
-        return addedLinesNumber + deletedLinesNumber;
+    public int getModifiedLines() {
+        return addedLines + deletedLines;
     }
 
     public Date getDate() {
@@ -62,8 +62,8 @@ public class Commit {
         private String hash;
         private String message;
         private Developer developer;
-        private int addedLinesNumber;
-        private int deletedLinesNumber;
+        private int addedLines;
+        private int deletedLines;
         private Date date;
 
         public CommitBuilder withHash(String hash) {
@@ -81,13 +81,13 @@ public class Commit {
             return this;
         }
 
-        public CommitBuilder withAddedLinesNumber(int addedLinesNumber) {
-            this.addedLinesNumber = addedLinesNumber;
+        public CommitBuilder withAddedLines(int addedLines) {
+            this.addedLines = addedLines;
             return this;
         }
 
-        public CommitBuilder withDeletedLinesNumber(int deletedLinesNumber) {
-            this.deletedLinesNumber = deletedLinesNumber;
+        public CommitBuilder withDeletedLines(int deletedLines) {
+            this.deletedLines = deletedLines;
             return this;
         }
 
@@ -97,7 +97,7 @@ public class Commit {
         }
 
         public Commit build() {
-            return new Commit(hash, message, developer, addedLinesNumber, deletedLinesNumber, date);
+            return new Commit(hash, message, developer, addedLines, deletedLines, date);
         }
 
     }

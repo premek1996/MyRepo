@@ -13,7 +13,7 @@ public class DeletedLinesAverageNumber {
 
     public static void calculate(List<Commit> commits) {
         double deletedLinesAverageNumber = commits.stream()
-                .mapToInt(Commit::getDeletedLinesNumber)
+                .mapToInt(Commit::getDeletedLines)
                 .average()
                 .orElse(0);
         System.out.println("Average number of deleted lines: " + deletedLinesAverageNumber);

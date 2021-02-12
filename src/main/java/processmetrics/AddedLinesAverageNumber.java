@@ -13,7 +13,7 @@ public class AddedLinesAverageNumber {
 
     public static void calculate(List<Commit> commits) {
         double addedLinesAverageNumber = commits.stream()
-                .mapToInt(Commit::getAddedLinesNumber)
+                .mapToInt(Commit::getAddedLines)
                 .average()
                 .orElse(0);
         System.out.println("Average number of added lines: " + addedLinesAverageNumber);

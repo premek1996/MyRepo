@@ -13,16 +13,16 @@ public class CommitsHashesApi {
         List<String> command = new ArrayList<>
                 (Arrays.asList("git", "log", "--follow", "--oneline", "--", filePath));
         List<String> processLogs = ProcessExecutor.getProcessLogs(repoPath, command);
-        return mapProcessLogsToCommitsHashes(processLogs);
+        return getCommitsHashes(processLogs);
     }
 
-    private static List<String> mapProcessLogsToCommitsHashes(List<String> processLogs) {
+    private static List<String> getCommitsHashes(List<String> processLogs) {
         return processLogs.stream()
-                .map(CommitsHashesApi::mapProcessLogToCommitHash)
+                .map(CommitsHashesApi::getCommitHash)
                 .collect(Collectors.toList());
     }
 
-    private static String mapProcessLogToCommitHash(String processLog) {
+    private static String getCommitHash(String processLog) {
         return processLog.split(" ")[0];
     }
 

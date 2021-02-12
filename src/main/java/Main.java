@@ -1,10 +1,6 @@
-import domain.Developer;
-import domain.InvestigatedSourceElement;
-import gitapi.DevelopersApi;
-import historytrackers.ClassChangeHistoryTracker;
+import gitapi.SourceElementModificationApi;
 
 import java.io.IOException;
-import java.util.List;
 
 
 public class Main {
@@ -15,13 +11,17 @@ public class Main {
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
-        InvestigatedSourceElement investigatedSourceElement = InvestigatedSourceElement.builder()
+        /*InvestigatedSourceElement investigatedSourceElement = InvestigatedSourceElement.builder()
                 .withRepoPath(repoPath)
                 .withFilePath(filePath)
                 .withCurrentHashCommit(currentHashCommit)
-                .build();
+                .build();*/
 
-        ClassChangeHistoryTracker classHistoryTracker = new ClassChangeHistoryTracker(investigatedSourceElement);
+        //ClassChangeHistoryTracker classHistoryTracker =
+        // new ClassChangeHistoryTracker(investigatedSourceElement);
+
+        SourceElementModificationApi.getInvestigatedSourceElementModification
+                (repoPath, filePath, "c8e5eb5b16");
 
 
     }

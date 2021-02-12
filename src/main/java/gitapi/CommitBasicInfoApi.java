@@ -16,10 +16,10 @@ public class CommitBasicInfoApi {
         List<String> command = new ArrayList<>
                 (Arrays.asList("git", "show", "-s", "--format=%ae%n%cd%n%B", "--date=format:%Y-%m-%d", hash));
         List<String> processLogs = ProcessExecutor.getProcessLogs(repoPath, command);
-        return mapProcessLogsToCommitBasicInfo(hash, processLogs);
+        return getCommitBasicInfo(hash, processLogs);
     }
 
-    private static CommitBasicInfo mapProcessLogsToCommitBasicInfo(String hash, List<String> processLogs) {
+    private static CommitBasicInfo getCommitBasicInfo(String hash, List<String> processLogs) {
         String mail = getMail(processLogs);
         Date date = getDate(processLogs);
         String message = getMessage(processLogs);

@@ -13,7 +13,7 @@ public class DeletedLinesMaxNumber {
 
     public static void calculate(List<Commit> commits) {
         int deletedLinesMaxNumber = commits.stream()
-                .mapToInt(Commit::getDeletedLinesNumber)
+                .mapToInt(Commit::getDeletedLines)
                 .max()
                 .orElse(0);
         System.out.println("Max number of deleted lines: " + deletedLinesMaxNumber);
