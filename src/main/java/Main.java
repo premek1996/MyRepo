@@ -1,4 +1,4 @@
-import gitapi.SourceElementModificationApi;
+import gitapi.ClassModificationsApi;
 
 import java.io.IOException;
 
@@ -20,10 +20,7 @@ public class Main {
         //ClassChangeHistoryTracker classHistoryTracker =
         // new ClassChangeHistoryTracker(investigatedSourceElement);
 
-        SourceElementModificationApi.getInvestigatedSourceElementModification
-                (repoPath, filePath, "c8e5eb5b16");
-
-
+        ClassModificationsApi.getSourceElementModifications(repoPath, filePath);
     }
 
 }
