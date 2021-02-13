@@ -17,7 +17,7 @@ public class CommitMessageAverageLength {
                 .mapToInt(String::length)
                 .average()
                 .orElse(0);
-        System.out.println("the average number of characters in commit messages: " + commitMessageAverageLength);
+        System.out.println("Average number of characters in commit messages: " + commitMessageAverageLength);
     }
 
 }

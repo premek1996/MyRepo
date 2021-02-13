@@ -18,7 +18,7 @@ public class DeveloperCommitsAverageNumber {
                 .mapToInt(Developer::getCommits)
                 .average()
                 .orElse(0);
-        System.out.println("The average number of commits per developer: " + developerCommitsAverageNumber);
+        System.out.println("Average number of commits per developer: " + developerCommitsAverageNumber);
     }
 
 }

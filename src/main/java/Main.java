@@ -1,6 +1,17 @@
 import changehistorytrackers.ClassChangeHistoryTracker;
+import domain.Commit;
 import domain.InvestigatedSourceElement;
 import gitapi.ClassModificationsApi;
+import processmetrics.AddedLinesAverageNumber;
+import processmetrics.AddedLinesMaxNumber;
+import processmetrics.Age;
+import processmetrics.CommitMessageAverageLength;
+import processmetrics.CommitsNumber;
+import processmetrics.DeletedLinesAverageNumber;
+import processmetrics.DeletedLinesMaxNumber;
+import processmetrics.DeveloperCommitsAverageNumber;
+import processmetrics.DistinctDevelopersNumber;
+import processmetrics.ModifiedLinesNumber;
 
 import java.io.IOException;
 
@@ -20,9 +31,19 @@ public class Main {
                 .build();
 
         ClassChangeHistoryTracker classHistoryTracker =
-        new ClassChangeHistoryTracker(investigatedSourceElement);
+                new ClassChangeHistoryTracker(investigatedSourceElement);
 
-        System.out.println(classHistoryTracker.getCommits());
+
+        AddedLinesAverageNumber.calculate(classHistoryTracker.getCommits());
+        AddedLinesMaxNumber.calculate(classHistoryTracker.getCommits());
+        Age.calculate(classHistoryTracker.getCommits(), investigatedSourceElement.getCurrentDate());
+        CommitMessageAverageLength.calculate(classHistoryTracker.getCommits());
+        CommitsNumber.calculate(classHistoryTracker.getCommits());
+        DeletedLinesAverageNumber.calculate(classHistoryTracker.getCommits());
+        DeletedLinesMaxNumber.calculate(classHistoryTracker.getCommits());
+        DeveloperCommitsAverageNumber.calculate(classHistoryTracker.getCommits());
+        DistinctDevelopersNumber.calculate(classHistoryTracker.getCommits());
+        ModifiedLinesNumber.calculate(classHistoryTracker.getCommits());
     }
 
 }
