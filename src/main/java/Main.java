@@ -11,6 +11,7 @@ import processmetrics.DeletedLinesMaxNumber;
 import processmetrics.DeveloperCommitsAverageNumber;
 import processmetrics.DistinctDevelopersNumber;
 import processmetrics.ModifiedLinesNumber;
+import processmetrics.TimePassedSinceLastCommit;
 
 import java.io.IOException;
 
@@ -43,6 +44,7 @@ public class Main {
         DeveloperCommitsAverageNumber.calculate(classHistoryTracker.getCommits());
         DistinctDevelopersNumber.calculate(classHistoryTracker.getCommits());
         ModifiedLinesNumber.calculate(classHistoryTracker.getCommits());
+        TimePassedSinceLastCommit.calculate(classHistoryTracker.getCommits(), investigatedSourceElement.getCurrentDate());
 
     }
 
