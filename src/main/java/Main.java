@@ -1,3 +1,5 @@
+import changehistorytrackers.ClassChangeHistoryTracker;
+import domain.InvestigatedSourceElement;
 import gitapi.ClassModificationsApi;
 
 import java.io.IOException;
@@ -11,16 +13,16 @@ public class Main {
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
-        /*InvestigatedSourceElement investigatedSourceElement = InvestigatedSourceElement.builder()
+        InvestigatedSourceElement investigatedSourceElement = InvestigatedSourceElement.builder()
                 .withRepoPath(repoPath)
                 .withFilePath(filePath)
                 .withCurrentHashCommit(currentHashCommit)
-                .build();*/
+                .build();
 
-        //ClassChangeHistoryTracker classHistoryTracker =
-        // new ClassChangeHistoryTracker(investigatedSourceElement);
+        ClassChangeHistoryTracker classHistoryTracker =
+        new ClassChangeHistoryTracker(investigatedSourceElement);
 
-        ClassModificationsApi.getSourceElementModifications(repoPath, filePath);
+        System.out.println(classHistoryTracker.getCommits());
     }
 
 }

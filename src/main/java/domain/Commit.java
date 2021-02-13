@@ -57,6 +57,18 @@ public class Commit {
         return date;
     }
 
+    @Override
+    public String toString() {
+        return "Commit{" +
+                "hash='" + hash + '\'' +
+                ", message='" + message + '\'' +
+                ", developer=" + developer +
+                ", addedLines=" + addedLines +
+                ", deletedLines=" + deletedLines +
+                ", date=" + date +
+                '}';
+    }
+
     public static class CommitBuilder {
 
         private String hash;
