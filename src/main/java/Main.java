@@ -33,7 +33,6 @@ public class Main {
         ClassChangeHistoryTracker classHistoryTracker =
                 new ClassChangeHistoryTracker(investigatedSourceElement);
 
-
         AddedLinesAverageNumber.calculate(classHistoryTracker.getCommits());
         AddedLinesMaxNumber.calculate(classHistoryTracker.getCommits());
         Age.calculate(classHistoryTracker.getCommits(), investigatedSourceElement.getCurrentDate());
@@ -44,6 +43,7 @@ public class Main {
         DeveloperCommitsAverageNumber.calculate(classHistoryTracker.getCommits());
         DistinctDevelopersNumber.calculate(classHistoryTracker.getCommits());
         ModifiedLinesNumber.calculate(classHistoryTracker.getCommits());
+
     }
 
 }
