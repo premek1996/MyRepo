@@ -1,14 +1,14 @@
 package processmetrics;
 
-/*
-The age of source element in days.
- */
-
 import domain.Commit;
 
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
+
+/*
+The age of source element in days.
+ */
 
 public class Age {
 

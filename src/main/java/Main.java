@@ -1,10 +1,9 @@
 import changehistorytrackers.ClassChangeHistoryTracker;
-import domain.Commit;
 import domain.InvestigatedSourceElement;
-import gitapi.ClassModificationsApi;
 import processmetrics.AddedLinesAverageNumber;
 import processmetrics.AddedLinesMaxNumber;
 import processmetrics.Age;
+import processmetrics.AverageTimeBetweenCommits;
 import processmetrics.CommitMessageAverageLength;
 import processmetrics.CommitsNumber;
 import processmetrics.DeletedLinesAverageNumber;
@@ -36,6 +35,7 @@ public class Main {
         AddedLinesAverageNumber.calculate(classHistoryTracker.getCommits());
         AddedLinesMaxNumber.calculate(classHistoryTracker.getCommits());
         Age.calculate(classHistoryTracker.getCommits(), investigatedSourceElement.getCurrentDate());
+        AverageTimeBetweenCommits.calculate(classHistoryTracker.getCommits());
         CommitMessageAverageLength.calculate(classHistoryTracker.getCommits());
         CommitsNumber.calculate(classHistoryTracker.getCommits());
         DeletedLinesAverageNumber.calculate(classHistoryTracker.getCommits());
