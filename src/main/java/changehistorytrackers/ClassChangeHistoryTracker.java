@@ -31,10 +31,10 @@ public class ClassChangeHistoryTracker {
 
     private List<Commit> determineCommits() {
         List<SourceElementModification> sourceElementModifications = ClassModificationsApi.getSourceElementModifications(repoPath, filePath);
-        return mapSourceElementModificationsToCommits(sourceElementModifications);
+        return getCommits(sourceElementModifications);
     }
 
-    private List<Commit> mapSourceElementModificationsToCommits(List<SourceElementModification> sourceElementModifications) {
+    private List<Commit> getCommits(List<SourceElementModification> sourceElementModifications) {
         return sourceElementModifications.stream()
                 .map(this::getCommit)
                 .collect(Collectors.toList());
@@ -43,8 +43,8 @@ public class ClassChangeHistoryTracker {
     private Commit getCommit(SourceElementModification sourceElementModification) {
         CommitBasicInfo commitBasicInfo = CommitBasicInfoApi.getCommitBasicInfo(repoPath, sourceElementModification.getHash());
         Developer developer = investigatedSourceElement.getDeveloper(commitBasicInfo.getMail());
-        return Commit.builder().
-                withHash(sourceElementModification.getHash())
+        return Commit.builder()
+                .withHash(sourceElementModification.getHash())
                 .withAddedLines(sourceElementModification.getAddedLines())
                 .withDeletedLines(sourceElementModification.getDeletedLines())
                 .withDate(commitBasicInfo.getDate())

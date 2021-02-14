@@ -11,12 +11,20 @@ public class InvestigatedSourceElement {
     private final String repoPath;
     private final List<Developer> repoDevelopers;
     private final String filePath;
+    private final int startLine;
+    private final int endLine;
     private final String currentHashCommit;
     private final Date currentDate;
 
-    private InvestigatedSourceElement(String repoPath, String filePath, String currentHashCommit) {
+    private InvestigatedSourceElement(String repoPath,
+                                      String filePath,
+                                      int startLine,
+                                      int endLine,
+                                      String currentHashCommit) {
         this.repoPath = repoPath;
         this.filePath = filePath;
+        this.startLine = startLine;
+        this.endLine = endLine;
         this.currentHashCommit = currentHashCommit;
         this.currentDate = determineCurrentDate();
         this.repoDevelopers = determineRepoDevelopers();
@@ -42,6 +50,18 @@ public class InvestigatedSourceElement {
         return filePath;
     }
 
+    public List<Developer> getRepoDevelopers() {
+        return repoDevelopers;
+    }
+
+    public int getStartLine() {
+        return startLine;
+    }
+
+    public int getEndLine() {
+        return endLine;
+    }
+
     public String getCurrentHashCommit() {
         return currentHashCommit;
     }
@@ -63,6 +83,8 @@ public class InvestigatedSourceElement {
                 "repoPath='" + repoPath + '\'' +
                 ", repoDevelopers=" + repoDevelopers +
                 ", filePath='" + filePath + '\'' +
+                ", startLine=" + startLine +
+                ", endLine=" + endLine +
                 ", currentHashCommit='" + currentHashCommit + '\'' +
                 ", currentDate=" + currentDate +
                 '}';
@@ -72,6 +94,8 @@ public class InvestigatedSourceElement {
 
         private String repoPath;
         private String filePath;
+        private int startLine;
+        private int endLine;
         private String currentHashCommit;
 
         public InvestigatedSourceElementBuilder withRepoPath(String repoPath) {
@@ -84,13 +108,24 @@ public class InvestigatedSourceElement {
             return this;
         }
 
+        public InvestigatedSourceElementBuilder withStartLine(int startLine) {
+            this.startLine = startLine;
+            return this;
+        }
+
+        public InvestigatedSourceElementBuilder withEndLine(int endLine) {
+            this.endLine = endLine;
+            return this;
+        }
+
         public InvestigatedSourceElementBuilder withCurrentHashCommit(String currentHashCommit) {
             this.currentHashCommit = currentHashCommit;
             return this;
         }
 
         public InvestigatedSourceElement build() {
-            return new InvestigatedSourceElement(repoPath, filePath, currentHashCommit);
+            return new InvestigatedSourceElement(repoPath, filePath, startLine,
+                    endLine, currentHashCommit);
         }
 
     }

@@ -13,7 +13,7 @@ of the investigated release of a software system.
 public class DistinctDevelopersNumber {
 
     public static void calculate(List<Commit> commits) {
-        int distinctDevelopersNumber = (int) commits.stream()
+        long distinctDevelopersNumber = commits.stream()
                 .map(Commit::getDeveloper)
                 .distinct()
                 .count();

@@ -1,5 +1,6 @@
 import changehistorytrackers.ClassChangeHistoryTracker;
 import domain.InvestigatedSourceElement;
+import gitapi.SourceElementFragmentationApi;
 import processmetrics.AddedLinesAverageNumber;
 import processmetrics.AddedLinesMaxNumber;
 import processmetrics.Age;
@@ -11,6 +12,7 @@ import processmetrics.DeletedLinesMaxNumber;
 import processmetrics.DeveloperCommitsAverageNumber;
 import processmetrics.DistinctDevelopersNumber;
 import processmetrics.ModifiedLinesNumber;
+import processmetrics.SourceElementFragmentation;
 import processmetrics.TimePassedSinceLastCommit;
 
 import java.io.IOException;
@@ -27,6 +29,8 @@ public class Main {
         InvestigatedSourceElement investigatedSourceElement = InvestigatedSourceElement.builder()
                 .withRepoPath(repoPath)
                 .withFilePath(filePath)
+                .withStartLine(1)
+                .withEndLine(38)
                 .withCurrentHashCommit(currentHashCommit)
                 .build();
 
@@ -44,8 +48,8 @@ public class Main {
         DeveloperCommitsAverageNumber.calculate(classHistoryTracker.getCommits());
         DistinctDevelopersNumber.calculate(classHistoryTracker.getCommits());
         ModifiedLinesNumber.calculate(classHistoryTracker.getCommits());
+        SourceElementFragmentation.calculate(investigatedSourceElement);
         TimePassedSinceLastCommit.calculate(classHistoryTracker.getCommits(), investigatedSourceElement.getCurrentDate());
-
     }
 
 }
