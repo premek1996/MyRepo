@@ -1,10 +1,10 @@
 import changehistorytrackers.ClassChangeHistoryTracker;
 import domain.InvestigatedSourceElement;
-import gitapi.SourceElementFragmentationApi;
 import processmetrics.AddedLinesAverageNumber;
 import processmetrics.AddedLinesMaxNumber;
 import processmetrics.Age;
 import processmetrics.AverageTimeBetweenCommits;
+import processmetrics.CodeChurn;
 import processmetrics.CommitMessageAverageLength;
 import processmetrics.CommitsNumber;
 import processmetrics.DaysWithCommits;
@@ -12,7 +12,8 @@ import processmetrics.DeletedLinesAverageNumber;
 import processmetrics.DeletedLinesMaxNumber;
 import processmetrics.DeveloperCommitsAverageNumber;
 import processmetrics.DistinctDevelopersNumber;
-import processmetrics.ModifiedLinesNumber;
+import processmetrics.ModifiedLinesAverageNumber;
+import processmetrics.ModifiedLinesMaxNumber;
 import processmetrics.SourceElementFragmentation;
 import processmetrics.TimePassedSinceLastCommit;
 
@@ -42,6 +43,7 @@ public class Main {
         AddedLinesMaxNumber.calculate(classHistoryTracker.getCommits());
         Age.calculate(classHistoryTracker.getCommits(), investigatedSourceElement.getCurrentDate());
         AverageTimeBetweenCommits.calculate(classHistoryTracker.getCommits());
+        CodeChurn.calculate(classHistoryTracker.getCommits());
         CommitMessageAverageLength.calculate(classHistoryTracker.getCommits());
         CommitsNumber.calculate(classHistoryTracker.getCommits());
         DaysWithCommits.calculate(classHistoryTracker.getCommits());
@@ -49,7 +51,8 @@ public class Main {
         DeletedLinesMaxNumber.calculate(classHistoryTracker.getCommits());
         DeveloperCommitsAverageNumber.calculate(classHistoryTracker.getCommits());
         DistinctDevelopersNumber.calculate(classHistoryTracker.getCommits());
-        ModifiedLinesNumber.calculate(classHistoryTracker.getCommits());
+        ModifiedLinesAverageNumber.calculate(classHistoryTracker.getCommits());
+        ModifiedLinesMaxNumber.calculate(classHistoryTracker.getCommits());
         SourceElementFragmentation.calculate(investigatedSourceElement);
         TimePassedSinceLastCommit.calculate(classHistoryTracker.getCommits(), investigatedSourceElement.getCurrentDate());
     }
