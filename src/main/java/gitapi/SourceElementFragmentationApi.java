@@ -6,6 +6,8 @@ import utils.ProcessExecutor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SourceElementFragmentationApi {
 
@@ -30,9 +32,13 @@ public class SourceElementFragmentationApi {
     }
 
     private static String getMail(String processLog) {
-        String[] processLogElements = processLog.split("\\s+");
-        String mail = processLogElements[2];
-        return mail.replaceAll("[(<>]", "");
+        String mail = "";
+        Pattern pattern = Pattern.compile("<.*>");
+        Matcher matcher = pattern.matcher(processLog);
+        if (matcher.find()) {
+            mail = matcher.group().replaceAll("[<>]", "");
+        }
+        return mail;
     }
 
 }

@@ -8,6 +8,7 @@ import processmetrics.BugFixesNumber;
 import processmetrics.CodeChurn;
 import processmetrics.CommitMessageAverageLength;
 import processmetrics.CommitsNumber;
+import processmetrics.CommitsWithoutMessageNumber;
 import processmetrics.DaysWithCommits;
 import processmetrics.DeletedLinesAverageNumber;
 import processmetrics.DeletedLinesMaxNumber;
@@ -27,6 +28,10 @@ public class Main {
     private static final String repoPath = "C:\\Users\\przem\\java-metrics-source-repos\\apache\\syncope";
     private static final String filePath = "client/idrepo/ui/src/main/java/org/apache/syncope/client/ui/commons/ConnIdSpecialName.java";
     private static final String currentHashCommit = "114c412afbfba24ffb4fbc804e5308a823a16a78";
+
+    /*private static final String repoPath = "C:\\Users\\przem\\IdeaProjects\\javaparser";
+    private static final String filePath = "src/main/java/Main.java";
+    private static final String currentHashCommit = "9569b49";*/
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
@@ -49,6 +54,7 @@ public class Main {
         CodeChurn.calculate(classHistoryTracker.getCommits());
         CommitMessageAverageLength.calculate(classHistoryTracker.getCommits());
         CommitsNumber.calculate(classHistoryTracker.getCommits());
+        CommitsWithoutMessageNumber.calculate(classHistoryTracker.getCommits());
         DaysWithCommits.calculate(classHistoryTracker.getCommits());
         DeletedLinesAverageNumber.calculate(classHistoryTracker.getCommits());
         DeletedLinesMaxNumber.calculate(classHistoryTracker.getCommits());
