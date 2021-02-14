@@ -4,6 +4,7 @@ import processmetrics.AddedLinesAverageNumber;
 import processmetrics.AddedLinesMaxNumber;
 import processmetrics.Age;
 import processmetrics.AverageTimeBetweenCommits;
+import processmetrics.BugFixesNumber;
 import processmetrics.CodeChurn;
 import processmetrics.CommitMessageAverageLength;
 import processmetrics.CommitsNumber;
@@ -14,6 +15,7 @@ import processmetrics.DeveloperCommitsAverageNumber;
 import processmetrics.DistinctDevelopersNumber;
 import processmetrics.ModifiedLinesAverageNumber;
 import processmetrics.ModifiedLinesMaxNumber;
+import processmetrics.RefactoringsNumber;
 import processmetrics.SourceElementFragmentation;
 import processmetrics.TimePassedSinceLastCommit;
 
@@ -43,6 +45,7 @@ public class Main {
         AddedLinesMaxNumber.calculate(classHistoryTracker.getCommits());
         Age.calculate(classHistoryTracker.getCommits(), investigatedSourceElement.getCurrentDate());
         AverageTimeBetweenCommits.calculate(classHistoryTracker.getCommits());
+        BugFixesNumber.calculate(classHistoryTracker.getCommits());
         CodeChurn.calculate(classHistoryTracker.getCommits());
         CommitMessageAverageLength.calculate(classHistoryTracker.getCommits());
         CommitsNumber.calculate(classHistoryTracker.getCommits());
@@ -53,6 +56,7 @@ public class Main {
         DistinctDevelopersNumber.calculate(classHistoryTracker.getCommits());
         ModifiedLinesAverageNumber.calculate(classHistoryTracker.getCommits());
         ModifiedLinesMaxNumber.calculate(classHistoryTracker.getCommits());
+        RefactoringsNumber.calculate(classHistoryTracker.getCommits());
         SourceElementFragmentation.calculate(investigatedSourceElement);
         TimePassedSinceLastCommit.calculate(classHistoryTracker.getCommits(), investigatedSourceElement.getCurrentDate());
     }
