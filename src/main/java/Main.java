@@ -7,6 +7,7 @@ import processmetrics.Age;
 import processmetrics.AverageTimeBetweenCommits;
 import processmetrics.CommitMessageAverageLength;
 import processmetrics.CommitsNumber;
+import processmetrics.DaysWithCommits;
 import processmetrics.DeletedLinesAverageNumber;
 import processmetrics.DeletedLinesMaxNumber;
 import processmetrics.DeveloperCommitsAverageNumber;
@@ -43,6 +44,7 @@ public class Main {
         AverageTimeBetweenCommits.calculate(classHistoryTracker.getCommits());
         CommitMessageAverageLength.calculate(classHistoryTracker.getCommits());
         CommitsNumber.calculate(classHistoryTracker.getCommits());
+        DaysWithCommits.calculate(classHistoryTracker.getCommits());
         DeletedLinesAverageNumber.calculate(classHistoryTracker.getCommits());
         DeletedLinesMaxNumber.calculate(classHistoryTracker.getCommits());
         DeveloperCommitsAverageNumber.calculate(classHistoryTracker.getCommits());
