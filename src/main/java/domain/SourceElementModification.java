@@ -6,12 +6,10 @@ public class SourceElementModification {
     private final int addedLines;
     private final int deletedLines;
 
-    private SourceElementModification(String hash,
-                                      int addedLines,
-                                      int deletedLines) {
-        this.hash = hash;
-        this.addedLines = addedLines;
-        this.deletedLines = deletedLines;
+    private SourceElementModification(SourceElementModificationBuilder builder) {
+        this.hash = builder.hash;
+        this.addedLines = builder.addedLines;
+        this.deletedLines = builder.deletedLines;
     }
 
     public static SourceElementModificationBuilder builder() {
@@ -61,7 +59,7 @@ public class SourceElementModification {
         }
 
         public SourceElementModification build() {
-            return new SourceElementModification(hash, addedLines, deletedLines);
+            return new SourceElementModification(this);
         }
 
     }

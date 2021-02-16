@@ -5,21 +5,21 @@ import utils.ProcessExecutor;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 public class CommitBasicInfoApi {
 
-    public static CommitBasicInfo getCommitBasicInfo(String repoPath, String hash) {
-        List<String> command = new ArrayList<>
-                (Arrays.asList("git", "show", "-s", "--format=%ae%n%cd%n%B", "--date=format:%Y-%m-%d", hash));
+    public static CommitBasicInfo getCommitBasicInfo(String repoPath,
+                                                     String hash) {
+        List<String> command = List.of("git", "show", "-s", "--format=%ae%n%cd%n%B",
+                "--date=format:%Y-%m-%d", hash);
         List<String> processLogs = ProcessExecutor.getProcessLogs(repoPath, command);
         return getCommitBasicInfo(hash, processLogs);
     }
 
-    private static CommitBasicInfo getCommitBasicInfo(String hash, List<String> processLogs) {
+    private static CommitBasicInfo getCommitBasicInfo(String hash,
+                                                      List<String> processLogs) {
         String mail = getMail(processLogs);
         Date date = getDate(processLogs);
         String message = getMessage(processLogs);

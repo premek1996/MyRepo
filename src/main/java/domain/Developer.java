@@ -5,9 +5,9 @@ public class Developer {
     private final String mail;
     private final int commits;
 
-    private Developer(String mail, int commits) {
-        this.mail = mail;
-        this.commits = commits;
+    private Developer(DeveloperBuilder builder) {
+        this.mail = builder.mail;
+        this.commits = builder.commits;
     }
 
     public static DeveloperBuilder builder() {
@@ -46,7 +46,7 @@ public class Developer {
         }
 
         public Developer build() {
-            return new Developer(mail, commits);
+            return new Developer(this);
         }
 
     }

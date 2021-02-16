@@ -3,7 +3,6 @@ package gitapi;
 import domain.Developer;
 import utils.ProcessExecutor;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,8 +10,7 @@ import java.util.stream.Collectors;
 public class DevelopersApi {
 
     public static List<Developer> getDevelopers(String repoPath) {
-        List<String> command = new ArrayList<>
-                (Arrays.asList("git", "shortlog", "--summary", "--numbered", "--email", "--all"));
+        List<String> command = List.of("git", "shortlog", "--summary", "--numbered", "--email", "--all");
         List<String> processLogs = ProcessExecutor.getProcessLogs(repoPath, command);
         return getDevelopers(processLogs);
     }

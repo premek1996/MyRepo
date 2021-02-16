@@ -14,13 +14,13 @@ import java.util.stream.Collectors;
 public class ClassChangeHistoryTracker {
 
     private final InvestigatedSourceElement investigatedSourceElement;
-    private final String repoPath;
+    private final String repositoryPath;
     private final String filePath;
     private final List<Commit> commits;
 
     public ClassChangeHistoryTracker(InvestigatedSourceElement investigatedSourceElement) {
         this.investigatedSourceElement = investigatedSourceElement;
-        this.repoPath = investigatedSourceElement.getRepoPath();
+        this.repositoryPath = investigatedSourceElement.getRepositoryPath();
         this.filePath = investigatedSourceElement.getFilePath();
         this.commits = determineCommits();
     }
@@ -30,7 +30,8 @@ public class ClassChangeHistoryTracker {
     }
 
     private List<Commit> determineCommits() {
-        List<SourceElementModification> sourceElementModifications = ClassModificationsApi.getSourceElementModifications(repoPath, filePath);
+        List<SourceElementModification> sourceElementModifications =
+                ClassModificationsApi.getSourceElementModifications(repositoryPath, filePath);
         return getCommits(sourceElementModifications);
     }
 
@@ -41,7 +42,7 @@ public class ClassChangeHistoryTracker {
     }
 
     private Commit getCommit(SourceElementModification sourceElementModification) {
-        CommitBasicInfo commitBasicInfo = CommitBasicInfoApi.getCommitBasicInfo(repoPath, sourceElementModification.getHash());
+        CommitBasicInfo commitBasicInfo = CommitBasicInfoApi.getCommitBasicInfo(repositoryPath, sourceElementModification.getHash());
         Developer developer = investigatedSourceElement.getDeveloper(commitBasicInfo.getMail());
         return Commit.builder()
                 .withHash(sourceElementModification.getHash())

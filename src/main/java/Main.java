@@ -25,18 +25,18 @@ import java.io.IOException;
 
 public class Main {
 
-    private static final String repoPath = "C:\\Users\\przem\\java-metrics-source-repos\\apache\\syncope";
+    private static final String repositoryPath = "C:\\Users\\przem\\java-metrics-source-repos\\apache\\syncope";
     private static final String filePath = "client/idrepo/ui/src/main/java/org/apache/syncope/client/ui/commons/ConnIdSpecialName.java";
     private static final String currentHashCommit = "114c412afbfba24ffb4fbc804e5308a823a16a78";
 
-    /*private static final String repoPath = "C:\\Users\\przem\\IdeaProjects\\javaparser";
+    /*private static final String repositoryPath = "C:\\Users\\przem\\IdeaProjects\\javaparser";
     private static final String filePath = "src/main/java/Main.java";
     private static final String currentHashCommit = "9569b49";*/
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
         InvestigatedSourceElement investigatedSourceElement = InvestigatedSourceElement.builder()
-                .withRepoPath(repoPath)
+                .withRepositoryPath(repositoryPath)
                 .withFilePath(filePath)
                 .withStartLine(1)
                 .withEndLine(38)

@@ -2,7 +2,6 @@ package processmetrics;
 
 import domain.Commit;
 
-import java.util.Arrays;
 import java.util.List;
 
 /*
@@ -12,18 +11,19 @@ in the commit message.
 
 public class BugFixesNumber {
 
+    private static final List<String> WORDS = List.of("fix", "bug");
+
     public static void calculate(List<Commit> commits) {
-        List<String> words = Arrays.asList("fix", "bug");
         long bugFixesNumber = commits.stream()
                 .map(Commit::getMessage)
                 .map(String::toLowerCase)
-                .filter(commitMessage -> containsWords(commitMessage, words))
+                .filter(BugFixesNumber::containsWords)
                 .count();
         System.out.println("The number of bug fixes: " + bugFixesNumber);
     }
 
-    private static boolean containsWords(String commitMessage, List<String> words) {
-        return words.stream()
+    private static boolean containsWords(String commitMessage) {
+        return WORDS.stream()
                 .anyMatch(commitMessage::contains);
     }
 

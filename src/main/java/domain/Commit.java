@@ -11,18 +11,13 @@ public class Commit {
     private final int deletedLines;
     private final Date date;
 
-    private Commit(String hash,
-                   String message,
-                   Developer developer,
-                   int addedLines,
-                   int deletedLines,
-                   Date date) {
-        this.hash = hash;
-        this.message = message;
-        this.developer = developer;
-        this.addedLines = addedLines;
-        this.deletedLines = deletedLines;
-        this.date = date;
+    private Commit(CommitBuilder builder) {
+        this.hash = builder.hash;
+        this.message = builder.message;
+        this.developer = builder.developer;
+        this.addedLines = builder.addedLines;
+        this.deletedLines = builder.deletedLines;
+        this.date = builder.date;
     }
 
     public static CommitBuilder builder() {
@@ -109,7 +104,7 @@ public class Commit {
         }
 
         public Commit build() {
-            return new Commit(hash, message, developer, addedLines, deletedLines, date);
+            return new Commit(this);
         }
 
     }

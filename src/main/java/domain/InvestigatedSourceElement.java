@@ -8,26 +8,22 @@ import java.util.List;
 
 public class InvestigatedSourceElement {
 
-    private final String repoPath;
-    private final List<Developer> repoDevelopers;
+    private final String repositoryPath;
+    private final List<Developer> repositoryDevelopers;
     private final String filePath;
     private final int startLine;
     private final int endLine;
     private final String currentHashCommit;
     private final Date currentDate;
 
-    private InvestigatedSourceElement(String repoPath,
-                                      String filePath,
-                                      int startLine,
-                                      int endLine,
-                                      String currentHashCommit) {
-        this.repoPath = repoPath;
-        this.filePath = filePath;
-        this.startLine = startLine;
-        this.endLine = endLine;
-        this.currentHashCommit = currentHashCommit;
+    private InvestigatedSourceElement(InvestigatedSourceElementBuilder builder) {
+        this.repositoryPath = builder.repositoryPath;
+        this.filePath = builder.filePath;
+        this.startLine = builder.startLine;
+        this.endLine = builder.endLine;
+        this.currentHashCommit = builder.currentHashCommit;
         this.currentDate = determineCurrentDate();
-        this.repoDevelopers = determineRepoDevelopers();
+        this.repositoryDevelopers = determineRepositoryDevelopers();
     }
 
     public static InvestigatedSourceElementBuilder builder() {
@@ -35,23 +31,23 @@ public class InvestigatedSourceElement {
     }
 
     private Date determineCurrentDate() {
-        return CommitBasicInfoApi.getCommitBasicInfo(repoPath, currentHashCommit).getDate();
+        return CommitBasicInfoApi.getCommitBasicInfo(repositoryPath, currentHashCommit).getDate();
     }
 
-    private List<Developer> determineRepoDevelopers() {
-        return DevelopersApi.getDevelopers(repoPath);
+    private List<Developer> determineRepositoryDevelopers() {
+        return DevelopersApi.getDevelopers(repositoryPath);
     }
 
-    public String getRepoPath() {
-        return repoPath;
+    public String getRepositoryPath() {
+        return repositoryPath;
     }
 
     public String getFilePath() {
         return filePath;
     }
 
-    public List<Developer> getRepoDevelopers() {
-        return repoDevelopers;
+    public List<Developer> getRepositoryDevelopers() {
+        return repositoryDevelopers;
     }
 
     public int getStartLine() {
@@ -67,7 +63,7 @@ public class InvestigatedSourceElement {
     }
 
     public Developer getDeveloper(String mail) {
-        return repoDevelopers.stream()
+        return repositoryDevelopers.stream()
                 .filter(developer -> developer.getMail().equals(mail))
                 .findAny()
                 .orElse(null);
@@ -80,8 +76,8 @@ public class InvestigatedSourceElement {
     @Override
     public String toString() {
         return "InvestigatedSourceElement{" +
-                "repoPath='" + repoPath + '\'' +
-                ", repoDevelopers=" + repoDevelopers +
+                "repositoryPath='" + repositoryPath + '\'' +
+                ", repositoryDevelopers=" + repositoryDevelopers +
                 ", filePath='" + filePath + '\'' +
                 ", startLine=" + startLine +
                 ", endLine=" + endLine +
@@ -92,14 +88,14 @@ public class InvestigatedSourceElement {
 
     public static class InvestigatedSourceElementBuilder {
 
-        private String repoPath;
+        private String repositoryPath;
         private String filePath;
         private int startLine;
         private int endLine;
         private String currentHashCommit;
 
-        public InvestigatedSourceElementBuilder withRepoPath(String repoPath) {
-            this.repoPath = repoPath;
+        public InvestigatedSourceElementBuilder withRepositoryPath(String repositoryPath) {
+            this.repositoryPath = repositoryPath;
             return this;
         }
 
@@ -124,8 +120,7 @@ public class InvestigatedSourceElement {
         }
 
         public InvestigatedSourceElement build() {
-            return new InvestigatedSourceElement(repoPath, filePath, startLine,
-                    endLine, currentHashCommit);
+            return new InvestigatedSourceElement(this);
         }
 
     }

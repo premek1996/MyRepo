@@ -3,8 +3,6 @@ package gitapi;
 import domain.InvestigatedSourceElement;
 import utils.ProcessExecutor;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,10 +14,9 @@ public class SourceElementFragmentationApi {
         int startLine = investigatedSourceElement.getStartLine();
         int endLine = investigatedSourceElement.getEndLine();
         String filePath = investigatedSourceElement.getFilePath();
-        String repoPath = investigatedSourceElement.getRepoPath();
-        List<String> command = new ArrayList<>
-                (Arrays.asList("git", "blame", "--show-email", "-L",
-                        startLine + "," + endLine, filePath));
+        String repoPath = investigatedSourceElement.getRepositoryPath();
+        List<String> command = List.of("git", "blame", "--show-email", "-L",
+                startLine + "," + endLine, filePath);
         List<String> processLogs = ProcessExecutor.getProcessLogs(repoPath, command);
         return getSourceElementFragmentationAcrossDevelopers(processLogs);
     }

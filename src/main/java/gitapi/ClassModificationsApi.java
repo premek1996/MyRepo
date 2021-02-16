@@ -4,15 +4,13 @@ import domain.SourceElementModification;
 import utils.ProcessExecutor;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ClassModificationsApi {
 
-    public static List<SourceElementModification> getSourceElementModifications
-            (String repoPath, String filePath) {
-        List<String> command = new ArrayList<>
-                (Arrays.asList("git", "log", "--numstat", "--oneline", "--follow", filePath));
+    public static List<SourceElementModification> getSourceElementModifications(String repoPath,
+                                                                                String filePath) {
+        List<String> command = List.of("git", "log", "--numstat", "--oneline", "--follow", filePath);
         List<String> processLogs = ProcessExecutor.getProcessLogs(repoPath, command);
         return getSourceElementModifications(processLogs);
     }
@@ -26,7 +24,8 @@ public class ClassModificationsApi {
         return sourceElementModifications;
     }
 
-    private static SourceElementModification getSourceElementModification(int index, List<String> processLogs) {
+    private static SourceElementModification getSourceElementModification(int index,
+                                                                          List<String> processLogs) {
         String hash = getHash(processLogs.get(index * 2));
         int addedLines = getAddedLines(processLogs.get(index * 2 + 1));
         int deletedLines = getDeletedLines(processLogs.get(index * 2 + 1));

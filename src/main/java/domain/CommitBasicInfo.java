@@ -9,11 +9,11 @@ public class CommitBasicInfo {
     private final String message;
     private final Date date;
 
-    private CommitBasicInfo(String hash, String mail, String message, Date date) {
-        this.hash = hash;
-        this.mail = mail;
-        this.message = message;
-        this.date = date;
+    private CommitBasicInfo(CommitBasicInfoBuilder builder) {
+        this.hash = builder.hash;
+        this.mail = builder.mail;
+        this.message = builder.message;
+        this.date = builder.date;
     }
 
     public static CommitBasicInfoBuilder builder() {
@@ -74,7 +74,7 @@ public class CommitBasicInfo {
         }
 
         public CommitBasicInfo build() {
-            return new CommitBasicInfo(hash, mail, message, date);
+            return new CommitBasicInfo(this);
         }
 
     }
