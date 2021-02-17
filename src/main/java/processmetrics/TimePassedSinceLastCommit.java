@@ -15,6 +15,7 @@ public class TimePassedSinceLastCommit implements ProcessMetric {
 
     private static final String METRIC_NAME = "TimePassedSinceLastCommit";
 
+    @Override
     public void compute(InvestigatedSourceElement investigatedSourceElement) {
         List<Commit> commits = investigatedSourceElement.getCommits();
         Date currentDate = investigatedSourceElement.getCurrentDate();
