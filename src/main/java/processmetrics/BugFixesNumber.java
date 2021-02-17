@@ -1,6 +1,7 @@
 package processmetrics;
 
 import domain.Commit;
+import domain.InvestigatedSourceElement;
 
 import java.util.List;
 
@@ -9,12 +10,14 @@ The number of commits with 'bug' or 'fix'
 in the commit message.
  */
 
-public class BugFixesNumber {
+public class BugFixesNumber implements ProcessMetric {
 
+    private static final String METRIC_NAME = "BugFixesNumber";
     private static final List<String> WORDS = List.of("fix", "bug");
 
-    public static void calculate(List<Commit> commits) {
-        long bugFixesNumber = commits.stream()
+    @Override
+    public void compute(InvestigatedSourceElement investigatedSourceElement) {
+        long bugFixesNumber = investigatedSourceElement.getCommits().stream()
                 .map(Commit::getMessage)
                 .map(String::toLowerCase)
                 .filter(BugFixesNumber::containsWords)
@@ -25,6 +28,11 @@ public class BugFixesNumber {
     private static boolean containsWords(String commitMessage) {
         return WORDS.stream()
                 .anyMatch(commitMessage::contains);
+    }
+
+    @Override
+    public String getName() {
+        return METRIC_NAME;
     }
 
 }

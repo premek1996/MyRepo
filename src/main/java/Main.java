@@ -16,11 +16,13 @@ import processmetrics.DeveloperCommitsAverageNumber;
 import processmetrics.DistinctDevelopersNumber;
 import processmetrics.ModifiedLinesAverageNumber;
 import processmetrics.ModifiedLinesMaxNumber;
+import processmetrics.ProcessMetric;
 import processmetrics.RefactoringsNumber;
 import processmetrics.SourceElementFragmentation;
 import processmetrics.TimePassedSinceLastCommit;
 
 import java.io.IOException;
+import java.util.List;
 
 
 public class Main {
@@ -46,25 +48,32 @@ public class Main {
         ClassChangeHistoryTracker classHistoryTracker =
                 new ClassChangeHistoryTracker(investigatedSourceElement);
 
-        AddedLinesAverageNumber.calculate(classHistoryTracker.getCommits());
-        AddedLinesMaxNumber.calculate(classHistoryTracker.getCommits());
-        Age.calculate(classHistoryTracker.getCommits(), investigatedSourceElement.getCurrentDate());
-        AverageTimeBetweenCommits.calculate(classHistoryTracker.getCommits());
-        BugFixesNumber.calculate(classHistoryTracker.getCommits());
-        CodeChurn.calculate(classHistoryTracker.getCommits());
-        CommitMessageAverageLength.calculate(classHistoryTracker.getCommits());
-        CommitsNumber.calculate(classHistoryTracker.getCommits());
-        CommitsWithoutMessageNumber.calculate(classHistoryTracker.getCommits());
-        DaysWithCommits.calculate(classHistoryTracker.getCommits());
-        DeletedLinesAverageNumber.calculate(classHistoryTracker.getCommits());
-        DeletedLinesMaxNumber.calculate(classHistoryTracker.getCommits());
-        DeveloperCommitsAverageNumber.calculate(classHistoryTracker.getCommits());
-        DistinctDevelopersNumber.calculate(classHistoryTracker.getCommits());
-        ModifiedLinesAverageNumber.calculate(classHistoryTracker.getCommits());
-        ModifiedLinesMaxNumber.calculate(classHistoryTracker.getCommits());
-        RefactoringsNumber.calculate(classHistoryTracker.getCommits());
-        SourceElementFragmentation.calculate(investigatedSourceElement);
-        TimePassedSinceLastCommit.calculate(classHistoryTracker.getCommits(), investigatedSourceElement.getCurrentDate());
+        investigatedSourceElement = classHistoryTracker.getInvestigatedSourceElementWithSetCommits();
+
+        List<ProcessMetric> processMetrics = List.of(
+                new AddedLinesAverageNumber(),
+                new AddedLinesMaxNumber(),
+                new Age(),
+                new AverageTimeBetweenCommits(),
+                new BugFixesNumber(),
+                new CodeChurn(),
+                new CommitMessageAverageLength(),
+                new CommitsNumber(),
+                new CommitsWithoutMessageNumber(),
+                new DaysWithCommits(),
+                new DeletedLinesAverageNumber(),
+                new DeletedLinesMaxNumber(),
+                new DeveloperCommitsAverageNumber(),
+                new DistinctDevelopersNumber(),
+                new ModifiedLinesAverageNumber(),
+                new ModifiedLinesMaxNumber(),
+                new RefactoringsNumber(),
+                new SourceElementFragmentation(),
+                new TimePassedSinceLastCommit());
+
+        InvestigatedSourceElement finalInvestigatedSourceElement = investigatedSourceElement;
+        processMetrics.forEach(processMetric -> processMetric.compute(finalInvestigatedSourceElement));
+
     }
 
 }

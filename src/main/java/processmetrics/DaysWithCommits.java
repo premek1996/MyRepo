@@ -1,22 +1,29 @@
 package processmetrics;
 
 import domain.Commit;
-
-import java.util.List;
+import domain.InvestigatedSourceElement;
 
 /*
 The number of days with at least one commit
 in the assignment period.
  */
 
-public class DaysWithCommits {
+public class DaysWithCommits implements ProcessMetric {
 
-    public static void calculate(List<Commit> commits) {
-        long daysWithCommits = commits.stream()
+    private static final String METRIC_NAME = "DaysWithCommits";
+
+    @Override
+    public void compute(InvestigatedSourceElement investigatedSourceElement) {
+        long daysWithCommits = investigatedSourceElement.getCommits().stream()
                 .map(Commit::getDate)
                 .distinct()
                 .count();
         System.out.println("Number of days with at least one commit: " + daysWithCommits);
+    }
+
+    @Override
+    public String getName() {
+        return METRIC_NAME;
     }
 
 }

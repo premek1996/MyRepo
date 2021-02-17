@@ -1,6 +1,7 @@
 package processmetrics;
 
 import domain.Commit;
+import domain.InvestigatedSourceElement;
 
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
@@ -11,9 +12,13 @@ The average number of days that passed between consecutive
 modifications of the source element.
  */
 
-public class AverageTimeBetweenCommits {
+public class AverageTimeBetweenCommits implements ProcessMetric {
 
-    public static void calculate(List<Commit> commits) {
+    private static final String METRIC_NAME = "AverageTimeBetweenCommits";
+
+    @Override
+    public void compute(InvestigatedSourceElement investigatedSourceElement) {
+        List<Commit> commits = investigatedSourceElement.getCommits();
         long sumTimesBetweenCommits = 0;
         for (int i = 0; i < commits.size() - 1; i++) {
             int j = i + 1;
@@ -23,6 +28,11 @@ public class AverageTimeBetweenCommits {
         }
         long averageTimeBetweenCommits = sumTimesBetweenCommits / commits.size();
         System.out.println("Average time between commits in days: " + averageTimeBetweenCommits);
+    }
+
+    @Override
+    public String getName() {
+        return METRIC_NAME;
     }
 
 }

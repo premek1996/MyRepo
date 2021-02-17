@@ -1,8 +1,7 @@
 package processmetrics;
 
-import domain.Commit;
+import domain.InvestigatedSourceElement;
 
-import java.util.List;
 
 /*
 The metric represents the number of commits of a given
@@ -10,11 +9,19 @@ Java class/method during development of the investigated
 release of a software system.
  */
 
-public class CommitsNumber {
+public class CommitsNumber implements ProcessMetric {
 
-    public static void calculate(List<Commit> commits) {
-        int commitsNumber = commits.size();
+    private static final String METRIC_NAME = "CommitsNumber";
+
+    @Override
+    public void compute(InvestigatedSourceElement investigatedSourceElement) {
+        int commitsNumber = investigatedSourceElement.getCommits().size();
         System.out.println("Number of commits: " + commitsNumber);
+    }
+
+    @Override
+    public String getName() {
+        return METRIC_NAME;
     }
 
 }

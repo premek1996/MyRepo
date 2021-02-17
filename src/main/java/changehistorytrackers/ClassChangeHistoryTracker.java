@@ -16,20 +16,19 @@ public class ClassChangeHistoryTracker {
     private final InvestigatedSourceElement investigatedSourceElement;
     private final String repositoryPath;
     private final String filePath;
-    private final List<Commit> commits;
 
     public ClassChangeHistoryTracker(InvestigatedSourceElement investigatedSourceElement) {
         this.investigatedSourceElement = investigatedSourceElement;
         this.repositoryPath = investigatedSourceElement.getRepositoryPath();
         this.filePath = investigatedSourceElement.getFilePath();
-        this.commits = determineCommits();
     }
 
-    public List<Commit> getCommits() {
-        return commits;
+    public InvestigatedSourceElement getInvestigatedSourceElementWithSetCommits() {
+        investigatedSourceElement.setCommits(getCommits());
+        return investigatedSourceElement;
     }
 
-    private List<Commit> determineCommits() {
+    private List<Commit> getCommits() {
         List<SourceElementModification> sourceElementModifications =
                 ClassModificationsApi.getSourceElementModifications(repositoryPath, filePath);
         return getCommits(sourceElementModifications);

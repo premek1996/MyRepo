@@ -1,22 +1,29 @@
 package processmetrics;
 
 import domain.Commit;
-
-import java.util.List;
+import domain.InvestigatedSourceElement;
 
 /*
 The average number of modified lines (which were
 added or removed) in a given Java class/method.
  */
 
-public class ModifiedLinesAverageNumber {
+public class ModifiedLinesAverageNumber implements ProcessMetric {
 
-    public static void calculate(List<Commit> commits) {
-        double modifiedLinesAverageNumber = commits.stream()
+    private static final String METRIC_NAME = "ModifiedLinesAverageNumber";
+
+    @Override
+    public void compute(InvestigatedSourceElement investigatedSourceElement) {
+        double modifiedLinesAverageNumber = investigatedSourceElement.getCommits().stream()
                 .mapToInt(Commit::getModifiedLines)
                 .average()
                 .orElse(0);
         System.out.println("Average number of modified lines: " + modifiedLinesAverageNumber);
+    }
+
+    @Override
+    public String getName() {
+        return METRIC_NAME;
     }
 
 }

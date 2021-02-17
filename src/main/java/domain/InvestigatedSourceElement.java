@@ -15,6 +15,7 @@ public class InvestigatedSourceElement {
     private final int endLine;
     private final String currentHashCommit;
     private final Date currentDate;
+    private List<Commit> commits;
 
     private InvestigatedSourceElement(InvestigatedSourceElementBuilder builder) {
         this.repositoryPath = builder.repositoryPath;
@@ -71,6 +72,14 @@ public class InvestigatedSourceElement {
 
     public Date getCurrentDate() {
         return currentDate;
+    }
+
+    public void setCommits(List<Commit> commits) {
+        this.commits = commits;
+    }
+
+    public List<Commit> getCommits() {
+        return commits;
     }
 
     @Override
