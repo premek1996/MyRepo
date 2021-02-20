@@ -37,18 +37,13 @@ public class Main {
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
-        InvestigatedSourceElement investigatedSourceElement = InvestigatedSourceElement.builder()
+        final InvestigatedSourceElement investigatedSourceElement = InvestigatedSourceElement.builder()
                 .withRepositoryPath(repositoryPath)
                 .withFilePath(filePath)
                 .withStartLine(1)
                 .withEndLine(38)
                 .withCurrentHashCommit(currentHashCommit)
                 .build();
-
-        ClassChangeHistoryTracker classHistoryTracker =
-                new ClassChangeHistoryTracker(investigatedSourceElement);
-
-        investigatedSourceElement = classHistoryTracker.getInvestigatedSourceElementWithSetCommits();
 
         List<ProcessMetric> processMetrics = List.of(
                 new AddedLinesAverageNumber(),
@@ -69,10 +64,11 @@ public class Main {
                 new ModifiedLinesMaxNumber(),
                 new RefactoringsNumber(),
                 new SourceElementFragmentation(),
-                new TimePassedSinceLastCommit());
+                new TimePassedSinceLastCommit()
+        );
 
-        InvestigatedSourceElement finalInvestigatedSourceElement = investigatedSourceElement;
-        processMetrics.forEach(processMetric -> processMetric.compute(finalInvestigatedSourceElement));
+        InvestigatedSourceElement investigatedSourceElementWithSetCommits = new ClassChangeHistoryTracker(investigatedSourceElement).getInvestigatedSourceElementWithSetCommits();
+        processMetrics.forEach(processMetric -> processMetric.compute(investigatedSourceElementWithSetCommits));
 
     }
 

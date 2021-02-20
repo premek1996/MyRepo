@@ -3,8 +3,10 @@ package gitapi;
 import domain.SourceElementModification;
 import utils.ProcessExecutor;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ClassModificationsApi {
 
@@ -16,24 +18,23 @@ public class ClassModificationsApi {
     }
 
     private static List<SourceElementModification> getSourceElementModifications(List<String> processLogs) {
-        List<SourceElementModification> sourceElementModifications = new ArrayList<>();
         int sourceElementModificationsNumber = processLogs.size() / 2;
-        for (int index = 0; index < sourceElementModificationsNumber; index++) {
-            sourceElementModifications.add(getSourceElementModification(index, processLogs));
-        }
-        return sourceElementModifications;
+        return Stream.iterate(0, index -> index < sourceElementModificationsNumber, index -> index + 1)
+                .map(toSourceElementModification(processLogs))
+                .collect(Collectors.toList());
     }
 
-    private static SourceElementModification getSourceElementModification(int index,
-                                                                          List<String> processLogs) {
-        String hash = getHash(processLogs.get(index * 2));
-        int addedLines = getAddedLines(processLogs.get(index * 2 + 1));
-        int deletedLines = getDeletedLines(processLogs.get(index * 2 + 1));
-        return SourceElementModification.builder()
-                .withHash(hash)
-                .withAddedLines(addedLines)
-                .withDeletedLines(deletedLines)
-                .build();
+    private static Function<Integer, SourceElementModification> toSourceElementModification(List<String> processLogs) {
+        return index -> {
+            String hash = getHash(processLogs.get(index * 2));
+            int addedLines = getAddedLines(processLogs.get(index * 2 + 1));
+            int deletedLines = getDeletedLines(processLogs.get(index * 2 + 1));
+            return SourceElementModification.builder()
+                    .withHash(hash)
+                    .withAddedLines(addedLines)
+                    .withDeletedLines(deletedLines)
+                    .build();
+        };
     }
 
     private static String getHash(String processLogs) {
