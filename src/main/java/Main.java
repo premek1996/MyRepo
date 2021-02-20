@@ -27,22 +27,22 @@ import java.util.List;
 
 public class Main {
 
-    private static final String repositoryPath = "C:\\Users\\przem\\java-metrics-source-repos\\apache\\syncope";
-    private static final String filePath = "client/idrepo/ui/src/main/java/org/apache/syncope/client/ui/commons/ConnIdSpecialName.java";
-    private static final String currentHashCommit = "114c412afbfba24ffb4fbc804e5308a823a16a78";
+    private static final String REPOSITORY_PATH = "C:\\Users\\przem\\java-metrics-source-repos\\apache\\syncope";
+    private static final String FILE_PATH = "client/idrepo/ui/src/main/java/org/apache/syncope/client/ui/commons/ConnIdSpecialName.java";
+    private static final String CURRENT_HASH_COMMIT = "114c412afbfba24ffb4fbc804e5308a823a16a78";
 
-    /*private static final String repositoryPath = "C:\\Users\\przem\\IdeaProjects\\javaparser";
-    private static final String filePath = "src/main/java/Main.java";
-    private static final String currentHashCommit = "9569b49";*/
+    /*private static final String REPOSITORY_PATH = "C:\\Users\\przem\\IdeaProjects\\javaparser";
+    private static final String FILE_PATH = "src/main/java/Main.java";
+    private static final String CURRENT_HASH_COMMIT = "9569b49";*/
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
         final InvestigatedSourceElement investigatedSourceElement = InvestigatedSourceElement.builder()
-                .withRepositoryPath(repositoryPath)
-                .withFilePath(filePath)
+                .withRepositoryPath(REPOSITORY_PATH)
+                .withFilePath(FILE_PATH)
                 .withStartLine(1)
                 .withEndLine(38)
-                .withCurrentHashCommit(currentHashCommit)
+                .withCurrentHashCommit(CURRENT_HASH_COMMIT)
                 .build();
 
         List<ProcessMetric> processMetrics = List.of(
