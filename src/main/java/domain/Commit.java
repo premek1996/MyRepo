@@ -1,6 +1,6 @@
 package domain;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Commit {
 
@@ -9,7 +9,7 @@ public class Commit {
     private final Developer developer;
     private final int addedLines;
     private final int deletedLines;
-    private final Date date;
+    private final LocalDate date;
 
     private Commit(CommitBuilder builder) {
         this.hash = builder.hash;
@@ -48,7 +48,7 @@ public class Commit {
         return addedLines + deletedLines;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
@@ -71,7 +71,7 @@ public class Commit {
         private Developer developer;
         private int addedLines;
         private int deletedLines;
-        private Date date;
+        private LocalDate date;
 
         public CommitBuilder withHash(String hash) {
             this.hash = hash;
@@ -98,7 +98,7 @@ public class Commit {
             return this;
         }
 
-        public CommitBuilder withDate(Date date) {
+        public CommitBuilder withDate(LocalDate date) {
             this.date = date;
             return this;
         }

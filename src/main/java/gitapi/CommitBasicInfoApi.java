@@ -3,9 +3,7 @@ package gitapi;
 import domain.CommitBasicInfo;
 import utils.ProcessExecutor;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 public class CommitBasicInfoApi {
@@ -21,7 +19,7 @@ public class CommitBasicInfoApi {
     private static CommitBasicInfo getCommitBasicInfo(String hash,
                                                       List<String> processLogs) {
         String mail = getMail(processLogs);
-        Date date = getDate(processLogs);
+        LocalDate date = getDate(processLogs);
         String message = getMessage(processLogs);
         return CommitBasicInfo.builder()
                 .withHash(hash)
@@ -35,16 +33,8 @@ public class CommitBasicInfoApi {
         return processLogs.get(0);
     }
 
-    private static Date getDate(List<String> processLogs) {
-        String date = processLogs.get(1);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date commitDate = null;
-        try {
-            commitDate = sdf.parse(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return commitDate;
+    private static LocalDate getDate(List<String> processLogs) {
+        return LocalDate.parse(processLogs.get(1));
     }
 
     private static String getMessage(List<String> processLogs) {

@@ -1,13 +1,13 @@
 package domain;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class CommitBasicInfo {
 
     private final String hash;
     private final String mail;
     private final String message;
-    private final Date date;
+    private final LocalDate date;
 
     private CommitBasicInfo(CommitBasicInfoBuilder builder) {
         this.hash = builder.hash;
@@ -32,7 +32,7 @@ public class CommitBasicInfo {
         return message;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
@@ -51,7 +51,7 @@ public class CommitBasicInfo {
         private String hash;
         private String mail;
         private String message;
-        private Date date;
+        private LocalDate date;
 
         public CommitBasicInfoBuilder withHash(String hash) {
             this.hash = hash;
@@ -68,7 +68,7 @@ public class CommitBasicInfo {
             return this;
         }
 
-        public CommitBasicInfoBuilder withDate(Date date) {
+        public CommitBasicInfoBuilder withDate(LocalDate date) {
             this.date = date;
             return this;
         }

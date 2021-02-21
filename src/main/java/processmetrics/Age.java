@@ -3,8 +3,8 @@ package processmetrics;
 import domain.Commit;
 import domain.InvestigatedSourceElement;
 
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
 import java.util.List;
 
 /*
@@ -17,11 +17,11 @@ public class Age implements ProcessMetric {
 
     @Override
     public void compute(InvestigatedSourceElement investigatedSourceElement) {
-        Date currentDate = investigatedSourceElement.getCurrentDate();
+        LocalDate currentDate = investigatedSourceElement.getCurrentDate();
         List<Commit> commits = investigatedSourceElement.getCommits();
         Commit creationCommit = commits.get(commits.size() - 1);
-        Date creationDate = creationCommit.getDate();
-        long days = ChronoUnit.DAYS.between(creationDate.toInstant(), currentDate.toInstant());
+        LocalDate creationDate = creationCommit.getDate();
+        long days = ChronoUnit.DAYS.between(creationDate, currentDate);
         System.out.println("Age of source element in days: " + days);
     }
 

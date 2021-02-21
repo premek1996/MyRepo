@@ -3,8 +3,8 @@ package processmetrics;
 import domain.Commit;
 import domain.InvestigatedSourceElement;
 
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
 import java.util.List;
 
 /*
@@ -22,9 +22,9 @@ public class AverageTimeBetweenCommits implements ProcessMetric {
         long sumTimesBetweenCommits = 0;
         for (int i = 0; i < commits.size() - 1; i++) {
             int j = i + 1;
-            Date first = commits.get(i).getDate();
-            Date second = commits.get(j).getDate();
-            sumTimesBetweenCommits += ChronoUnit.DAYS.between(second.toInstant(), first.toInstant());
+            LocalDate first = commits.get(i).getDate();
+            LocalDate second = commits.get(j).getDate();
+            sumTimesBetweenCommits += ChronoUnit.DAYS.between(second, first);
         }
         long averageTimeBetweenCommits = sumTimesBetweenCommits / commits.size();
         System.out.println("Average time between commits in days: " + averageTimeBetweenCommits);

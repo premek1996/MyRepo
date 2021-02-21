@@ -3,8 +3,8 @@ package processmetrics;
 import domain.Commit;
 import domain.InvestigatedSourceElement;
 
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
 import java.util.List;
 
 /*
@@ -18,10 +18,10 @@ public class TimePassedSinceLastCommit implements ProcessMetric {
     @Override
     public void compute(InvestigatedSourceElement investigatedSourceElement) {
         List<Commit> commits = investigatedSourceElement.getCommits();
-        Date currentDate = investigatedSourceElement.getCurrentDate();
+        LocalDate currentDate = investigatedSourceElement.getCurrentDate();
         Commit lastCommit = commits.get(0);
-        Date lastCommitDate = lastCommit.getDate();
-        long days = ChronoUnit.DAYS.between(lastCommitDate.toInstant(), currentDate.toInstant());
+        LocalDate lastCommitDate = lastCommit.getDate();
+        long days = ChronoUnit.DAYS.between(lastCommitDate, currentDate);
         System.out.println("Time passed in days since the last commit: " + days);
     }
 

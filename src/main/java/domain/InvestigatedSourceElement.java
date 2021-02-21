@@ -3,7 +3,7 @@ package domain;
 import gitapi.CommitBasicInfoApi;
 import gitapi.DevelopersApi;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 public class InvestigatedSourceElement {
@@ -14,7 +14,7 @@ public class InvestigatedSourceElement {
     private final int startLine;
     private final int endLine;
     private final String currentHashCommit;
-    private final Date currentDate;
+    private final LocalDate currentDate;
     private List<Commit> commits;
 
     private InvestigatedSourceElement(InvestigatedSourceElementBuilder builder) {
@@ -31,7 +31,7 @@ public class InvestigatedSourceElement {
         return new InvestigatedSourceElementBuilder();
     }
 
-    private Date determineCurrentDate() {
+    private LocalDate determineCurrentDate() {
         return CommitBasicInfoApi.getCommitBasicInfo(repositoryPath, currentHashCommit).getDate();
     }
 
@@ -70,7 +70,7 @@ public class InvestigatedSourceElement {
                 .orElse(null);
     }
 
-    public Date getCurrentDate() {
+    public LocalDate getCurrentDate() {
         return currentDate;
     }
 
