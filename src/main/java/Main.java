@@ -1,5 +1,6 @@
 import changehistorytrackers.ClassChangeHistoryTracker;
 import domain.InvestigatedSourceElement;
+import gitapi.FileVersionsApi;
 import processmetrics.AddedLinesAverageNumber;
 import processmetrics.AddedLinesMaxNumber;
 import processmetrics.Age;
@@ -69,6 +70,8 @@ public class Main {
 
         InvestigatedSourceElement investigatedSourceElementWithSetCommits = new ClassChangeHistoryTracker(investigatedSourceElement).getInvestigatedSourceElementWithSetCommits();
         processMetrics.forEach(processMetric -> processMetric.compute(investigatedSourceElementWithSetCommits));
+
+        FileVersionsApi.downloadFileVersions(REPOSITORY_PATH, FILE_PATH);
 
     }
 

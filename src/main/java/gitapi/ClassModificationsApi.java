@@ -37,18 +37,18 @@ public class ClassModificationsApi {
         };
     }
 
-    private static String getHash(String processLogs) {
-        String[] processLogElements = processLogs.split("\\s+");
+    private static String getHash(String processLog) {
+        String[] processLogElements = processLog.split("\\s+");
         return processLogElements[0];
     }
 
-    private static int getAddedLines(String processLogs) {
-        String[] processLogElements = processLogs.split("\\s+");
+    private static int getAddedLines(String processLog) {
+        String[] processLogElements = processLog.split("\\s+");
         return Integer.parseInt(processLogElements[0]);
     }
 
-    private static int getDeletedLines(String processLogs) {
-        String[] processLogElements = processLogs.split("\\s+");
+    private static int getDeletedLines(String processLog) {
+        String[] processLogElements = processLog.split("\\s+");
         return Integer.parseInt(processLogElements[1]);
     }
 
