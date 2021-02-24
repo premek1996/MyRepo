@@ -11,28 +11,42 @@ import java.util.stream.Stream;
 
 public class FileVersionsApi {
 
-    public static void downloadFileVersions(String repositoryPath,
-                                            String filePath) {
+    private static final String DIRECTORY_NAME = "file-versions";
+
+    public static List<FileVersion> getDownloadedFileVersions(String repositoryPath,
+                                                              String filePath) {
         List<String> command = List.of("git", "log", "--follow", "--name-only", "--oneline", filePath);
         List<String> processLogs = ProcessExecutor.getProcessLogs(repositoryPath, command);
-        List<FileVersion> fileVersions = getFileVersions(processLogs);
+        String directoryPath = getDirectoryPath(repositoryPath);
+        List<FileVersion> fileVersions = getFileVersionsToDownload(directoryPath, processLogs);
         downloadFileVersions(repositoryPath, fileVersions);
+        return fileVersions;
     }
 
-    private static List<FileVersion> getFileVersions(List<String> processLogs) {
+    private static String getDirectoryPath(String repositoryPath) {
+        return repositoryPath + "\\" + DIRECTORY_NAME;
+    }
+
+    private static List<FileVersion> getFileVersionsToDownload(String directoryPath,
+                                                               List<String> processLogs) {
         int fileVersionsNumber = processLogs.size() / 2;
         return Stream.iterate(0, index -> index < fileVersionsNumber, index -> index + 1)
-                .map(toFileVersion(processLogs))
+                .map(toFileVersion(directoryPath, processLogs))
                 .collect(Collectors.toList());
     }
 
-    private static Function<Integer, FileVersion> toFileVersion(List<String> processLogs) {
+    private static Function<Integer, FileVersion> toFileVersion(String directoryPath,
+                                                                List<String> processLogs) {
         return index -> {
             String hash = getHash(processLogs.get(index * 2));
-            String filePath = processLogs.get(index * 2 + 1);
+            String filePathInRepository = processLogs.get(index * 2 + 1);
+            String savedFileName = hash + ".java";
+            String filePathInSavedDirectory = directoryPath + "\\" + savedFileName;
             return FileVersion.builder()
                     .withHash(hash)
-                    .withFilePath(filePath)
+                    .withFilePathInRepository(filePathInRepository)
+                    .withSavedFileName(savedFileName)
+                    .withFilePathInSavedDirectory(filePathInSavedDirectory)
                     .build();
         };
     }
@@ -60,7 +74,7 @@ public class FileVersionsApi {
                 user,
                 project,
                 fileVersion.getHash(),
-                fileVersion.getFilePath());
+                fileVersion.getFilePathInRepository());
     }
 
     private static String getUser(String repositoryPath) {
