@@ -3,6 +3,7 @@ package gitapi;
 import domain.FileVersion;
 import utils.ProcessExecutor;
 
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -10,12 +11,12 @@ import java.util.stream.Stream;
 
 public class FileVersionsApi {
 
-    public static void downloadFileVersions(String repoPath,
+    public static void downloadFileVersions(String repositoryPath,
                                             String filePath) {
         List<String> command = List.of("git", "log", "--follow", "--name-only", "--oneline", filePath);
-        List<String> processLogs = ProcessExecutor.getProcessLogs(repoPath, command);
+        List<String> processLogs = ProcessExecutor.getProcessLogs(repositoryPath, command);
         List<FileVersion> fileVersions = getFileVersions(processLogs);
-        downloadFileVersions(repoPath, fileVersions);
+        downloadFileVersions(repositoryPath, fileVersions);
     }
 
     private static List<FileVersion> getFileVersions(List<String> processLogs) {
@@ -45,11 +46,31 @@ public class FileVersionsApi {
         fileVersions.forEach(fileVersion -> downloadFileVersion(repoPath, fileVersion));
     }
 
-    private static void downloadFileVersion(String repoPath, FileVersion fileVersion) {
-        String savedFileName = fileVersion.getHash() + ".java";
-        String httpAddress = "https://raw.githubusercontent.com/apache/syncope/" + fileVersion.getHash() + "/" + fileVersion.getFilePath();
-        List<String> command = List.of("wget", "-O", savedFileName, httpAddress);
-        ProcessExecutor.getProcessLogs(repoPath, command);
+    private static void downloadFileVersion(String repositoryPath, FileVersion fileVersion) {
+        String downloadedFileName = fileVersion.getHash() + ".java";
+        String downloadedFileHttpAddress = getDownloadedFileHttpAddress(repositoryPath, fileVersion);
+        List<String> command = List.of("wget", "-O", downloadedFileName, downloadedFileHttpAddress);
+        ProcessExecutor.getProcessLogs(repositoryPath, command);
+    }
+
+    private static String getDownloadedFileHttpAddress(String repositoryPath, FileVersion fileVersion) {
+        String user = getUser(repositoryPath);
+        String project = getProject(repositoryPath);
+        return MessageFormat.format("https://raw.githubusercontent.com/{0}/{1}/{2}/{3}",
+                user,
+                project,
+                fileVersion.getHash(),
+                fileVersion.getFilePath());
+    }
+
+    private static String getUser(String repositoryPath) {
+        String[] repositoryPathElements = repositoryPath.split("\\\\");
+        return repositoryPathElements[repositoryPathElements.length - 2];
+    }
+
+    private static String getProject(String repositoryPath) {
+        String[] repositoryPathElements = repositoryPath.split("\\\\");
+        return repositoryPathElements[repositoryPathElements.length - 1];
     }
 
 }

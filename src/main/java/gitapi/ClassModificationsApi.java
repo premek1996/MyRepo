@@ -10,10 +10,10 @@ import java.util.stream.Stream;
 
 public class ClassModificationsApi {
 
-    public static List<SourceElementModification> getSourceElementModifications(String repoPath,
+    public static List<SourceElementModification> getSourceElementModifications(String repositoryPath,
                                                                                 String filePath) {
         List<String> command = List.of("git", "log", "--numstat", "--oneline", "--follow", filePath);
-        List<String> processLogs = ProcessExecutor.getProcessLogs(repoPath, command);
+        List<String> processLogs = ProcessExecutor.getProcessLogs(repositoryPath, command);
         return getSourceElementModifications(processLogs);
     }
 

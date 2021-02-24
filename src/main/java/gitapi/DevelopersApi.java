@@ -9,9 +9,9 @@ import java.util.stream.Collectors;
 
 public class DevelopersApi {
 
-    public static List<Developer> getDevelopers(String repoPath) {
+    public static List<Developer> getDevelopers(String repositoryPath) {
         List<String> command = List.of("git", "shortlog", "--summary", "--numbered", "--email", "--all");
-        List<String> processLogs = ProcessExecutor.getProcessLogs(repoPath, command);
+        List<String> processLogs = ProcessExecutor.getProcessLogs(repositoryPath, command);
         return getDevelopers(processLogs);
     }
 

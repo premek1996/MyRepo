@@ -8,11 +8,11 @@ import java.util.List;
 
 public class CommitBasicInfoApi {
 
-    public static CommitBasicInfo getCommitBasicInfo(String repoPath,
+    public static CommitBasicInfo getCommitBasicInfo(String repositoryPath,
                                                      String hash) {
         List<String> command = List.of("git", "show", "-s", "--format=%ae%n%cd%n%B",
                 "--date=format:%Y-%m-%d", hash);
-        List<String> processLogs = ProcessExecutor.getProcessLogs(repoPath, command);
+        List<String> processLogs = ProcessExecutor.getProcessLogs(repositoryPath, command);
         return getCommitBasicInfo(hash, processLogs);
     }
 

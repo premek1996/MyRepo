@@ -17,11 +17,11 @@ public class SourceElementFragmentationApi {
         int endLine = investigatedSourceElement.getEndLine();
 
         String filePath = investigatedSourceElement.getFilePath();
-        String repoPath = investigatedSourceElement.getRepositoryPath();
+        String repositoryPath = investigatedSourceElement.getRepositoryPath();
         String range = startLine + "," + endLine;
 
         List<String> command = List.of("git", "blame", "--show-email", "-L", range, filePath);
-        List<String> processLogs = ProcessExecutor.getProcessLogs(repoPath, command);
+        List<String> processLogs = ProcessExecutor.getProcessLogs(repositoryPath, command);
 
         return getSourceElementFragmentationAcrossDevelopers(processLogs);
     }
