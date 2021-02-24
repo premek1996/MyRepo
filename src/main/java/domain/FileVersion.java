@@ -3,13 +3,13 @@ package domain;
 public class FileVersion {
 
     private final String hash;
-    private final String filePathInRepository;
+    private final String httpAddress;
     private final String filePathInSavedDirectory;
     private final String savedFileName;
 
     private FileVersion(FileVersionBuilder fileVersionBuilder) {
         this.hash = fileVersionBuilder.hash;
-        this.filePathInRepository = fileVersionBuilder.filePathInRepository;
+        this.httpAddress = fileVersionBuilder.httpAddress;
         this.filePathInSavedDirectory = fileVersionBuilder.filePathInSavedDirectory;
         this.savedFileName = fileVersionBuilder.savedFileName;
     }
@@ -22,8 +22,8 @@ public class FileVersion {
         return hash;
     }
 
-    public String getFilePathInRepository() {
-        return filePathInRepository;
+    public String getHttpAddress() {
+        return httpAddress;
     }
 
     public String getFilePathInSavedDirectory() {
@@ -38,7 +38,7 @@ public class FileVersion {
     public String toString() {
         return "FileVersion{" +
                 "hash='" + hash + '\'' +
-                ", filePathInRepository='" + filePathInRepository + '\'' +
+                ", httpAddress='" + httpAddress + '\'' +
                 ", filePathInSavedDirectory='" + filePathInSavedDirectory + '\'' +
                 ", savedFileName='" + savedFileName + '\'' +
                 '}';
@@ -47,7 +47,7 @@ public class FileVersion {
     public static class FileVersionBuilder {
 
         private String hash;
-        private String filePathInRepository;
+        private String httpAddress;
         private String filePathInSavedDirectory;
         private String savedFileName;
 
@@ -56,8 +56,8 @@ public class FileVersion {
             return this;
         }
 
-        public FileVersionBuilder withFilePathInRepository(String filePathInRepository) {
-            this.filePathInRepository = filePathInRepository;
+        public FileVersionBuilder withHttpAddress(String httpAddress) {
+            this.httpAddress = httpAddress;
             return this;
         }
 

@@ -18,8 +18,8 @@ public class FileVersionsApi {
         List<String> command = List.of("git", "log", "--follow", "--name-only", "--oneline", filePath);
         List<String> processLogs = ProcessExecutor.getProcessLogs(repositoryPath, command);
         String directoryPath = getDirectoryPath(repositoryPath);
-        List<FileVersion> fileVersions = getFileVersionsToDownload(directoryPath, processLogs);
-        downloadFileVersions(repositoryPath, fileVersions);
+        List<FileVersion> fileVersions = getFileVersionsToDownload(repositoryPath, directoryPath, processLogs);
+        downloadFileVersions(directoryPath, fileVersions);
         return fileVersions;
     }
 
@@ -27,24 +27,27 @@ public class FileVersionsApi {
         return repositoryPath + "\\" + DIRECTORY_NAME;
     }
 
-    private static List<FileVersion> getFileVersionsToDownload(String directoryPath,
+    private static List<FileVersion> getFileVersionsToDownload(String repositoryPath,
+                                                               String directoryPath,
                                                                List<String> processLogs) {
         int fileVersionsNumber = processLogs.size() / 2;
         return Stream.iterate(0, index -> index < fileVersionsNumber, index -> index + 1)
-                .map(toFileVersion(directoryPath, processLogs))
+                .map(toFileVersion(repositoryPath, directoryPath, processLogs))
                 .collect(Collectors.toList());
     }
 
-    private static Function<Integer, FileVersion> toFileVersion(String directoryPath,
+    private static Function<Integer, FileVersion> toFileVersion(String repositoryPath,
+                                                                String directoryPath,
                                                                 List<String> processLogs) {
         return index -> {
             String hash = getHash(processLogs.get(index * 2));
             String filePathInRepository = processLogs.get(index * 2 + 1);
+            String httpAddress = getDownloadedFileHttpAddress(repositoryPath, hash, filePathInRepository);
             String savedFileName = hash + ".java";
             String filePathInSavedDirectory = directoryPath + "\\" + savedFileName;
             return FileVersion.builder()
                     .withHash(hash)
-                    .withFilePathInRepository(filePathInRepository)
+                    .withHttpAddress(httpAddress)
                     .withSavedFileName(savedFileName)
                     .withFilePathInSavedDirectory(filePathInSavedDirectory)
                     .build();
@@ -56,25 +59,16 @@ public class FileVersionsApi {
         return processLogElements[0];
     }
 
-    private static void downloadFileVersions(String repoPath, List<FileVersion> fileVersions) {
-        fileVersions.forEach(fileVersion -> downloadFileVersion(repoPath, fileVersion));
-    }
-
-    private static void downloadFileVersion(String repositoryPath, FileVersion fileVersion) {
-        String downloadedFileName = fileVersion.getHash() + ".java";
-        String downloadedFileHttpAddress = getDownloadedFileHttpAddress(repositoryPath, fileVersion);
-        List<String> command = List.of("wget", "-O", downloadedFileName, downloadedFileHttpAddress);
-        ProcessExecutor.getProcessLogs(repositoryPath, command);
-    }
-
-    private static String getDownloadedFileHttpAddress(String repositoryPath, FileVersion fileVersion) {
+    private static String getDownloadedFileHttpAddress(String repositoryPath,
+                                                       String hash,
+                                                       String filePathInRepository) {
         String user = getUser(repositoryPath);
         String project = getProject(repositoryPath);
         return MessageFormat.format("https://raw.githubusercontent.com/{0}/{1}/{2}/{3}",
                 user,
                 project,
-                fileVersion.getHash(),
-                fileVersion.getFilePathInRepository());
+                hash,
+                filePathInRepository);
     }
 
     private static String getUser(String repositoryPath) {
@@ -85,6 +79,16 @@ public class FileVersionsApi {
     private static String getProject(String repositoryPath) {
         String[] repositoryPathElements = repositoryPath.split("\\\\");
         return repositoryPathElements[repositoryPathElements.length - 1];
+    }
+
+    private static void downloadFileVersions(String directoryPath, List<FileVersion> fileVersions) {
+        fileVersions.forEach(fileVersion -> downloadFileVersion(directoryPath, fileVersion));
+    }
+
+    private static void downloadFileVersion(String directoryPath, FileVersion fileVersion) {
+        List<String> command = List.of("wget", "-O", fileVersion.getSavedFileName(), fileVersion.getHttpAddress());
+        List<String> processLogs = ProcessExecutor.getProcessLogs(directoryPath, command);
+        System.out.println(processLogs);
     }
 
 }
