@@ -3,6 +3,7 @@ package gitapi;
 import domain.FileVersion;
 import utils.ProcessExecutor;
 
+import java.io.File;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.function.Function;
@@ -19,7 +20,8 @@ public class FileVersionsApi {
         List<String> processLogs = ProcessExecutor.getProcessLogs(repositoryPath, command);
         String directoryPath = getDirectoryPath(repositoryPath);
         List<FileVersion> fileVersions = getFileVersionsToDownload(repositoryPath, directoryPath, processLogs);
-        downloadFileVersions(directoryPath, fileVersions);
+        createDirectory(directoryPath);
+        downloadFileVersionsToDirectory(directoryPath, fileVersions);
         return fileVersions;
     }
 
@@ -81,11 +83,18 @@ public class FileVersionsApi {
         return repositoryPathElements[repositoryPathElements.length - 1];
     }
 
-    private static void downloadFileVersions(String directoryPath, List<FileVersion> fileVersions) {
-        fileVersions.forEach(fileVersion -> downloadFileVersion(directoryPath, fileVersion));
+    private static void createDirectory(String directoryPath) {
+        File directory = new File(directoryPath);
+        directory.mkdir();
     }
 
-    private static void downloadFileVersion(String directoryPath, FileVersion fileVersion) {
+    private static void downloadFileVersionsToDirectory(String directoryPath,
+                                                        List<FileVersion> fileVersions) {
+        fileVersions.forEach(fileVersion -> downloadFileVersionToDirectory(directoryPath, fileVersion));
+    }
+
+    private static void downloadFileVersionToDirectory(String directoryPath,
+                                                       FileVersion fileVersion) {
         List<String> command = List.of("wget", "-O", fileVersion.getSavedFileName(), fileVersion.getHttpAddress());
         List<String> processLogs = ProcessExecutor.getProcessLogs(directoryPath, command);
         System.out.println(processLogs);
