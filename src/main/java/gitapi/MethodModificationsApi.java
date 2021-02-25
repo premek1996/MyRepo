@@ -11,8 +11,25 @@ public class MethodModificationsApi {
     public static List<SourceElementModification> getSourceElementModifications(String repositoryPath,
                                                                                 String filePath) {
         List<FileVersion> fileVersions = FileVersionsApi.getDownloadedFileVersions(repositoryPath, filePath);
-        fileVersions.forEach(System.out::println);
-        return new ArrayList<>();
+        return getSourceElementModifications(fileVersions);
+    }
+
+    private static List<SourceElementModification> getSourceElementModifications(List<FileVersion> fileVersions) {
+        List<SourceElementModification> sourceElementModifications = new ArrayList<>();
+        for (int currentVersionIndex = 0; currentVersionIndex < fileVersions.size() - 1; currentVersionIndex++) {
+            int previousVersionIndex = currentVersionIndex + 1;
+            FileVersion currentVersion = fileVersions.get(currentVersionIndex);
+            FileVersion previousVersion = fileVersions.get(previousVersionIndex);
+            sourceElementModifications.add(getSourceElementModification(currentVersion, previousVersion));
+        }
+        return sourceElementModifications;
+    }
+
+    private static SourceElementModification getSourceElementModification(FileVersion currentVersion,
+                                                                          FileVersion previousVersion) {
+        System.out.println(currentVersion);
+        System.out.println(previousVersion);
+        return null;
     }
 
 }
