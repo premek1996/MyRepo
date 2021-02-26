@@ -1,7 +1,9 @@
 package gitapi;
 
+import com.github.javaparser.ast.body.ConstructorDeclaration;
 import domain.FileVersion;
 import domain.SourceElementModification;
+import utils.AbstractSyntaxTreeReader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +31,9 @@ public class MethodModificationsApi {
                                                                           FileVersion previousVersion) {
         System.out.println(currentVersion);
         System.out.println(previousVersion);
+        List<ConstructorDeclaration> methods1 = AbstractSyntaxTreeReader.getAllConstructors(currentVersion.getFilePathInSavedDirectory());
+        List<ConstructorDeclaration> methods2 = AbstractSyntaxTreeReader.getAllConstructors(previousVersion.getFilePathInSavedDirectory());
+        methods1.forEach(System.out::println);
         return null;
     }
 
