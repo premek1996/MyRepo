@@ -36,6 +36,6 @@ public class AbstractSyntaxTreeReader {
     private static ParserConfiguration getParserConfiguration() {
         return new ParserConfiguration().setAttributeComments(false);
     }
-    
+
 }
 
