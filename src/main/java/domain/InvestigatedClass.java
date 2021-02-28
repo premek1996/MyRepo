@@ -17,7 +17,7 @@ public class InvestigatedClass extends InvestigatedSourceElement {
         this.className = investigatedClassBuilder.className;
     }
 
-    public InvestigatedClassBuilder builder() {
+    public static InvestigatedClassBuilder builder() {
         return new InvestigatedClassBuilder();
     }
 

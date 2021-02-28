@@ -81,8 +81,8 @@ public class Main {
 
         //MethodModificationsApi.getSourceElementModifications(REPOSITORY_PATH, FILE_PATH);
 
-        CsvReader.getInvestigatedSourceElementsFromCsvFile(CSV_FILE_PATH);
-
+        List<InvestigatedSourceElement> investigatedSourceElements = CsvReader.getInvestigatedSourceElementsFromCsvFile(CSV_FILE_PATH);
+        investigatedSourceElements.forEach(System.out::println);
 
 
     }

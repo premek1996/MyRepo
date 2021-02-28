@@ -1,17 +1,25 @@
 package input;
 
+import domain.InvestigatedClass;
+import domain.InvestigatedMethod;
 import domain.InvestigatedSourceElement;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CsvReader {
+
+    private static final String DEFAULT_OUTPUT_REPOSITORY_NAME = "unknown-repository";
+    private static final String DEFAULT_OUTPUT_REPOSITORY_DIR = System.getProperty("user.home") + File.separator + "java-metrics-source-repos";
 
     private CsvReader() {
     }
@@ -30,25 +38,57 @@ public class CsvReader {
 
     private static InvestigatedSourceElement getInvestigatedSourceElementFroCsvRecord(CSVRecord csvRecord) {
         String type = csvRecord.get(CsvHeader.TYPE);
-        String packageName = csvRecord.get(CsvHeader.PACKAGE);
-        String outerClass = csvRecord.get(CsvHeader.OUTER_CLASS);
-        String hash = csvRecord.get(CsvHeader.COMMIT_HASH);
+        String repositoryUri = csvRecord.get(CsvHeader.REPOSITORY);
+        String currentHashCommit = csvRecord.get(CsvHeader.COMMIT_HASH);
         int startLine = Integer.parseInt(csvRecord.get(CsvHeader.START_LINE));
         int endLine = Integer.parseInt(csvRecord.get(CsvHeader.END_LINE));
         String className = csvRecord.get(CsvHeader.CLASS);
         String methodName = csvRecord.get(CsvHeader.METHOD);
         List<String> parameters = Arrays.asList(csvRecord.get(CsvHeader.PARAMETERS).split("\\|"));
-        System.out.println(type);
-        System.out.println(packageName);
-        System.out.println(outerClass);
-        System.out.println(hash);
-        System.out.println(startLine);
-        System.out.println(endLine);
-        System.out.println(className);
-        System.out.println(methodName);
-        System.out.println(parameters);
-        System.out.println();
-        return null;
+
+        if (isClass(type)) {
+            return InvestigatedClass.builder()
+                    .withClassName(className)
+                    .withCurrentHashCommit(currentHashCommit)
+                    .withRepositoryPath(getRepositoryPath(repositoryUri))
+                    .withStartLine(startLine)
+                    .withEndLine(endLine)
+                    .build();
+        } else if (isMethodOrConstructor(type)) {
+            return InvestigatedMethod.builder()
+                    .withClassName(className)
+                    .withCurrentHashCommit(currentHashCommit)
+                    .withRepositoryPath(getRepositoryPath(repositoryUri))
+                    .withStartLine(startLine)
+                    .withEndLine(endLine)
+                    .withMethodName(methodName)
+                    .withArguments(parameters)
+                    .build();
+        } else {
+            throw new RuntimeException("Found unknown value " + type + " in column 'type'!");
+        }
+    }
+
+    private static boolean isClass(String type) {
+        return type.equals(InvestigatedClass.CLASS_TYPE);
+    }
+
+    private static boolean isMethodOrConstructor(String type) {
+        return type.equals(InvestigatedMethod.METHOD_TYPE) || type.equals(InvestigatedMethod.CONSTRUCTOR_TYPE);
+    }
+
+    private static String getRepositoryPath(String repositoryUri) {
+        return DEFAULT_OUTPUT_REPOSITORY_DIR +"\\"+ getRepositoryName(repositoryUri);
+    }
+
+    private static String getRepositoryName(String repositoryUri) {
+        Pattern pattern = Pattern.compile(".*:(.*)\\.git");
+        Matcher matcher = pattern.matcher(repositoryUri);
+        if (matcher.find()) {
+            return matcher.group(1);
+        } else {
+            return DEFAULT_OUTPUT_REPOSITORY_NAME;
+        }
     }
 
 }

@@ -9,12 +9,12 @@ import java.util.List;
 public abstract class InvestigatedSourceElement {
 
     protected final String repositoryPath;
-    protected final List<Developer> repositoryDevelopers;
     protected final String filePath;
     protected final int startLine;
     protected final int endLine;
     protected final String currentHashCommit;
-    protected final LocalDate currentDate;
+    protected LocalDate currentDate;
+    protected List<Developer> repositoryDevelopers;
     protected List<Commit> commits;
 
     public InvestigatedSourceElement(String repositoryPath,
@@ -27,8 +27,9 @@ public abstract class InvestigatedSourceElement {
         this.startLine = startLine;
         this.endLine = endLine;
         this.currentHashCommit = currentHashCommit;
-        this.currentDate = determineCurrentDate();
-        this.repositoryDevelopers = determineRepositoryDevelopers();
+        //this.currentDate = determineCurrentDate();
+        //this.repositoryDevelopers = determineRepositoryDevelopers();
+        //this.commits = determineCommits();
     }
 
     private LocalDate determineCurrentDate() {
@@ -74,10 +75,6 @@ public abstract class InvestigatedSourceElement {
 
     public LocalDate getCurrentDate() {
         return currentDate;
-    }
-
-    public void setCommits(List<Commit> commits) {
-        this.commits = commits;
     }
 
     public List<Commit> getCommits() {

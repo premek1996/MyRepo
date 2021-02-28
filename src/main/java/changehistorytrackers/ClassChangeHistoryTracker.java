@@ -24,7 +24,7 @@ public class ClassChangeHistoryTracker {
     }
 
     public InvestigatedSourceElement getInvestigatedSourceElementWithSetCommits() {
-        investigatedSourceElement.setCommits(getCommits());
+        //investigatedSourceElement.setCommits(getCommits());
         return investigatedSourceElement;
     }
 
