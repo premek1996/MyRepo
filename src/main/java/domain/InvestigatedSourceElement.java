@@ -17,6 +17,20 @@ public class InvestigatedSourceElement {
     private final LocalDate currentDate;
     private List<Commit> commits;
 
+    public InvestigatedSourceElement(String repositoryPath,
+                                     String filePath,
+                                     int startLine,
+                                     int endLine,
+                                     String currentHashCommit) {
+        this.repositoryPath = repositoryPath;
+        this.filePath = filePath;
+        this.startLine = startLine;
+        this.endLine = endLine;
+        this.currentHashCommit = currentHashCommit;
+        this.currentDate = determineCurrentDate();
+        this.repositoryDevelopers = determineRepositoryDevelopers();
+    }
+
     private InvestigatedSourceElement(InvestigatedSourceElementBuilder builder) {
         this.repositoryPath = builder.repositoryPath;
         this.filePath = builder.filePath;

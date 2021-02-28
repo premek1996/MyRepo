@@ -2,6 +2,7 @@ import changehistorytrackers.ClassChangeHistoryTracker;
 import domain.InvestigatedSourceElement;
 import gitapi.FileVersionsApi;
 import gitapi.MethodModificationsApi;
+import input.CsvReader;
 import processmetrics.AddedLinesAverageNumber;
 import processmetrics.AddedLinesMaxNumber;
 import processmetrics.Age;
@@ -41,6 +42,8 @@ public class Main {
     private static final String FILE_PATH = "tez-runtime-library/src/main/java/org/apache/tez/runtime/library/common/writers/UnorderedPartitionedKVWriter.java";
     private static final String CURRENT_HASH_COMMIT = "d5675c332497c1ac1dedefdf91e87476b5c0d7a9";
 
+    private static final String CSV_FILE_PATH = "C:\\Users\\przem\\OneDrive\\Pulpit\\csvinput\\input.csv";
+
     public static void main(String[] args) throws IOException, InterruptedException {
 
         final InvestigatedSourceElement investigatedSourceElement = InvestigatedSourceElement.builder()
@@ -77,6 +80,10 @@ public class Main {
         processMetrics.forEach(processMetric -> processMetric.compute(investigatedSourceElementWithSetCommits));
 
         //MethodModificationsApi.getSourceElementModifications(REPOSITORY_PATH, FILE_PATH);
+
+        CsvReader.getInvestigatedSourceElementsFromCsvFile(CSV_FILE_PATH);
+
+
 
     }
 

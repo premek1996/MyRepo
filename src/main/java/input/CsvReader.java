@@ -10,11 +10,8 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Logger;
 
 public class CsvReader {
-
-    private static final Logger LOGGER = Logger.getLogger(CsvReader.class.getName());
 
     private CsvReader() {
     }
@@ -35,11 +32,22 @@ public class CsvReader {
         String type = csvRecord.get(CsvHeader.TYPE);
         String packageName = csvRecord.get(CsvHeader.PACKAGE);
         String outerClass = csvRecord.get(CsvHeader.OUTER_CLASS);
+        String hash = csvRecord.get(CsvHeader.COMMIT_HASH);
         int startLine = Integer.parseInt(csvRecord.get(CsvHeader.START_LINE));
         int endLine = Integer.parseInt(csvRecord.get(CsvHeader.END_LINE));
         String className = csvRecord.get(CsvHeader.CLASS);
         String methodName = csvRecord.get(CsvHeader.METHOD);
         List<String> parameters = Arrays.asList(csvRecord.get(CsvHeader.PARAMETERS).split("\\|"));
+        System.out.println(type);
+        System.out.println(packageName);
+        System.out.println(outerClass);
+        System.out.println(hash);
+        System.out.println(startLine);
+        System.out.println(endLine);
+        System.out.println(className);
+        System.out.println(methodName);
+        System.out.println(parameters);
+        System.out.println();
         return null;
     }
 
