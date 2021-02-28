@@ -6,6 +6,9 @@ import java.util.List;
 
 public class FileVersionsDownloader {
 
+    private FileVersionsDownloader() {
+    }
+
     public static void downloadFileVersionsToDirectory(String directoryPath,
                                                        List<FileVersion> fileVersions) {
         DirectoryCreator.prepareDirectory(directoryPath);

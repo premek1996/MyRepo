@@ -9,6 +9,9 @@ import java.util.List;
 
 public class ProcessExecutor {
 
+    private ProcessExecutor() {
+    }
+
     public static List<String> getProcessLogs(String repoPath, List<String> command) {
         List<String> processLogs = new ArrayList<>();
         try {

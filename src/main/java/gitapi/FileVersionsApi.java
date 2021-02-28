@@ -14,6 +14,9 @@ public class FileVersionsApi {
 
     private static final String DIRECTORY_NAME = "file-versions";
 
+    private FileVersionsApi() {
+    }
+
     public static List<FileVersion> getDownloadedFileVersions(String repositoryPath,
                                                               String filePath) {
         List<String> command = List.of("git", "log", "--follow", "--name-only", "--oneline", filePath);

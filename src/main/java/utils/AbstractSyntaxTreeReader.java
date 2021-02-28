@@ -12,6 +12,9 @@ import java.util.List;
 
 public class AbstractSyntaxTreeReader {
 
+    private AbstractSyntaxTreeReader() {
+    }
+
     public static List<MethodDeclaration> getAllMethods(String filePath) {
         CompilationUnit compilationUnit = getCompilationUnit(filePath);
         return compilationUnit.findAll(MethodDeclaration.class);

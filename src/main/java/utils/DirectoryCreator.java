@@ -8,6 +8,9 @@ public class DirectoryCreator {
 
     private static final Logger LOGGER = Logger.getLogger(DirectoryCreator.class.getName());
 
+    private DirectoryCreator() {
+    }
+
     public static void prepareDirectory(String directoryPath) {
         File directory = new File(directoryPath);
         if (directory.exists()) {

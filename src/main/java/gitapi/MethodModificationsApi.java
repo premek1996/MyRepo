@@ -10,6 +10,9 @@ import java.util.List;
 
 public class MethodModificationsApi {
 
+    private MethodModificationsApi() {
+    }
+
     public static List<SourceElementModification> getSourceElementModifications(String repositoryPath,
                                                                                 String filePath) {
         List<FileVersion> fileVersions = FileVersionsApi.getDownloadedFileVersions(repositoryPath, filePath);

@@ -10,6 +10,9 @@ import java.util.regex.Pattern;
 
 public class SourceElementFragmentationApi {
 
+    private SourceElementFragmentationApi() {
+    }
+
     private final static Pattern PATTERN = Pattern.compile("<.*>");
 
     public static long getSourceElementFragmentationAcrossDevelopers(InvestigatedSourceElement investigatedSourceElement) {

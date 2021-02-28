@@ -8,6 +8,9 @@ import java.util.List;
 
 public class CommitBasicInfoApi {
 
+    private CommitBasicInfoApi() {
+    }
+
     public static CommitBasicInfo getCommitBasicInfo(String repositoryPath,
                                                      String hash) {
         List<String> command = List.of("git", "show", "-s", "--format=%ae%n%cd%n%B",
