@@ -29,11 +29,11 @@ public class MethodModificationsApi {
 
     private static SourceElementModification getSourceElementModification(FileVersion currentVersion,
                                                                           FileVersion previousVersion) {
-        System.out.println(currentVersion);
-        System.out.println(previousVersion);
-        List<ConstructorDeclaration> methods1 = AbstractSyntaxTreeReader.getAllConstructors(currentVersion.getFilePathInSavedDirectory());
-        List<ConstructorDeclaration> methods2 = AbstractSyntaxTreeReader.getAllConstructors(previousVersion.getFilePathInSavedDirectory());
-        methods1.forEach(System.out::println);
+        //System.out.println(currentVersion);
+        //System.out.println(previousVersion);
+        //List<ConstructorDeclaration> methods1 = AbstractSyntaxTreeReader.getAllConstructors(currentVersion.getFilePathInSavedDirectory());
+        //List<ConstructorDeclaration> methods2 = AbstractSyntaxTreeReader.getAllConstructors(previousVersion.getFilePathInSavedDirectory());
+        //methods1.forEach(System.out::println);
         return null;
     }
 
