@@ -27,8 +27,8 @@ public abstract class InvestigatedSourceElement {
         this.startLine = startLine;
         this.endLine = endLine;
         this.currentHashCommit = currentHashCommit;
-        //this.currentDate = determineCurrentDate();
-        //this.repositoryDevelopers = determineRepositoryDevelopers();
+        this.currentDate = determineCurrentDate();
+        this.repositoryDevelopers = determineRepositoryDevelopers();
         //this.commits = determineCommits();
     }
 

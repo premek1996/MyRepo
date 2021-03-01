@@ -13,6 +13,7 @@ public enum CsvHeader {
     COMMIT_HASH,
     GIT_SOURCE_FILE_URL,
     START_LINE,
-    END_LINE
+    END_LINE,
+    PATH
 
 }

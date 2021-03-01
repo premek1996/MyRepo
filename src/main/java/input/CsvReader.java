@@ -42,6 +42,7 @@ public class CsvReader {
         String currentHashCommit = csvRecord.get(CsvHeader.COMMIT_HASH);
         int startLine = Integer.parseInt(csvRecord.get(CsvHeader.START_LINE));
         int endLine = Integer.parseInt(csvRecord.get(CsvHeader.END_LINE));
+        String filePath = csvRecord.get(CsvHeader.PATH);
         String className = csvRecord.get(CsvHeader.CLASS);
         String methodName = csvRecord.get(CsvHeader.METHOD);
         List<String> parameters = Arrays.asList(csvRecord.get(CsvHeader.PARAMETERS).split("\\|"));
@@ -53,6 +54,7 @@ public class CsvReader {
                     .withRepositoryPath(getRepositoryPath(repositoryUri))
                     .withStartLine(startLine)
                     .withEndLine(endLine)
+                    .withFilePath(getFilePath(filePath))
                     .build();
         } else if (isMethodOrConstructor(type)) {
             return InvestigatedMethod.builder()
@@ -61,6 +63,7 @@ public class CsvReader {
                     .withRepositoryPath(getRepositoryPath(repositoryUri))
                     .withStartLine(startLine)
                     .withEndLine(endLine)
+                    .withFilePath(getFilePath(filePath))
                     .withMethodName(methodName)
                     .withArguments(parameters)
                     .build();
@@ -78,7 +81,7 @@ public class CsvReader {
     }
 
     private static String getRepositoryPath(String repositoryUri) {
-        return DEFAULT_OUTPUT_REPOSITORY_DIR +"\\"+ getRepositoryName(repositoryUri);
+        return DEFAULT_OUTPUT_REPOSITORY_DIR + "\\" + getRepositoryName(repositoryUri);
     }
 
     private static String getRepositoryName(String repositoryUri) {
@@ -89,6 +92,10 @@ public class CsvReader {
         } else {
             return DEFAULT_OUTPUT_REPOSITORY_NAME;
         }
+    }
+
+    private static String getFilePath(String filePath) {
+        return filePath.substring(1);
     }
 
 }
