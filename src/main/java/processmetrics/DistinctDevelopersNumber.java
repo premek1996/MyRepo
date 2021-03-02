@@ -20,7 +20,6 @@ public class DistinctDevelopersNumber implements ProcessMetric {
                 .map(Commit::getDeveloper)
                 .distinct()
                 .count();
-        System.out.println("Number of distinct developers: " + distinctDevelopersNumber);
         return new Metric(METRIC_NAME, distinctDevelopersNumber);
     }
 

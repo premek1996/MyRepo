@@ -20,7 +20,6 @@ public class CommitMessageAverageLength implements ProcessMetric {
                 .mapToInt(String::length)
                 .average()
                 .orElse(0);
-        System.out.println("Average number of characters in commit messages: " + commitMessageAverageLength);
         return new Metric(METRIC_NAME, commitMessageAverageLength);
     }
 

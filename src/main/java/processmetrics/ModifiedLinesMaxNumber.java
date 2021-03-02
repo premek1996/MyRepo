@@ -19,7 +19,6 @@ public class ModifiedLinesMaxNumber implements ProcessMetric {
                 .mapToInt(Commit::getModifiedLines)
                 .max()
                 .orElse(0);
-        System.out.println("Max number of modified lines: " + modifiedLinesMaxNumber);
         return new Metric(METRIC_NAME, modifiedLinesMaxNumber);
     }
 

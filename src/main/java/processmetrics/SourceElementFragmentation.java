@@ -18,8 +18,6 @@ public class SourceElementFragmentation implements ProcessMetric {
         long sourceElementFragmentationAcrossDevelopers =
                 SourceElementFragmentationApi.getSourceElementFragmentationAcrossDevelopers
                         (investigatedSourceElement);
-        System.out.println("Source element fragmentation across developers: " +
-                sourceElementFragmentationAcrossDevelopers);
         return new Metric(METRIC_NAME, sourceElementFragmentationAcrossDevelopers);
     }
 

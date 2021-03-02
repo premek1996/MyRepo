@@ -28,7 +28,6 @@ public class AverageTimeBetweenCommits implements ProcessMetric {
             sumTimesBetweenCommits += ChronoUnit.DAYS.between(second, first);
         }
         long averageTimeBetweenCommits = sumTimesBetweenCommits / commits.size();
-        System.out.println("Average time between commits in days: " + averageTimeBetweenCommits);
         return new Metric(METRIC_NAME, averageTimeBetweenCommits);
     }
 

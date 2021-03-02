@@ -19,7 +19,6 @@ public class CommitsWithoutMessageNumber implements ProcessMetric {
                 .map(Commit::getMessage)
                 .filter(String::isEmpty)
                 .count();
-        System.out.println("Number of commits without message: " + commitsWithoutMessageNumber);
         return new Metric(METRIC_NAME, commitsWithoutMessageNumber);
     }
 

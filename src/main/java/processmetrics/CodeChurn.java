@@ -25,7 +25,6 @@ public class CodeChurn implements ProcessMetric {
                 .mapToInt(Commit::getDeletedLines)
                 .sum();
         int codeChurn = addedLinesSum - deleteLinesSum;
-        System.out.println("Code churn: " + codeChurn);
         return new Metric(METRIC_NAME, codeChurn);
     }
 

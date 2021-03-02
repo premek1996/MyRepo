@@ -23,7 +23,6 @@ public class RefactoringsNumber implements ProcessMetric {
                 .map(String::toLowerCase)
                 .filter(RefactoringsNumber::containsWords)
                 .count();
-        System.out.println("The number of refactorings: " + refactoringsNumber);
         return new Metric(METRIC_NAME, refactoringsNumber);
     }
 

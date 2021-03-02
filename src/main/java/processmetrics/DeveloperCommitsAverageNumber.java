@@ -21,7 +21,6 @@ public class DeveloperCommitsAverageNumber implements ProcessMetric {
                 .mapToInt(Developer::getCommits)
                 .average()
                 .orElse(0);
-        System.out.println("Average number of commits per developer: " + developerCommitsAverageNumber);
         return new Metric(METRIC_NAME, developerCommitsAverageNumber);
     }
 

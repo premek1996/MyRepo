@@ -19,7 +19,6 @@ public class DeletedLinesAverageNumber implements ProcessMetric {
                 .mapToInt(Commit::getDeletedLines)
                 .average()
                 .orElse(0);
-        System.out.println("Average number of deleted lines: " + deletedLinesAverageNumber);
         return new Metric(METRIC_NAME, deletedLinesAverageNumber);
     }
 

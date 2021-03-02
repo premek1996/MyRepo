@@ -19,7 +19,6 @@ public class DeletedLinesMaxNumber implements ProcessMetric {
                 .mapToInt(Commit::getDeletedLines)
                 .max()
                 .orElse(0);
-        System.out.println("Max number of deleted lines: " + deletedLinesMaxNumber);
         return new Metric(METRIC_NAME, deletedLinesMaxNumber);
     }
 

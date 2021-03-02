@@ -23,7 +23,6 @@ public class BugFixesNumber implements ProcessMetric {
                 .map(String::toLowerCase)
                 .filter(BugFixesNumber::containsWords)
                 .count();
-        System.out.println("The number of bug fixes: " + bugFixesNumber);
         return new Metric(METRIC_NAME, bugFixesNumber);
     }
 

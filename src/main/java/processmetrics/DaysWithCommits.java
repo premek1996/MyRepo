@@ -19,7 +19,6 @@ public class DaysWithCommits implements ProcessMetric {
                 .map(Commit::getDate)
                 .distinct()
                 .count();
-        System.out.println("Number of days with at least one commit: " + daysWithCommits);
         return new Metric(METRIC_NAME, daysWithCommits);
     }
 

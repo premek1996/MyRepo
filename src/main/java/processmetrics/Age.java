@@ -23,7 +23,6 @@ public class Age implements ProcessMetric {
         Commit creationCommit = commits.get(commits.size() - 1);
         LocalDate creationDate = creationCommit.getDate();
         long days = ChronoUnit.DAYS.between(creationDate, currentDate);
-        System.out.println("Age of source element in days: " + days);
         return new Metric(METRIC_NAME, days);
     }
 

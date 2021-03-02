@@ -17,7 +17,6 @@ public class CommitsNumber implements ProcessMetric {
     @Override
     public Metric compute(InvestigatedSourceElement investigatedSourceElement) {
         int commitsNumber = investigatedSourceElement.getCommits().size();
-        System.out.println("Number of commits: " + commitsNumber);
         return new Metric(METRIC_NAME, commitsNumber);
     }
 

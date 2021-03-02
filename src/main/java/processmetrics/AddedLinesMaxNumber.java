@@ -19,7 +19,6 @@ public class AddedLinesMaxNumber implements ProcessMetric {
                 .mapToInt(Commit::getAddedLines)
                 .max()
                 .orElse(0);
-        System.out.println("Max number of added lines: " + addedLinesMaxNumber);
         return new Metric(METRIC_NAME, addedLinesMaxNumber);
     }
 

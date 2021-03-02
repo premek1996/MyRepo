@@ -23,7 +23,6 @@ public class TimePassedSinceLastCommit implements ProcessMetric {
         Commit lastCommit = commits.get(0);
         LocalDate lastCommitDate = lastCommit.getDate();
         long days = ChronoUnit.DAYS.between(lastCommitDate, currentDate);
-        System.out.println("Time passed in days since the last commit: " + days);
         return new Metric(METRIC_NAME, days);
     }
 

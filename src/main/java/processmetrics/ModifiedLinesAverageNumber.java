@@ -19,7 +19,6 @@ public class ModifiedLinesAverageNumber implements ProcessMetric {
                 .mapToInt(Commit::getModifiedLines)
                 .average()
                 .orElse(0);
-        System.out.println("Average number of modified lines: " + modifiedLinesAverageNumber);
         return new Metric(METRIC_NAME, modifiedLinesAverageNumber);
     }
 
