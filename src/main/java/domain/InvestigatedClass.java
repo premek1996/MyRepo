@@ -1,5 +1,7 @@
 package domain;
 
+import changehistorytrackers.ClassChangeHistoryTracker;
+
 import java.util.List;
 
 public class InvestigatedClass extends InvestigatedSourceElement {
@@ -42,7 +44,8 @@ public class InvestigatedClass extends InvestigatedSourceElement {
 
     @Override
     protected List<Commit> determineCommits() {
-        return null;
+        ClassChangeHistoryTracker classChangeHistoryTracker = new ClassChangeHistoryTracker(this);
+        return classChangeHistoryTracker.getCommits();
     }
 
     public static class InvestigatedClassBuilder {

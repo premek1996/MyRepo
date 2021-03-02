@@ -29,7 +29,7 @@ public abstract class InvestigatedSourceElement {
         this.currentHashCommit = currentHashCommit;
         this.currentDate = determineCurrentDate();
         this.repositoryDevelopers = determineRepositoryDevelopers();
-        //this.commits = determineCommits();
+        this.commits = determineCommits();
     }
 
     private LocalDate determineCurrentDate() {

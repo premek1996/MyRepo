@@ -2,23 +2,25 @@ package processmetrics;
 
 import domain.Commit;
 import domain.InvestigatedSourceElement;
+import domain.Metric;
 
 /*
 The number of previous modifications
 without any comment message.
  */
 
-public class CommitsWithoutMessageNumber implements ProcessMetric {
+public class CommitsWithoutMessageNumber implements ProcessMetric<Long> {
 
     private static final String METRIC_NAME = "CommitsWithoutMessageNumber";
 
     @Override
-    public void compute(InvestigatedSourceElement investigatedSourceElement) {
+    public Metric<Long> compute(InvestigatedSourceElement investigatedSourceElement) {
         long commitsWithoutMessageNumber = investigatedSourceElement.getCommits().stream()
                 .map(Commit::getMessage)
                 .filter(String::isEmpty)
                 .count();
         System.out.println("Number of commits without message: " + commitsWithoutMessageNumber);
+        return new Metric<>(METRIC_NAME, commitsWithoutMessageNumber);
     }
 
     @Override

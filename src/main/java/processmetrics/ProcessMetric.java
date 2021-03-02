@@ -1,10 +1,11 @@
 package processmetrics;
 
 import domain.InvestigatedSourceElement;
+import domain.Metric;
 
-public interface ProcessMetric {
+public interface ProcessMetric<T extends Number> {
 
-    void compute(InvestigatedSourceElement investigatedSourceElement);
+    Metric<T> compute(InvestigatedSourceElement investigatedSourceElement);
 
     String getName();
 

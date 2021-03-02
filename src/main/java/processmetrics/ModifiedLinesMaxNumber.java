@@ -2,23 +2,25 @@ package processmetrics;
 
 import domain.Commit;
 import domain.InvestigatedSourceElement;
+import domain.Metric;
 
 /*
 The maximum number of modified lines (which were
 added or removed) in a given Java class/method.
  */
 
-public class ModifiedLinesMaxNumber implements ProcessMetric {
+public class ModifiedLinesMaxNumber implements ProcessMetric<Double> {
 
     private static final String METRIC_NAME = "ModifiedLinesMaxNumber";
 
     @Override
-    public void compute(InvestigatedSourceElement investigatedSourceElement) {
+    public Metric<Double> compute(InvestigatedSourceElement investigatedSourceElement) {
         double modifiedLinesMaxNumber = investigatedSourceElement.getCommits().stream()
                 .mapToInt(Commit::getModifiedLines)
                 .max()
                 .orElse(0);
         System.out.println("Max number of modified lines: " + modifiedLinesMaxNumber);
+        return new Metric<>(METRIC_NAME, modifiedLinesMaxNumber);
     }
 
     @Override

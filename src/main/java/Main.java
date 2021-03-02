@@ -54,6 +54,9 @@ public class Main {
                 .withCurrentHashCommit(CURRENT_HASH_COMMIT)
                 .build();*/
 
+        List<InvestigatedSourceElement> investigatedSourceElements = CsvReader.getInvestigatedSourceElementsFromCsvFile(CSV_FILE_PATH);
+        investigatedSourceElements.forEach(System.out::println);
+
         List<ProcessMetric> processMetrics = List.of(
                 new AddedLinesAverageNumber(),
                 new AddedLinesMaxNumber(),
@@ -81,8 +84,7 @@ public class Main {
 
         //MethodModificationsApi.getSourceElementModifications(REPOSITORY_PATH, FILE_PATH);
 
-        List<InvestigatedSourceElement> investigatedSourceElements = CsvReader.getInvestigatedSourceElementsFromCsvFile(CSV_FILE_PATH);
-        investigatedSourceElements.forEach(System.out::println);
+
 
 
     }

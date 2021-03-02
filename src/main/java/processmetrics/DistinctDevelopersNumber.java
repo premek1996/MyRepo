@@ -2,6 +2,7 @@ package processmetrics;
 
 import domain.Commit;
 import domain.InvestigatedSourceElement;
+import domain.Metric;
 
 /*
 The metric counts the number of distinct authors, usually developers,
@@ -9,17 +10,18 @@ who committed their changes in a given Java class/method during the development
 of the investigated release of a software system.
  */
 
-public class DistinctDevelopersNumber implements ProcessMetric {
+public class DistinctDevelopersNumber implements ProcessMetric<Long> {
 
     private static final String METRIC_NAME = "DistinctDevelopersNumber";
 
     @Override
-    public void compute(InvestigatedSourceElement investigatedSourceElement) {
+    public Metric<Long> compute(InvestigatedSourceElement investigatedSourceElement) {
         long distinctDevelopersNumber = investigatedSourceElement.getCommits().stream()
                 .map(Commit::getDeveloper)
                 .distinct()
                 .count();
         System.out.println("Number of distinct developers: " + distinctDevelopersNumber);
+        return new Metric<>(METRIC_NAME, distinctDevelopersNumber);
     }
 
     @Override

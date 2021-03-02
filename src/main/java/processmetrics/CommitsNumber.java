@@ -1,6 +1,7 @@
 package processmetrics;
 
 import domain.InvestigatedSourceElement;
+import domain.Metric;
 
 
 /*
@@ -9,14 +10,15 @@ Java class/method during development of the investigated
 release of a software system.
  */
 
-public class CommitsNumber implements ProcessMetric {
+public class CommitsNumber implements ProcessMetric<Integer> {
 
     private static final String METRIC_NAME = "CommitsNumber";
 
     @Override
-    public void compute(InvestigatedSourceElement investigatedSourceElement) {
+    public Metric<Integer> compute(InvestigatedSourceElement investigatedSourceElement) {
         int commitsNumber = investigatedSourceElement.getCommits().size();
         System.out.println("Number of commits: " + commitsNumber);
+        return new Metric<>(METRIC_NAME, commitsNumber);
     }
 
     @Override

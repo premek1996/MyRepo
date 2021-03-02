@@ -23,12 +23,7 @@ public class ClassChangeHistoryTracker {
         this.filePath = investigatedSourceElement.getFilePath();
     }
 
-    public InvestigatedSourceElement getInvestigatedSourceElementWithSetCommits() {
-        //investigatedSourceElement.setCommits(getCommits());
-        return investigatedSourceElement;
-    }
-
-    private List<Commit> getCommits() {
+    public List<Commit> getCommits() {
         List<SourceElementModification> sourceElementModifications =
                 ClassModificationsApi.getSourceElementModifications(repositoryPath, filePath);
         return getCommits(sourceElementModifications);
