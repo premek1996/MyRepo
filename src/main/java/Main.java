@@ -43,6 +43,7 @@ public class Main {
                 .filter(investigatedSourceElement -> investigatedSourceElement instanceof InvestigatedClass)
                 .collect(Collectors.toList());
 
+        System.out.println("Liczone są teraz metryki!");
         List<List<Metric>> metrics = ProcessMetricsCalculator.getMetrics(investigatedClasses);
 
         CSVWriter.writeCsv(CSV_OUTPUT_FILE_PATH, investigatedClasses, metrics);
