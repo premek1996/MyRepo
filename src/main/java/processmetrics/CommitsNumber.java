@@ -10,15 +10,15 @@ Java class/method during development of the investigated
 release of a software system.
  */
 
-public class CommitsNumber implements ProcessMetric<Integer> {
+public class CommitsNumber implements ProcessMetric {
 
     private static final String METRIC_NAME = "CommitsNumber";
 
     @Override
-    public Metric<Integer> compute(InvestigatedSourceElement investigatedSourceElement) {
+    public Metric compute(InvestigatedSourceElement investigatedSourceElement) {
         int commitsNumber = investigatedSourceElement.getCommits().size();
         System.out.println("Number of commits: " + commitsNumber);
-        return new Metric<>(METRIC_NAME, commitsNumber);
+        return new Metric(METRIC_NAME, commitsNumber);
     }
 
     @Override

@@ -11,12 +11,12 @@ The sum of lines added minus lines deleted
 from the source element.
  */
 
-public class CodeChurn implements ProcessMetric<Integer> {
+public class CodeChurn implements ProcessMetric {
 
     private static final String METRIC_NAME = "CodeChurn";
 
     @Override
-    public Metric<Integer> compute(InvestigatedSourceElement investigatedSourceElement) {
+    public Metric compute(InvestigatedSourceElement investigatedSourceElement) {
         List<Commit> commits = investigatedSourceElement.getCommits();
         int addedLinesSum = commits.stream()
                 .mapToInt(Commit::getAddedLines)
@@ -26,7 +26,7 @@ public class CodeChurn implements ProcessMetric<Integer> {
                 .sum();
         int codeChurn = addedLinesSum - deleteLinesSum;
         System.out.println("Code churn: " + codeChurn);
-        return new Metric<>(METRIC_NAME, codeChurn);
+        return new Metric(METRIC_NAME, codeChurn);
     }
 
     @Override

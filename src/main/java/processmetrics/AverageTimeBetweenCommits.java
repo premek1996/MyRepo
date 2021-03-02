@@ -13,12 +13,12 @@ The average number of days that passed between consecutive
 modifications of the source element.
  */
 
-public class AverageTimeBetweenCommits implements ProcessMetric<Long> {
+public class AverageTimeBetweenCommits implements ProcessMetric {
 
     private static final String METRIC_NAME = "AverageTimeBetweenCommits";
 
     @Override
-    public Metric<Long> compute(InvestigatedSourceElement investigatedSourceElement) {
+    public Metric compute(InvestigatedSourceElement investigatedSourceElement) {
         List<Commit> commits = investigatedSourceElement.getCommits();
         long sumTimesBetweenCommits = 0;
         for (int i = 0; i < commits.size() - 1; i++) {
@@ -29,7 +29,7 @@ public class AverageTimeBetweenCommits implements ProcessMetric<Long> {
         }
         long averageTimeBetweenCommits = sumTimesBetweenCommits / commits.size();
         System.out.println("Average time between commits in days: " + averageTimeBetweenCommits);
-        return new Metric<>(METRIC_NAME, averageTimeBetweenCommits);
+        return new Metric(METRIC_NAME, averageTimeBetweenCommits);
     }
 
     @Override

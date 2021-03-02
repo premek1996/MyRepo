@@ -9,12 +9,12 @@ import domain.Metric;
 The metric represents the average number of commits per developer.
  */
 
-public class DeveloperCommitsAverageNumber implements ProcessMetric<Double> {
+public class DeveloperCommitsAverageNumber implements ProcessMetric {
 
     private static final String METRIC_NAME = "DeveloperCommitsAverageNumber";
 
     @Override
-    public Metric<Double> compute(InvestigatedSourceElement investigatedSourceElement) {
+    public Metric compute(InvestigatedSourceElement investigatedSourceElement) {
         double developerCommitsAverageNumber = investigatedSourceElement.getCommits().stream()
                 .map(Commit::getDeveloper)
                 .distinct()
@@ -22,7 +22,7 @@ public class DeveloperCommitsAverageNumber implements ProcessMetric<Double> {
                 .average()
                 .orElse(0);
         System.out.println("Average number of commits per developer: " + developerCommitsAverageNumber);
-        return new Metric<>(METRIC_NAME, developerCommitsAverageNumber);
+        return new Metric(METRIC_NAME, developerCommitsAverageNumber);
     }
 
     @Override

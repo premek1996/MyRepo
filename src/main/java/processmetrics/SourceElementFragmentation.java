@@ -9,18 +9,18 @@ A metric describing how fragmented the work
 on single source element is across developers.
  */
 
-public class SourceElementFragmentation implements ProcessMetric<Long> {
+public class SourceElementFragmentation implements ProcessMetric {
 
     private static final String METRIC_NAME = "SourceElementFragmentation";
 
     @Override
-    public Metric<Long> compute(InvestigatedSourceElement investigatedSourceElement) {
+    public Metric compute(InvestigatedSourceElement investigatedSourceElement) {
         long sourceElementFragmentationAcrossDevelopers =
                 SourceElementFragmentationApi.getSourceElementFragmentationAcrossDevelopers
                         (investigatedSourceElement);
         System.out.println("Source element fragmentation across developers: " +
                 sourceElementFragmentationAcrossDevelopers);
-        return new Metric<>(METRIC_NAME, sourceElementFragmentationAcrossDevelopers);
+        return new Metric(METRIC_NAME, sourceElementFragmentationAcrossDevelopers);
     }
 
     @Override

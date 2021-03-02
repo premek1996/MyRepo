@@ -3,9 +3,9 @@ package processmetrics;
 import domain.InvestigatedSourceElement;
 import domain.Metric;
 
-public interface ProcessMetric<T extends Number> {
+public interface ProcessMetric {
 
-    Metric<T> compute(InvestigatedSourceElement investigatedSourceElement);
+    Metric compute(InvestigatedSourceElement investigatedSourceElement);
 
     String getName();
 

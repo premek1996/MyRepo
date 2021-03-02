@@ -1,4 +1,5 @@
 import changehistorytrackers.ClassChangeHistoryTracker;
+import domain.InvestigatedClass;
 import domain.InvestigatedSourceElement;
 import gitapi.FileVersionsApi;
 import gitapi.MethodModificationsApi;
@@ -20,12 +21,14 @@ import processmetrics.DistinctDevelopersNumber;
 import processmetrics.ModifiedLinesAverageNumber;
 import processmetrics.ModifiedLinesMaxNumber;
 import processmetrics.ProcessMetric;
+import processmetrics.ProcessMetricsCalculator;
 import processmetrics.RefactoringsNumber;
 import processmetrics.SourceElementFragmentation;
 import processmetrics.TimePassedSinceLastCommit;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class Main {
@@ -55,37 +58,14 @@ public class Main {
                 .build();*/
 
         List<InvestigatedSourceElement> investigatedSourceElements = CsvReader.getInvestigatedSourceElementsFromCsvFile(CSV_FILE_PATH);
-        investigatedSourceElements.forEach(System.out::println);
 
-        List<ProcessMetric> processMetrics = List.of(
-                new AddedLinesAverageNumber(),
-                new AddedLinesMaxNumber(),
-                new Age(),
-                new AverageTimeBetweenCommits(),
-                new BugFixesNumber(),
-                new CodeChurn(),
-                new CommitMessageAverageLength(),
-                new CommitsNumber(),
-                new CommitsWithoutMessageNumber(),
-                new DaysWithCommits(),
-                new DeletedLinesAverageNumber(),
-                new DeletedLinesMaxNumber(),
-                new DeveloperCommitsAverageNumber(),
-                new DistinctDevelopersNumber(),
-                new ModifiedLinesAverageNumber(),
-                new ModifiedLinesMaxNumber(),
-                new RefactoringsNumber(),
-                new SourceElementFragmentation(),
-                new TimePassedSinceLastCommit()
-        );
+        List<InvestigatedSourceElement> investigatedClasses = investigatedSourceElements.stream()
+                .filter(investigatedSourceElement -> investigatedSourceElement instanceof InvestigatedClass)
+                .collect(Collectors.toList());
 
-        //InvestigatedSourceElement investigatedSourceElementWithSetCommits = new ClassChangeHistoryTracker(investigatedSourceElement).getInvestigatedSourceElementWithSetCommits();
-        //processMetrics.forEach(processMetric -> processMetric.compute(investigatedSourceElementWithSetCommits));
-
-        //MethodModificationsApi.getSourceElementModifications(REPOSITORY_PATH, FILE_PATH);
-
-
-
+        investigatedClasses.stream()
+                .map(ProcessMetricsCalculator::getMetrics)
+                .forEach(System.out::println);
 
     }
 

@@ -1,11 +1,11 @@
 package domain;
 
-public class Metric<T extends Number> {
+public class Metric {
 
     private final String name;
-    private final T value;
+    private final Number value;
 
-    public Metric(String name, T value) {
+    public Metric(String name, Number value) {
         this.name = name;
         this.value = value;
     }
@@ -14,8 +14,16 @@ public class Metric<T extends Number> {
         return name;
     }
 
-    public T getValue() {
+    public Number getValue() {
         return value;
+    }
+
+    @Override
+    public String toString() {
+        return "Metric{" +
+                "name='" + name + '\'' +
+                ", value=" + value +
+                '}';
     }
 
 }
