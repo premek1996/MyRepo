@@ -1,7 +1,7 @@
 package input;
 
 
-public enum CsvHeader {
+public enum CSVInputHeader {
 
     TYPE,
     PACKAGE,

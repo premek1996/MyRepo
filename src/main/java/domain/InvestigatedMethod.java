@@ -11,7 +11,8 @@ public class InvestigatedMethod extends InvestigatedSourceElement {
     private final List<String> arguments;
 
     private InvestigatedMethod(InvestigatedMethodBuilder investigatedMethodBuilder) {
-        super(investigatedMethodBuilder.repositoryPath,
+        super(investigatedMethodBuilder.repositoryUri,
+                investigatedMethodBuilder.repositoryPath,
                 investigatedMethodBuilder.filePath,
                 investigatedMethodBuilder.startLine,
                 investigatedMethodBuilder.endLine,
@@ -25,10 +26,12 @@ public class InvestigatedMethod extends InvestigatedSourceElement {
         return new InvestigatedMethodBuilder();
     }
 
+    @Override
     public String getClassName() {
         return className;
     }
 
+    @Override
     public String getMethodName() {
         return methodName;
     }
@@ -61,6 +64,7 @@ public class InvestigatedMethod extends InvestigatedSourceElement {
 
     public static class InvestigatedMethodBuilder {
 
+        private String repositoryUri;
         private String repositoryPath;
         private String filePath;
         private int startLine;
@@ -69,6 +73,11 @@ public class InvestigatedMethod extends InvestigatedSourceElement {
         private String className;
         private String methodName;
         private List<String> arguments;
+
+        public InvestigatedMethodBuilder withRepositoryUri(String repositoryUri) {
+            this.repositoryUri = repositoryUri;
+            return this;
+        }
 
         public InvestigatedMethodBuilder withRepositoryPath(String repositoryPath) {
             this.repositoryPath = repositoryPath;

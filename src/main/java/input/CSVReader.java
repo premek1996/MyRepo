@@ -16,19 +16,20 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class CsvReader {
+public class CSVReader {
 
     private static final String DEFAULT_OUTPUT_REPOSITORY_NAME = "unknown-repository";
     private static final String DEFAULT_OUTPUT_REPOSITORY_DIR = System.getProperty("user.home") + File.separator + "java-metrics-source-repos";
+    private static int DONE_ELEMENTS_NUMBER = 0;
 
-    private CsvReader() {
+    private CSVReader() {
     }
 
     public static List<InvestigatedSourceElement> getInvestigatedSourceElementsFromCsvFile(String csvFilePath) {
         List<InvestigatedSourceElement> investigatedSourceElements = new ArrayList<>();
         try (Reader in = new FileReader(csvFilePath)) {
             Iterable<CSVRecord> records = CSVFormat.DEFAULT
-                    .withHeader(CsvHeader.class).withSkipHeaderRecord().parse(in);
+                    .withHeader(CSVInputHeader.class).withSkipHeaderRecord().parse(in);
             records.forEach(record -> investigatedSourceElements.add(getInvestigatedSourceElementFroCsvRecord(record)));
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -37,18 +38,20 @@ public class CsvReader {
     }
 
     private static InvestigatedSourceElement getInvestigatedSourceElementFroCsvRecord(CSVRecord csvRecord) {
-        String type = csvRecord.get(CsvHeader.TYPE);
-        String repositoryUri = csvRecord.get(CsvHeader.REPOSITORY);
-        String currentHashCommit = csvRecord.get(CsvHeader.COMMIT_HASH);
-        int startLine = Integer.parseInt(csvRecord.get(CsvHeader.START_LINE));
-        int endLine = Integer.parseInt(csvRecord.get(CsvHeader.END_LINE));
-        String filePath = csvRecord.get(CsvHeader.PATH);
-        String className = csvRecord.get(CsvHeader.CLASS);
-        String methodName = csvRecord.get(CsvHeader.METHOD);
-        List<String> parameters = Arrays.asList(csvRecord.get(CsvHeader.PARAMETERS).split("\\|"));
-
+        String type = csvRecord.get(CSVInputHeader.TYPE);
+        String repositoryUri = csvRecord.get(CSVInputHeader.REPOSITORY);
+        String currentHashCommit = csvRecord.get(CSVInputHeader.COMMIT_HASH);
+        int startLine = Integer.parseInt(csvRecord.get(CSVInputHeader.START_LINE));
+        int endLine = Integer.parseInt(csvRecord.get(CSVInputHeader.END_LINE));
+        String filePath = csvRecord.get(CSVInputHeader.PATH);
+        String className = csvRecord.get(CSVInputHeader.CLASS);
+        String methodName = csvRecord.get(CSVInputHeader.METHOD);
+        List<String> parameters = Arrays.asList(csvRecord.get(CSVInputHeader.PARAMETERS).split("\\|"));
+        DONE_ELEMENTS_NUMBER+=1;
+        System.out.println(DONE_ELEMENTS_NUMBER);
         if (isClass(type)) {
             return InvestigatedClass.builder()
+                    .withRepositoryUri(repositoryUri)
                     .withClassName(className)
                     .withCurrentHashCommit(currentHashCommit)
                     .withRepositoryPath(getRepositoryPath(repositoryUri))
@@ -58,6 +61,7 @@ public class CsvReader {
                     .build();
         } else if (isMethodOrConstructor(type)) {
             return InvestigatedMethod.builder()
+                    .withRepositoryUri(repositoryUri)
                     .withClassName(className)
                     .withCurrentHashCommit(currentHashCommit)
                     .withRepositoryPath(getRepositoryPath(repositoryUri))

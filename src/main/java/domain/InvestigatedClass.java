@@ -11,7 +11,8 @@ public class InvestigatedClass extends InvestigatedSourceElement {
     private final String className;
 
     private InvestigatedClass(InvestigatedClassBuilder investigatedClassBuilder) {
-        super(investigatedClassBuilder.repositoryPath,
+        super(investigatedClassBuilder.repositoryUri,
+                investigatedClassBuilder.repositoryPath,
                 investigatedClassBuilder.filePath,
                 investigatedClassBuilder.startLine,
                 investigatedClassBuilder.endLine,
@@ -23,8 +24,14 @@ public class InvestigatedClass extends InvestigatedSourceElement {
         return new InvestigatedClassBuilder();
     }
 
+    @Override
     public String getClassName() {
         return className;
+    }
+
+    @Override
+    public String getMethodName() {
+        return "";
     }
 
     @Override
@@ -50,12 +57,18 @@ public class InvestigatedClass extends InvestigatedSourceElement {
 
     public static class InvestigatedClassBuilder {
 
+        private String repositoryUri;
         private String repositoryPath;
         private String filePath;
         private int startLine;
         private int endLine;
         private String currentHashCommit;
         private String className;
+
+        public InvestigatedClassBuilder withRepositoryUri(String repositoryUri) {
+            this.repositoryUri = repositoryUri;
+            return this;
+        }
 
         public InvestigatedClassBuilder withRepositoryPath(String repositoryPath) {
             this.repositoryPath = repositoryPath;

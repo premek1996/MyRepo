@@ -1,30 +1,9 @@
-import changehistorytrackers.ClassChangeHistoryTracker;
 import domain.InvestigatedClass;
 import domain.InvestigatedSourceElement;
-import gitapi.FileVersionsApi;
-import gitapi.MethodModificationsApi;
-import input.CsvReader;
-import processmetrics.AddedLinesAverageNumber;
-import processmetrics.AddedLinesMaxNumber;
-import processmetrics.Age;
-import processmetrics.AverageTimeBetweenCommits;
-import processmetrics.BugFixesNumber;
-import processmetrics.CodeChurn;
-import processmetrics.CommitMessageAverageLength;
-import processmetrics.CommitsNumber;
-import processmetrics.CommitsWithoutMessageNumber;
-import processmetrics.DaysWithCommits;
-import processmetrics.DeletedLinesAverageNumber;
-import processmetrics.DeletedLinesMaxNumber;
-import processmetrics.DeveloperCommitsAverageNumber;
-import processmetrics.DistinctDevelopersNumber;
-import processmetrics.ModifiedLinesAverageNumber;
-import processmetrics.ModifiedLinesMaxNumber;
-import processmetrics.ProcessMetric;
+import domain.Metric;
+import input.CSVReader;
+import output.CSVWriter;
 import processmetrics.ProcessMetricsCalculator;
-import processmetrics.RefactoringsNumber;
-import processmetrics.SourceElementFragmentation;
-import processmetrics.TimePassedSinceLastCommit;
 
 import java.io.IOException;
 import java.util.List;
@@ -45,7 +24,8 @@ public class Main {
     private static final String FILE_PATH = "tez-runtime-library/src/main/java/org/apache/tez/runtime/library/common/writers/UnorderedPartitionedKVWriter.java";
     private static final String CURRENT_HASH_COMMIT = "d5675c332497c1ac1dedefdf91e87476b5c0d7a9";
 
-    private static final String CSV_FILE_PATH = "C:\\Users\\przem\\OneDrive\\Pulpit\\csvinput\\input.csv";
+    private static final String CSV_INPUT_FILE_PATH = "C:\\Users\\przem\\OneDrive\\Pulpit\\csvinput\\input.csv";
+    private static final String CSV_OUTPUT_FILE_PATH = "C:\\Users\\przem\\OneDrive\\Pulpit\\csvinput\\output.csv";
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
@@ -57,15 +37,15 @@ public class Main {
                 .withCurrentHashCommit(CURRENT_HASH_COMMIT)
                 .build();*/
 
-        List<InvestigatedSourceElement> investigatedSourceElements = CsvReader.getInvestigatedSourceElementsFromCsvFile(CSV_FILE_PATH);
+        List<InvestigatedSourceElement> investigatedSourceElements = CSVReader.getInvestigatedSourceElementsFromCsvFile(CSV_INPUT_FILE_PATH);
 
         List<InvestigatedSourceElement> investigatedClasses = investigatedSourceElements.stream()
                 .filter(investigatedSourceElement -> investigatedSourceElement instanceof InvestigatedClass)
                 .collect(Collectors.toList());
 
-        investigatedClasses.stream()
-                .map(ProcessMetricsCalculator::getMetrics)
-                .forEach(System.out::println);
+        List<List<Metric>> metrics = ProcessMetricsCalculator.getMetrics(investigatedClasses);
+
+        CSVWriter.writeCsv(CSV_OUTPUT_FILE_PATH, investigatedClasses, metrics);
 
     }
 

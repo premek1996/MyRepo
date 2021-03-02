@@ -8,6 +8,7 @@ import java.util.List;
 
 public abstract class InvestigatedSourceElement {
 
+    protected final String repositoryUri;
     protected final String repositoryPath;
     protected final String filePath;
     protected final int startLine;
@@ -17,11 +18,13 @@ public abstract class InvestigatedSourceElement {
     protected List<Developer> repositoryDevelopers;
     protected List<Commit> commits;
 
-    public InvestigatedSourceElement(String repositoryPath,
+    public InvestigatedSourceElement(String repositoryUri,
+                                     String repositoryPath,
                                      String filePath,
                                      int startLine,
                                      int endLine,
                                      String currentHashCommit) {
+        this.repositoryUri = repositoryUri;
         this.repositoryPath = repositoryPath;
         this.filePath = filePath;
         this.startLine = startLine;
@@ -41,6 +44,14 @@ public abstract class InvestigatedSourceElement {
     }
 
     protected abstract List<Commit> determineCommits();
+
+    public abstract String getClassName();
+
+    public abstract String getMethodName();
+
+    public String getRepositoryUri() {
+        return repositoryUri;
+    }
 
     public String getRepositoryPath() {
         return repositoryPath;
