@@ -15,9 +15,15 @@ public class ClassModificationsApi {
     }
 
     public static List<SourceElementModification> getSourceElementModifications(InvestigatedSourceElement investigatedSourceElement) {
+        resetRepository(investigatedSourceElement);
         List<String> command = List.of("git", "log", "--numstat", "--oneline", "--follow", investigatedSourceElement.getFilePath());
         List<String> processLogs = ProcessExecutor.getProcessLogs(investigatedSourceElement.getRepositoryPath(), command);
         return getSourceElementModifications(processLogs);
+    }
+
+    private static void resetRepository(InvestigatedSourceElement investigatedSourceElement) {
+        List<String> command = List.of("git", "reset", "--hard", investigatedSourceElement.getCurrentHashCommit());
+        List<String> processLogs = ProcessExecutor.getProcessLogs(investigatedSourceElement.getRepositoryPath(), command);
     }
 
     private static List<SourceElementModification> getSourceElementModifications(List<String> processLogs) {
