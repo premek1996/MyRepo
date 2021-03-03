@@ -1,7 +1,6 @@
 import domain.InvestigatedClass;
 import domain.InvestigatedSourceElement;
 import domain.Metric;
-import input.CSVReader;
 import input.InvestigatedSourceElementsProvider;
 import output.CSVWriter;
 import processmetrics.ProcessMetricsCalculator;

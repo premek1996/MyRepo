@@ -22,7 +22,9 @@ public class InvestigatedSourceElementsProvider {
 
     public static List<InvestigatedSourceElement> getInvestigatedSourceElements(String csvFilePath) {
         List<CSVInputRow> rows = CSVReader.getRows(csvFilePath);
+        System.out.println(rows.size());
         List<CSVInputRow> rowsWithAvailableCommits = getRowsWithAvailableCommits(rows);
+        System.out.println(rowsWithAvailableCommits.size());
         return getInvestigatedSourceElements(rowsWithAvailableCommits);
     }
 

@@ -29,6 +29,7 @@ public class ClassModificationsApi {
 
     private static Function<Integer, SourceElementModification> toSourceElementModification(List<String> processLogs) {
         return index -> {
+            System.out.println(processLogs);
             String hash = getHash(processLogs.get(index * 2));
             int addedLines = getAddedLines(processLogs.get(index * 2 + 1));
             int deletedLines = getDeletedLines(processLogs.get(index * 2 + 1));
