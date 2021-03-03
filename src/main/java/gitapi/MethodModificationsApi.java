@@ -16,8 +16,8 @@ public class MethodModificationsApi {
     }
 
     public static List<SourceElementModification> getSourceElementModifications(InvestigatedSourceElement investigatedSourceElement) {
-        List<FileVersion> fileVersions = FileVersionsApi.getDownloadedFileVersions(investigatedSourceElement.getRepositoryPath(),
-                investigatedSourceElement.getFilePath());
+        //List<FileVersion> fileVersions = FileVersionsApi.getDownloadedFileVersions(investigatedSourceElement.getRepositoryPath(),
+                //investigatedSourceElement.getFilePath());
         return Collections.emptyList();
         //return getSourceElementModifications(fileVersions);
     }

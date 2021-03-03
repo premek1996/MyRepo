@@ -2,6 +2,7 @@ import domain.InvestigatedClass;
 import domain.InvestigatedSourceElement;
 import domain.Metric;
 import input.CSVReader;
+import input.InvestigatedSourceElementsProvider;
 import output.CSVWriter;
 import processmetrics.ProcessMetricsCalculator;
 
@@ -37,7 +38,7 @@ public class Main {
                 .withCurrentHashCommit(CURRENT_HASH_COMMIT)
                 .build();*/
 
-        List<InvestigatedSourceElement> investigatedSourceElements = CSVReader.getInvestigatedSourceElementsFromCsvFile(CSV_INPUT_FILE_PATH);
+        List<InvestigatedSourceElement> investigatedSourceElements = InvestigatedSourceElementsProvider.getInvestigatedSourceElements(CSV_INPUT_FILE_PATH);
 
         List<InvestigatedSourceElement> investigatedClasses = investigatedSourceElements.stream()
                 .filter(investigatedSourceElement -> investigatedSourceElement instanceof InvestigatedClass)

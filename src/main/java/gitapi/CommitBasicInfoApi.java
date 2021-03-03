@@ -8,7 +8,22 @@ import java.util.List;
 
 public class CommitBasicInfoApi {
 
+    private static final String GIT_ERROR = "fatal";
+
     private CommitBasicInfoApi() {
+    }
+
+    public static boolean isCommitAvailable(String repositoryPath,
+                                            String hash) {
+        List<String> command = List.of("git", "show", "-s", "--format=%ae%n%cd%n%B",
+                "--date=format:%Y-%m-%d", hash);
+        List<String> processLogs = ProcessExecutor.getProcessLogs(repositoryPath, command);
+        return !isErrorInProcessLogs(processLogs);
+    }
+
+    private static boolean isErrorInProcessLogs(List<String> processLogs) {
+        return processLogs.stream()
+                .anyMatch(processLog->processLog.contains(GIT_ERROR));
     }
 
     public static CommitBasicInfo getCommitBasicInfo(String repositoryPath,
