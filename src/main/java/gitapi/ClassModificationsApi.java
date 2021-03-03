@@ -1,5 +1,6 @@
 package gitapi;
 
+import domain.InvestigatedSourceElement;
 import domain.SourceElementModification;
 import utils.ProcessExecutor;
 
@@ -13,10 +14,9 @@ public class ClassModificationsApi {
     private ClassModificationsApi() {
     }
 
-    public static List<SourceElementModification> getSourceElementModifications(String repositoryPath,
-                                                                                String filePath) {
-        List<String> command = List.of("git", "log", "--numstat", "--oneline", "--follow", filePath);
-        List<String> processLogs = ProcessExecutor.getProcessLogs(repositoryPath, command);
+    public static List<SourceElementModification> getSourceElementModifications(InvestigatedSourceElement investigatedSourceElement) {
+        List<String> command = List.of("git", "log", "--numstat", "--oneline", "--follow", investigatedSourceElement.getFilePath());
+        List<String> processLogs = ProcessExecutor.getProcessLogs(investigatedSourceElement.getRepositoryPath(), command);
         return getSourceElementModifications(processLogs);
     }
 

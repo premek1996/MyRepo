@@ -1,5 +1,7 @@
 package domain;
 
+import changehistorytrackers.MethodChangeHistoryTracker;
+
 import java.util.List;
 
 public class InvestigatedMethod extends InvestigatedSourceElement {
@@ -59,7 +61,8 @@ public class InvestigatedMethod extends InvestigatedSourceElement {
 
     @Override
     protected List<Commit> determineCommits() {
-        return null;
+        MethodChangeHistoryTracker methodChangeHistoryTracker = new MethodChangeHistoryTracker(this);
+        return methodChangeHistoryTracker.getCommits();
     }
 
     public static class InvestigatedMethodBuilder {

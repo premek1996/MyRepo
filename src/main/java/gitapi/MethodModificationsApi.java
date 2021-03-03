@@ -2,10 +2,12 @@ package gitapi;
 
 import com.github.javaparser.ast.body.ConstructorDeclaration;
 import domain.FileVersion;
+import domain.InvestigatedSourceElement;
 import domain.SourceElementModification;
 import utils.AbstractSyntaxTreeReader;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MethodModificationsApi {
@@ -13,10 +15,11 @@ public class MethodModificationsApi {
     private MethodModificationsApi() {
     }
 
-    public static List<SourceElementModification> getSourceElementModifications(String repositoryPath,
-                                                                                String filePath) {
-        List<FileVersion> fileVersions = FileVersionsApi.getDownloadedFileVersions(repositoryPath, filePath);
-        return getSourceElementModifications(fileVersions);
+    public static List<SourceElementModification> getSourceElementModifications(InvestigatedSourceElement investigatedSourceElement) {
+        List<FileVersion> fileVersions = FileVersionsApi.getDownloadedFileVersions(investigatedSourceElement.getRepositoryPath(),
+                investigatedSourceElement.getFilePath());
+        return Collections.emptyList();
+        //return getSourceElementModifications(fileVersions);
     }
 
     private static List<SourceElementModification> getSourceElementModifications(List<FileVersion> fileVersions) {
