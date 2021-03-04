@@ -1,6 +1,7 @@
 package gitapi;
 
 import com.github.javaparser.ast.body.ConstructorDeclaration;
+import domain.Commit;
 import domain.FileVersion;
 import domain.InvestigatedSourceElement;
 import domain.SourceElementModification;
@@ -15,9 +16,13 @@ public class MethodModificationsApi {
     private MethodModificationsApi() {
     }
 
+    public static List<Commit> getCommits(InvestigatedSourceElement investigatedSourceElement) {
+        return Collections.emptyList();
+    }
+
     public static List<SourceElementModification> getSourceElementModifications(InvestigatedSourceElement investigatedSourceElement) {
         //List<FileVersion> fileVersions = FileVersionsApi.getDownloadedFileVersions(investigatedSourceElement.getRepositoryPath(),
-                //investigatedSourceElement.getFilePath());
+        //investigatedSourceElement.getFilePath());
         return Collections.emptyList();
         //return getSourceElementModifications(fileVersions);
     }

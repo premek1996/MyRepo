@@ -5,6 +5,7 @@ public enum CSVOutputHeader {
     RepositoryUri,
     FilePath,
     ClassName,
+    MethodName,
     AddedLinesAverageNumber,
     AddedLinesMaxNumber,
     Age,

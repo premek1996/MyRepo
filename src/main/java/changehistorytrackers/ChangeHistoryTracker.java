@@ -18,7 +18,9 @@ public abstract class ChangeHistoryTracker {
         this.investigatedSourceElement = investigatedSourceElement;
     }
 
-    public List<Commit> getCommits() {
+    public abstract List<Commit> getCommits();
+
+    /*public List<Commit> getCommits() {
         List<SourceElementModification> sourceElementModifications = getSourceElementModifications();
         return sourceElementModifications.stream()
                 .map(this::getCommit)
@@ -39,6 +41,6 @@ public abstract class ChangeHistoryTracker {
                 .withMessage(commitBasicInfo.getMessage())
                 .withDeveloper(developer)
                 .build();
-    }
+    }*/
 
 }

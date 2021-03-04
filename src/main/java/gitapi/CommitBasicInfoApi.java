@@ -28,8 +28,6 @@ public class CommitBasicInfoApi {
 
     public static CommitBasicInfo getCommitBasicInfo(String repositoryPath,
                                                      String hash) {
-        System.out.println(repositoryPath);
-        System.out.println(hash);
         List<String> command = List.of("git", "show", "-s", "--format=%ae%n%cd%n%B",
                 "--date=format:%Y-%m-%d", hash);
         List<String> processLogs = ProcessExecutor.getProcessLogs(repositoryPath, command);
@@ -54,8 +52,6 @@ public class CommitBasicInfoApi {
     }
 
     private static LocalDate getDate(List<String> processLogs) {
-        System.out.println(processLogs);
-        System.out.println();
         return LocalDate.parse(processLogs.get(1));
     }
 

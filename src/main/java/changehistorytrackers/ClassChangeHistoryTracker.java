@@ -1,5 +1,6 @@
 package changehistorytrackers;
 
+import domain.Commit;
 import domain.InvestigatedSourceElement;
 import domain.SourceElementModification;
 import gitapi.ClassModificationsApi;
@@ -13,8 +14,8 @@ public class ClassChangeHistoryTracker extends ChangeHistoryTracker {
     }
 
     @Override
-    protected List<SourceElementModification> getSourceElementModifications() {
-        return ClassModificationsApi.getSourceElementModifications(investigatedSourceElement);
+    public List<Commit> getCommits() {
+        return ClassModificationsApi.getCommits(investigatedSourceElement);
     }
 
 }
