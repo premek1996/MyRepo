@@ -13,7 +13,7 @@ public class DevelopersApi {
     }
 
     public static List<Developer> getDevelopers(String repositoryPath) {
-        List<String> command = List.of("git", "shortlog", "--summary", "--numbered", "--email", "--all");
+        List<String> command = List.of("git", "shortlog", "--summary", "--numbered", "--all");
         List<String> processLogs = ProcessExecutor.getProcessLogs(repositoryPath, command);
         return getDevelopers(processLogs);
     }
@@ -27,10 +27,10 @@ public class DevelopersApi {
     private static Developer getDeveloper(String processLog) {
         List<String> processLogElements = getProcessLogElements(processLog);
         int commits = getCommits(processLogElements);
-        String mail = getMail(processLogElements);
+        String name = getName(processLogElements);
         return Developer.builder()
                 .withCommits(commits)
-                .withMail(mail)
+                .withName(name)
                 .build();
     }
 
@@ -43,9 +43,8 @@ public class DevelopersApi {
         return Integer.parseInt(processLogElements.get(0));
     }
 
-    private static String getMail(List<String> processLogElements) {
-        String mail = processLogElements.get(processLogElements.size() - 1);
-        return mail.replaceAll("[<>]", "");
+    private static String getName(List<String> processLogElements) {
+        return String.join(" ", processLogElements.subList(1, processLogElements.size()));
     }
 
 }

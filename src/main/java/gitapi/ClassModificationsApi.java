@@ -20,7 +20,7 @@ public class ClassModificationsApi {
     public static List<Commit> getCommits(InvestigatedSourceElement investigatedSourceElement) {
         resetRepository(investigatedSourceElement);
         List<String> command = List.of("git", "log", "--oneline", "--follow", "--numstat",
-                "--format=%H%n%ae%n%cd%n%s", "--date=format:%Y-%m-%d", investigatedSourceElement.getFilePath());
+                "--format=%H%n%an%n%cd%n%s", "--date=format:%Y-%m-%d", investigatedSourceElement.getFilePath());
         List<String> processLogs = ProcessExecutor.getProcessLogs(investigatedSourceElement.getRepositoryPath(), command);
         processLogs.removeAll(Collections.singletonList(""));
         return getCommits(processLogs, investigatedSourceElement);
@@ -41,8 +41,8 @@ public class ClassModificationsApi {
     private static Function<Integer, Commit> toCommit(List<String> processLogs, InvestigatedSourceElement investigatedSourceElement) {
         return index -> {
             String hash = processLogs.get(index * 5);
-            String mail = processLogs.get(index * 5 + 1);
-            Developer developer = investigatedSourceElement.getDeveloper(mail);
+            String name = processLogs.get(index * 5 + 1);
+            Developer developer = investigatedSourceElement.getDeveloper(name);
             LocalDate date = LocalDate.parse(processLogs.get(index * 5 + 2));
             String message = processLogs.get(index * 5 + 3);
             int addedLines = getAddedLines(processLogs.get(index * 5 + 4));

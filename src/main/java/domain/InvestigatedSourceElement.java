@@ -77,9 +77,9 @@ public abstract class InvestigatedSourceElement {
         return currentHashCommit;
     }
 
-    public Developer getDeveloper(String mail) {
+    public Developer getDeveloper(String name) {
         return repositoryDevelopers.stream()
-                .filter(developer -> developer.getMail().equals(mail))
+                .filter(developer -> developer.getName().equals(name))
                 .findAny()
                 .orElse(null);
     }
@@ -90,6 +90,21 @@ public abstract class InvestigatedSourceElement {
 
     public List<Commit> getCommits() {
         return commits;
+    }
+
+    @Override
+    public String toString() {
+        return "InvestigatedSourceElement{" +
+                "repositoryUri='" + repositoryUri + '\'' +
+                ", repositoryPath='" + repositoryPath + '\'' +
+                ", filePath='" + filePath + '\'' +
+                ", startLine=" + startLine +
+                ", endLine=" + endLine +
+                ", currentHashCommit='" + currentHashCommit + '\'' +
+                ", currentDate=" + currentDate +
+                ", repositoryDevelopers=" + repositoryDevelopers +
+                ", commits=" + commits +
+                '}';
     }
 
 }
