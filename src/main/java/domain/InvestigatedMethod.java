@@ -1,6 +1,6 @@
 package domain;
 
-import changehistorytrackers.MethodChangeHistoryTracker;
+import gitapi.MethodModificationsApi;
 
 import java.util.List;
 
@@ -61,8 +61,7 @@ public class InvestigatedMethod extends InvestigatedSourceElement {
 
     @Override
     protected List<Commit> determineCommits() {
-        MethodChangeHistoryTracker methodChangeHistoryTracker = new MethodChangeHistoryTracker(this);
-        return methodChangeHistoryTracker.getCommits();
+        return MethodModificationsApi.getCommits(this);
     }
 
     public static class InvestigatedMethodBuilder {

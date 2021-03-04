@@ -3,70 +3,40 @@ package input;
 import domain.InvestigatedClass;
 import domain.InvestigatedMethod;
 import domain.InvestigatedSourceElement;
-import gitapi.CommitBasicInfoApi;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
-public class InvestigatedSourceElementsProvider {
+public class GetInvestigatedSourceElementsTask implements Runnable {
 
     private static final String DEFAULT_OUTPUT_REPOSITORY_NAME = "unknown-repository";
     private static final String DEFAULT_OUTPUT_REPOSITORY_DIR = System.getProperty("user.home") + File.separator + "java-metrics-source-repos";
     private static int DONE_ELEMENTS_NUMBER = 0;
 
-    private InvestigatedSourceElementsProvider() {
+    private final List<InvestigatedSourceElement> investigatedSourceElements;
+    private final List<CSVInputRow> rows;
+    private final int startIndex;
+    private final int endIndex;
+
+    public GetInvestigatedSourceElementsTask(List<InvestigatedSourceElement> investigatedSourceElements,
+                                             List<CSVInputRow> rows,
+                                             int startIndex,
+                                             int endIndex) {
+        this.investigatedSourceElements = investigatedSourceElements;
+        this.rows = rows;
+        this.startIndex = startIndex;
+        this.endIndex = endIndex;
     }
 
-    public static List<InvestigatedSourceElement> getInvestigatedSourceElements(String csvFilePath) {
-        List<CSVInputRow> rows = CSVReader.getRows(csvFilePath);
-        System.out.println(rows.size());
-        List<CSVInputRow> rowsWithAvailableCommits = getRowsWithAvailableCommits(rows);
-        System.out.println(rowsWithAvailableCommits.size());
-        return getInvestigatedSourceElements(rowsWithAvailableCommits);
-    }
-
-    private static List<CSVInputRow> getRowsWithAvailableCommits(List<CSVInputRow> rows) {
-        return rows.stream()
-                .filter(InvestigatedSourceElementsProvider::hasAvailableCommit)
-                .collect(Collectors.toList());
-    }
-
-    private static boolean hasAvailableCommit(CSVInputRow row) {
-        return CommitBasicInfoApi.isCommitAvailable(getRepositoryPath(row.getRepositoryUri()), row.getCurrentHashCommit());
-    }
-
-    //TODO Refactoring
-    private static List<InvestigatedSourceElement> getInvestigatedSourceElements(List<CSVInputRow> rows) {
-        int threads = Runtime.getRuntime().availableProcessors();
-        System.out.println("Threads: " +threads);
-        List<InvestigatedSourceElement> investigatedSourceElements = new ArrayList<>();
-        ExecutorService executorService = Executors.newFixedThreadPool(4);
-        GetInvestigatedSourceElementsTask getInvestigatedSourceElementsTask1 =
-                new GetInvestigatedSourceElementsTask(investigatedSourceElements, rows, 0, 200);
-        GetInvestigatedSourceElementsTask getInvestigatedSourceElementsTask2 =
-                new GetInvestigatedSourceElementsTask(investigatedSourceElements, rows, 201, 400);
-        GetInvestigatedSourceElementsTask getInvestigatedSourceElementsTask3 =
-                new GetInvestigatedSourceElementsTask(investigatedSourceElements, rows, 401, 600);
-        GetInvestigatedSourceElementsTask getInvestigatedSourceElementsTask4 =
-                new GetInvestigatedSourceElementsTask(investigatedSourceElements, rows, 601, rows.size()-1);
-        executorService.execute(getInvestigatedSourceElementsTask1);
-        executorService.execute(getInvestigatedSourceElementsTask2);
-        executorService.execute(getInvestigatedSourceElementsTask3);
-        executorService.execute(getInvestigatedSourceElementsTask4);
-        //executorService.shutdown();
-        while (!executorService.isTerminated()) {
-
+    @Override
+    public void run() {
+        for (int index = startIndex; index <= endIndex; index++) {
+            CSVInputRow row = rows.get(index);
+            investigatedSourceElements.add(getInvestigatedSourceElement(row));
+            System.out.println(Thread.currentThread().getName());
         }
-        /*return rows.stream()
-                .map(InvestigatedSourceElementsProvider::getInvestigatedSourceElement)
-                .collect(Collectors.toList());*/
-        return investigatedSourceElements;
     }
 
     private static InvestigatedSourceElement getInvestigatedSourceElement(CSVInputRow row) {

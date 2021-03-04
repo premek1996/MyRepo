@@ -1,6 +1,6 @@
 package domain;
 
-import changehistorytrackers.ClassChangeHistoryTracker;
+import gitapi.ClassModificationsApi;
 
 import java.util.List;
 
@@ -51,8 +51,7 @@ public class InvestigatedClass extends InvestigatedSourceElement {
 
     @Override
     protected List<Commit> determineCommits() {
-        ClassChangeHistoryTracker classChangeHistoryTracker = new ClassChangeHistoryTracker(this);
-        return classChangeHistoryTracker.getCommits();
+        return ClassModificationsApi.getCommits(this);
     }
 
     public static class InvestigatedClassBuilder {
