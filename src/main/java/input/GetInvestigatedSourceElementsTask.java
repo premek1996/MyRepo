@@ -6,31 +6,33 @@ import domain.InvestigatedSourceElement;
 
 import java.io.File;
 import java.util.List;
-import java.util.concurrent.Callable;
+import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class GetInvestigatedSourceElementsTask implements Callable<List<InvestigatedSourceElement>> {
+public class GetInvestigatedSourceElementsTask implements Supplier<List<InvestigatedSourceElement>> {
 
     private static final String DEFAULT_OUTPUT_REPOSITORY_NAME = "unknown-repository";
     private static final String DEFAULT_OUTPUT_REPOSITORY_DIR = System.getProperty("user.home") + File.separator + "java-metrics-source-repos";
-    private static int DONE_ELEMENTS_NUMBER = 0;
 
     private final List<CSVInputRow> rows;
+    int count;
 
     public GetInvestigatedSourceElementsTask(List<CSVInputRow> rows) {
         this.rows = rows;
     }
 
     @Override
-    public List<InvestigatedSourceElement> call() {
-        return rows.stream().map(GetInvestigatedSourceElementsTask::getInvestigatedSourceElement).collect(Collectors.toList());
+    public List<InvestigatedSourceElement> get() {
+        return rows.stream()
+                .map(this::getInvestigatedSourceElement)
+                .collect(Collectors.toList());
     }
 
-    private static InvestigatedSourceElement getInvestigatedSourceElement(CSVInputRow row) {
-        System.out.println(DONE_ELEMENTS_NUMBER);
-        DONE_ELEMENTS_NUMBER += 1;
+    private InvestigatedSourceElement getInvestigatedSourceElement(CSVInputRow row) {
+        count++;
+        System.out.println(Thread.currentThread().getName()+" "+count);
         if (isClass(row.getType())) {
             return InvestigatedClass.builder()
                     .withRepositoryUri(row.getRepositoryUri())

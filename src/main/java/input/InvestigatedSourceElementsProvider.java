@@ -5,10 +5,11 @@ import domain.InvestigatedSourceElement;
 import gitapi.CommitBasicInfoApi;
 
 import java.io.File;
-import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -39,21 +40,34 @@ public class InvestigatedSourceElementsProvider {
         return CommitBasicInfoApi.isCommitAvailable(getRepositoryPath(row.getRepositoryUri()), row.getCurrentHashCommit());
     }
 
-    //TODO refactoring
     private static List<InvestigatedSourceElement> getInvestigatedSourceElements(List<CSVInputRow> rows) {
         int threadsNumber = Runtime.getRuntime().availableProcessors();
-        System.out.println("Threads: " + threadsNumber);
-        List<List<CSVInputRow>> rowsSubSets = Lists.partition(rows, threadsNumber);
+        List<List<CSVInputRow>> rowsSubSets = divideRowsIntoSubSets(rows, threadsNumber);
         ExecutorService executorService = Executors.newFixedThreadPool(threadsNumber);
-        for (List<CSVInputRow> rowsSubSet : rowsSubSets) {
-            GetInvestigatedSourceElementsTask getInvestigatedSourceElementsTask =
-                    new GetInvestigatedSourceElementsTask(rowsSubSet);
-            executorService.submit(getInvestigatedSourceElementsTask);
-        }
-        while (!executorService.isTerminated()) {
 
-        }
-        return Collections.emptyList();
+        List<Supplier<List<InvestigatedSourceElement>>> getInvestigatedSourceElementsTasks
+                = rowsSubSets.stream().map(GetInvestigatedSourceElementsTask::new)
+                .collect(Collectors.toList());
+
+        List<CompletableFuture<List<InvestigatedSourceElement>>> futureLists = getInvestigatedSourceElementsTasks.stream()
+                .map(getInvestigatedSourceElementsTask -> CompletableFuture.supplyAsync(getInvestigatedSourceElementsTask, executorService))
+                .collect(Collectors.toList());
+
+        List<InvestigatedSourceElement> investigatedSourceElements = futureLists.stream()
+                .map(CompletableFuture::join)
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
+
+        return investigatedSourceElements;
+    }
+
+    private static List<List<CSVInputRow>> divideRowsIntoSubSets(List<CSVInputRow> rows, int threadsNumber) {
+        int rowsSubSetSize = getRowsSubSetSize(rows, threadsNumber);
+        return Lists.partition(rows, rowsSubSetSize);
+    }
+
+    private static int getRowsSubSetSize(List<CSVInputRow> rows, int threadsNumber) {
+        return (int) Math.ceil((double) rows.size() / (double) threadsNumber);
     }
 
     private static String getRepositoryPath(String repositoryUri) {
