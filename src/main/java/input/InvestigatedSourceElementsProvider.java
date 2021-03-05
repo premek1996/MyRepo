@@ -1,12 +1,11 @@
 package input;
 
-import domain.InvestigatedClass;
-import domain.InvestigatedMethod;
+import com.google.common.collect.Lists;
 import domain.InvestigatedSourceElement;
 import gitapi.CommitBasicInfoApi;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -18,7 +17,6 @@ public class InvestigatedSourceElementsProvider {
 
     private static final String DEFAULT_OUTPUT_REPOSITORY_NAME = "unknown-repository";
     private static final String DEFAULT_OUTPUT_REPOSITORY_DIR = System.getProperty("user.home") + File.separator + "java-metrics-source-repos";
-    private static int DONE_ELEMENTS_NUMBER = 0;
 
     private InvestigatedSourceElementsProvider() {
     }
@@ -41,70 +39,21 @@ public class InvestigatedSourceElementsProvider {
         return CommitBasicInfoApi.isCommitAvailable(getRepositoryPath(row.getRepositoryUri()), row.getCurrentHashCommit());
     }
 
-    //TODO Refactoring
+    //TODO refactoring
     private static List<InvestigatedSourceElement> getInvestigatedSourceElements(List<CSVInputRow> rows) {
-        int threads = Runtime.getRuntime().availableProcessors();
-        System.out.println("Threads: " +threads);
-        List<InvestigatedSourceElement> investigatedSourceElements = new ArrayList<>();
-        ExecutorService executorService = Executors.newFixedThreadPool(4);
-        GetInvestigatedSourceElementsTask getInvestigatedSourceElementsTask1 =
-                new GetInvestigatedSourceElementsTask(investigatedSourceElements, rows, 0, 200);
-        GetInvestigatedSourceElementsTask getInvestigatedSourceElementsTask2 =
-                new GetInvestigatedSourceElementsTask(investigatedSourceElements, rows, 201, 400);
-        GetInvestigatedSourceElementsTask getInvestigatedSourceElementsTask3 =
-                new GetInvestigatedSourceElementsTask(investigatedSourceElements, rows, 401, 600);
-        GetInvestigatedSourceElementsTask getInvestigatedSourceElementsTask4 =
-                new GetInvestigatedSourceElementsTask(investigatedSourceElements, rows, 601, rows.size()-1);
-        executorService.execute(getInvestigatedSourceElementsTask1);
-        executorService.execute(getInvestigatedSourceElementsTask2);
-        executorService.execute(getInvestigatedSourceElementsTask3);
-        executorService.execute(getInvestigatedSourceElementsTask4);
-        //executorService.shutdown();
+        int threadsNumber = Runtime.getRuntime().availableProcessors();
+        System.out.println("Threads: " + threadsNumber);
+        List<List<CSVInputRow>> rowsSubSets = Lists.partition(rows, threadsNumber);
+        ExecutorService executorService = Executors.newFixedThreadPool(threadsNumber);
+        for (List<CSVInputRow> rowsSubSet : rowsSubSets) {
+            GetInvestigatedSourceElementsTask getInvestigatedSourceElementsTask =
+                    new GetInvestigatedSourceElementsTask(rowsSubSet);
+            executorService.submit(getInvestigatedSourceElementsTask);
+        }
         while (!executorService.isTerminated()) {
 
         }
-        /*return rows.stream()
-                .map(InvestigatedSourceElementsProvider::getInvestigatedSourceElement)
-                .collect(Collectors.toList());*/
-        return investigatedSourceElements;
-    }
-
-    private static InvestigatedSourceElement getInvestigatedSourceElement(CSVInputRow row) {
-        System.out.println(DONE_ELEMENTS_NUMBER);
-        DONE_ELEMENTS_NUMBER += 1;
-        if (isClass(row.getType())) {
-            return InvestigatedClass.builder()
-                    .withRepositoryUri(row.getRepositoryUri())
-                    .withClassName(row.getClassName())
-                    .withCurrentHashCommit(row.getCurrentHashCommit())
-                    .withRepositoryPath(getRepositoryPath(row.getRepositoryUri()))
-                    .withStartLine(row.getStartLine())
-                    .withEndLine(row.getEndLine())
-                    .withFilePath(getFilePath(row.getFilePath()))
-                    .build();
-        } else if (isMethodOrConstructor(row.getType())) {
-            return InvestigatedMethod.builder()
-                    .withRepositoryUri(row.getRepositoryUri())
-                    .withClassName(row.getClassName())
-                    .withCurrentHashCommit(row.getCurrentHashCommit())
-                    .withRepositoryPath(getRepositoryPath(row.getRepositoryUri()))
-                    .withStartLine(row.getStartLine())
-                    .withEndLine(row.getEndLine())
-                    .withFilePath(getFilePath(row.getFilePath()))
-                    .withMethodName(row.getMethodName())
-                    .withArguments(row.getParameters())
-                    .build();
-        } else {
-            throw new RuntimeException("Found unknown value " + row.getType() + " in column 'type'!");
-        }
-    }
-
-    private static boolean isClass(String type) {
-        return type.equals(InvestigatedClass.CLASS_TYPE);
-    }
-
-    private static boolean isMethodOrConstructor(String type) {
-        return type.equals(InvestigatedMethod.METHOD_TYPE) || type.equals(InvestigatedMethod.CONSTRUCTOR_TYPE);
+        return Collections.emptyList();
     }
 
     private static String getRepositoryPath(String repositoryUri) {
@@ -119,10 +68,6 @@ public class InvestigatedSourceElementsProvider {
         } else {
             return DEFAULT_OUTPUT_REPOSITORY_NAME;
         }
-    }
-
-    private static String getFilePath(String filePath) {
-        return filePath.substring(1);
     }
 
 }

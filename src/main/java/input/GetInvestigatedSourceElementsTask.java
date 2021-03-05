@@ -6,37 +6,26 @@ import domain.InvestigatedSourceElement;
 
 import java.io.File;
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
-public class GetInvestigatedSourceElementsTask implements Runnable {
+public class GetInvestigatedSourceElementsTask implements Callable<List<InvestigatedSourceElement>> {
 
     private static final String DEFAULT_OUTPUT_REPOSITORY_NAME = "unknown-repository";
     private static final String DEFAULT_OUTPUT_REPOSITORY_DIR = System.getProperty("user.home") + File.separator + "java-metrics-source-repos";
     private static int DONE_ELEMENTS_NUMBER = 0;
 
-    private final List<InvestigatedSourceElement> investigatedSourceElements;
     private final List<CSVInputRow> rows;
-    private final int startIndex;
-    private final int endIndex;
 
-    public GetInvestigatedSourceElementsTask(List<InvestigatedSourceElement> investigatedSourceElements,
-                                             List<CSVInputRow> rows,
-                                             int startIndex,
-                                             int endIndex) {
-        this.investigatedSourceElements = investigatedSourceElements;
+    public GetInvestigatedSourceElementsTask(List<CSVInputRow> rows) {
         this.rows = rows;
-        this.startIndex = startIndex;
-        this.endIndex = endIndex;
     }
 
     @Override
-    public void run() {
-        for (int index = startIndex; index <= endIndex; index++) {
-            CSVInputRow row = rows.get(index);
-            investigatedSourceElements.add(getInvestigatedSourceElement(row));
-            System.out.println(Thread.currentThread().getName());
-        }
+    public List<InvestigatedSourceElement> call() {
+        return rows.stream().map(GetInvestigatedSourceElementsTask::getInvestigatedSourceElement).collect(Collectors.toList());
     }
 
     private static InvestigatedSourceElement getInvestigatedSourceElement(CSVInputRow row) {
