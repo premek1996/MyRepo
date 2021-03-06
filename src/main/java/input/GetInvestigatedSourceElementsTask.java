@@ -15,9 +15,9 @@ public class GetInvestigatedSourceElementsTask implements Supplier<List<Investig
 
     private static final String DEFAULT_OUTPUT_REPOSITORY_NAME = "unknown-repository";
     private static final String DEFAULT_OUTPUT_REPOSITORY_DIR = System.getProperty("user.home") + File.separator + "java-metrics-source-repos";
+    private static int DONE_ELEMENTS = 0;
 
     private final List<CSVInputRow> rows;
-    int count;
 
     public GetInvestigatedSourceElementsTask(List<CSVInputRow> rows) {
         this.rows = rows;
@@ -31,8 +31,8 @@ public class GetInvestigatedSourceElementsTask implements Supplier<List<Investig
     }
 
     private InvestigatedSourceElement getInvestigatedSourceElement(CSVInputRow row) {
-        count++;
-        System.out.println(Thread.currentThread().getName()+" "+count);
+        DONE_ELEMENTS++;
+        System.out.println(Thread.currentThread().getName()+" "+DONE_ELEMENTS);
         if (isClass(row.getType())) {
             return InvestigatedClass.builder()
                     .withRepositoryURI(row.getRepositoryURI())

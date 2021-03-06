@@ -42,23 +42,10 @@ public class InvestigatedSourceElementsProvider {
 
     private static List<InvestigatedSourceElement> getInvestigatedSourceElements(List<CSVInputRow> rows) {
         int threadsNumber = Runtime.getRuntime().availableProcessors();
-        List<List<CSVInputRow>> rowsSubSets = divideRowsIntoSubSets(rows, threadsNumber);
         ExecutorService executorService = Executors.newFixedThreadPool(threadsNumber);
-
-        List<Supplier<List<InvestigatedSourceElement>>> getInvestigatedSourceElementsTasks
-                = rowsSubSets.stream().map(GetInvestigatedSourceElementsTask::new)
-                .collect(Collectors.toList());
-
-        List<CompletableFuture<List<InvestigatedSourceElement>>> futureLists = getInvestigatedSourceElementsTasks.stream()
-                .map(getInvestigatedSourceElementsTask -> CompletableFuture.supplyAsync(getInvestigatedSourceElementsTask, executorService))
-                .collect(Collectors.toList());
-
-        List<InvestigatedSourceElement> investigatedSourceElements = futureLists.stream()
-                .map(CompletableFuture::join)
-                .flatMap(List::stream)
-                .collect(Collectors.toList());
-
-        return investigatedSourceElements;
+        List<List<CSVInputRow>> rowsSubSets = divideRowsIntoSubSets(rows, threadsNumber);
+        List<Supplier<List<InvestigatedSourceElement>>> investigatedSourceElementsSuppliers = getInvestigatedSourceElementsSuppliers(rowsSubSets);
+        return getInvestigatedSourceElements(investigatedSourceElementsSuppliers, executorService);
     }
 
     private static List<List<CSVInputRow>> divideRowsIntoSubSets(List<CSVInputRow> rows, int threadsNumber) {
@@ -68,6 +55,23 @@ public class InvestigatedSourceElementsProvider {
 
     private static int getRowsSubSetSize(List<CSVInputRow> rows, int threadsNumber) {
         return (int) Math.ceil((double) rows.size() / (double) threadsNumber);
+    }
+
+    private static List<Supplier<List<InvestigatedSourceElement>>> getInvestigatedSourceElementsSuppliers(List<List<CSVInputRow>> rowsSubSets) {
+        return rowsSubSets.stream()
+                .map(GetInvestigatedSourceElementsTask::new)
+                .collect(Collectors.toList());
+    }
+
+    private static List<InvestigatedSourceElement> getInvestigatedSourceElements(List<Supplier<List<InvestigatedSourceElement>>> investigatedSourceElementsSuppliers,
+                                                                                 ExecutorService executorService) {
+        List<CompletableFuture<List<InvestigatedSourceElement>>> futureInvestigatedSourceElements = investigatedSourceElementsSuppliers.stream()
+                .map(investigatedSourceElementsSupplier -> CompletableFuture.supplyAsync(investigatedSourceElementsSupplier, executorService))
+                .collect(Collectors.toList());
+        return futureInvestigatedSourceElements.stream()
+                .map(CompletableFuture::join)
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
     }
 
     private static String getRepositoryPath(String repositoryURI) {
