@@ -11,7 +11,7 @@ public class InvestigatedClass extends InvestigatedSourceElement {
     private final String className;
 
     private InvestigatedClass(InvestigatedClassBuilder investigatedClassBuilder) {
-        super(investigatedClassBuilder.repositoryUri,
+        super(investigatedClassBuilder.repositoryURI,
                 investigatedClassBuilder.repositoryPath,
                 investigatedClassBuilder.filePath,
                 investigatedClassBuilder.startLine,
@@ -56,7 +56,7 @@ public class InvestigatedClass extends InvestigatedSourceElement {
 
     public static class InvestigatedClassBuilder {
 
-        private String repositoryUri;
+        private String repositoryURI;
         private String repositoryPath;
         private String filePath;
         private int startLine;
@@ -64,8 +64,8 @@ public class InvestigatedClass extends InvestigatedSourceElement {
         private String currentHashCommit;
         private String className;
 
-        public InvestigatedClassBuilder withRepositoryUri(String repositoryUri) {
-            this.repositoryUri = repositoryUri;
+        public InvestigatedClassBuilder withRepositoryURI(String repositoryURI) {
+            this.repositoryURI = repositoryURI;
             return this;
         }
 

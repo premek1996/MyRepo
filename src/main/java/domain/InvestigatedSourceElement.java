@@ -8,7 +8,7 @@ import java.util.List;
 
 public abstract class InvestigatedSourceElement {
 
-    protected final String repositoryUri;
+    protected final String repositoryURI;
     protected final String repositoryPath;
     protected final String filePath;
     protected final int startLine;
@@ -18,13 +18,13 @@ public abstract class InvestigatedSourceElement {
     protected List<Developer> repositoryDevelopers;
     protected List<Commit> commits;
 
-    public InvestigatedSourceElement(String repositoryUri,
+    public InvestigatedSourceElement(String repositoryURI,
                                      String repositoryPath,
                                      String filePath,
                                      int startLine,
                                      int endLine,
                                      String currentHashCommit) {
-        this.repositoryUri = repositoryUri;
+        this.repositoryURI = repositoryURI;
         this.repositoryPath = repositoryPath;
         this.filePath = filePath;
         this.startLine = startLine;
@@ -49,8 +49,8 @@ public abstract class InvestigatedSourceElement {
 
     public abstract String getMethodName();
 
-    public String getRepositoryUri() {
-        return repositoryUri;
+    public String getRepositoryURI() {
+        return repositoryURI;
     }
 
     public String getRepositoryPath() {
@@ -95,7 +95,7 @@ public abstract class InvestigatedSourceElement {
     @Override
     public String toString() {
         return "InvestigatedSourceElement{" +
-                "repositoryUri='" + repositoryUri + '\'' +
+                "repositoryURI='" + repositoryURI + '\'' +
                 ", repositoryPath='" + repositoryPath + '\'' +
                 ", filePath='" + filePath + '\'' +
                 ", startLine=" + startLine +

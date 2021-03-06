@@ -19,7 +19,9 @@ public class CSVReader {
         List<CSVInputRow> rows = new ArrayList<>();
         try (Reader in = new FileReader(csvFilePath)) {
             Iterable<CSVRecord> records = CSVFormat.DEFAULT
-                    .withHeader(CSVInputHeader.class).withSkipHeaderRecord().parse(in);
+                    .withHeader(CSVInputHeader.class)
+                    .withSkipHeaderRecord()
+                    .parse(in);
             records.forEach(record -> rows.add(getRow(record)));
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -29,7 +31,7 @@ public class CSVReader {
 
     private static CSVInputRow getRow(CSVRecord csvRecord) {
         String type = csvRecord.get(CSVInputHeader.TYPE);
-        String repositoryUri = csvRecord.get(CSVInputHeader.REPOSITORY);
+        String repositoryURI = csvRecord.get(CSVInputHeader.REPOSITORY);
         String currentHashCommit = csvRecord.get(CSVInputHeader.COMMIT_HASH);
         int startLine = Integer.parseInt(csvRecord.get(CSVInputHeader.START_LINE));
         int endLine = Integer.parseInt(csvRecord.get(CSVInputHeader.END_LINE));
@@ -40,7 +42,7 @@ public class CSVReader {
 
         return CSVInputRow.builder()
                 .withType(type)
-                .withRepositoryUri(repositoryUri)
+                .withRepositoryURI(repositoryURI)
                 .withCurrentHashCommit(currentHashCommit)
                 .withStartLine(startLine)
                 .withEndLine(endLine)

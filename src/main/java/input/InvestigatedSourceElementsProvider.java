@@ -37,7 +37,7 @@ public class InvestigatedSourceElementsProvider {
     }
 
     private static boolean hasAvailableCommit(CSVInputRow row) {
-        return CommitBasicInfoApi.isCommitAvailable(getRepositoryPath(row.getRepositoryUri()), row.getCurrentHashCommit());
+        return CommitBasicInfoApi.isCommitAvailable(getRepositoryPath(row.getRepositoryURI()), row.getCurrentHashCommit());
     }
 
     private static List<InvestigatedSourceElement> getInvestigatedSourceElements(List<CSVInputRow> rows) {
@@ -70,13 +70,13 @@ public class InvestigatedSourceElementsProvider {
         return (int) Math.ceil((double) rows.size() / (double) threadsNumber);
     }
 
-    private static String getRepositoryPath(String repositoryUri) {
-        return DEFAULT_OUTPUT_REPOSITORY_DIR + "\\" + getRepositoryName(repositoryUri);
+    private static String getRepositoryPath(String repositoryURI) {
+        return DEFAULT_OUTPUT_REPOSITORY_DIR + "\\" + getRepositoryName(repositoryURI);
     }
 
-    private static String getRepositoryName(String repositoryUri) {
+    private static String getRepositoryName(String repositoryURI) {
         Pattern pattern = Pattern.compile(".*:(.*)\\.git");
-        Matcher matcher = pattern.matcher(repositoryUri);
+        Matcher matcher = pattern.matcher(repositoryURI);
         if (matcher.find()) {
             return matcher.group(1);
         } else {

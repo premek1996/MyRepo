@@ -21,7 +21,8 @@ public class CSVWriter {
         List<CSVOutputRow> rows = getRows(investigatedSourceElements, metricsList);
         try (FileWriter out = new FileWriter(filePath)) {
             CSVPrinter printer = CSVFormat.DEFAULT
-                    .withHeader(CSVOutputHeader.class).print(out);
+                    .withHeader(CSVOutputHeader.class)
+                    .print(out);
             rows.forEach(row -> printRow(printer, row));
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -53,7 +54,7 @@ public class CSVWriter {
     }
 
     private static List<String> getInvestigatedSourceElementInfo(InvestigatedSourceElement investigatedSourceElement) {
-        return List.of(investigatedSourceElement.getRepositoryUri(),
+        return List.of(investigatedSourceElement.getRepositoryURI(),
                 investigatedSourceElement.getFilePath(),
                 investigatedSourceElement.getClassName(),
                 investigatedSourceElement.getMethodName());

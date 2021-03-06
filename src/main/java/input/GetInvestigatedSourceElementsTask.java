@@ -35,20 +35,20 @@ public class GetInvestigatedSourceElementsTask implements Supplier<List<Investig
         System.out.println(Thread.currentThread().getName()+" "+count);
         if (isClass(row.getType())) {
             return InvestigatedClass.builder()
-                    .withRepositoryUri(row.getRepositoryUri())
+                    .withRepositoryURI(row.getRepositoryURI())
                     .withClassName(row.getClassName())
                     .withCurrentHashCommit(row.getCurrentHashCommit())
-                    .withRepositoryPath(getRepositoryPath(row.getRepositoryUri()))
+                    .withRepositoryPath(getRepositoryPath(row.getRepositoryURI()))
                     .withStartLine(row.getStartLine())
                     .withEndLine(row.getEndLine())
                     .withFilePath(getFilePath(row.getFilePath()))
                     .build();
         } else if (isMethodOrConstructor(row.getType())) {
             return InvestigatedMethod.builder()
-                    .withRepositoryUri(row.getRepositoryUri())
+                    .withRepositoryURI(row.getRepositoryURI())
                     .withClassName(row.getClassName())
                     .withCurrentHashCommit(row.getCurrentHashCommit())
-                    .withRepositoryPath(getRepositoryPath(row.getRepositoryUri()))
+                    .withRepositoryPath(getRepositoryPath(row.getRepositoryURI()))
                     .withStartLine(row.getStartLine())
                     .withEndLine(row.getEndLine())
                     .withFilePath(getFilePath(row.getFilePath()))
@@ -68,13 +68,13 @@ public class GetInvestigatedSourceElementsTask implements Supplier<List<Investig
         return type.equals(InvestigatedMethod.METHOD_TYPE) || type.equals(InvestigatedMethod.CONSTRUCTOR_TYPE);
     }
 
-    private static String getRepositoryPath(String repositoryUri) {
-        return DEFAULT_OUTPUT_REPOSITORY_DIR + "\\" + getRepositoryName(repositoryUri);
+    private static String getRepositoryPath(String repositoryURI) {
+        return DEFAULT_OUTPUT_REPOSITORY_DIR + "\\" + getRepositoryName(repositoryURI);
     }
 
-    private static String getRepositoryName(String repositoryUri) {
+    private static String getRepositoryName(String repositoryURI) {
         Pattern pattern = Pattern.compile(".*:(.*)\\.git");
-        Matcher matcher = pattern.matcher(repositoryUri);
+        Matcher matcher = pattern.matcher(repositoryURI);
         if (matcher.find()) {
             return matcher.group(1);
         } else {

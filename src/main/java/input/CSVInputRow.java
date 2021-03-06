@@ -5,7 +5,7 @@ import java.util.List;
 public class CSVInputRow {
 
     private final String type;
-    private final String repositoryUri;
+    private final String repositoryURI;
     private final String currentHashCommit;
     private final int startLine;
     private final int endLine;
@@ -16,7 +16,7 @@ public class CSVInputRow {
 
     private CSVInputRow(CSVInputRowBuilder builder) {
         this.type = builder.type;
-        this.repositoryUri = builder.repositoryUri;
+        this.repositoryURI = builder.repositoryURI;
         this.currentHashCommit = builder.currentHashCommit;
         this.startLine = builder.startLine;
         this.endLine = builder.endLine;
@@ -34,8 +34,8 @@ public class CSVInputRow {
         return type;
     }
 
-    public String getRepositoryUri() {
-        return repositoryUri;
+    public String getRepositoryURI() {
+        return repositoryURI;
     }
 
     public String getCurrentHashCommit() {
@@ -69,7 +69,7 @@ public class CSVInputRow {
     public static class CSVInputRowBuilder {
 
         private String type;
-        private String repositoryUri;
+        private String repositoryURI;
         private String currentHashCommit;
         private int startLine;
         private int endLine;
@@ -83,8 +83,8 @@ public class CSVInputRow {
             return this;
         }
 
-        public CSVInputRowBuilder withRepositoryUri(String repositoryUri) {
-            this.repositoryUri = repositoryUri;
+        public CSVInputRowBuilder withRepositoryURI(String repositoryURI) {
+            this.repositoryURI = repositoryURI;
             return this;
         }
 
