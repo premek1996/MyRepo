@@ -3,13 +3,13 @@ package domain;
 public class FileVersion {
 
     private final String hash;
-    private final String httpAddress;
+    private final String fileURI;
     private final String filePathInSavedDirectory;
     private final String savedFileName;
 
     private FileVersion(FileVersionBuilder fileVersionBuilder) {
         this.hash = fileVersionBuilder.hash;
-        this.httpAddress = fileVersionBuilder.httpAddress;
+        this.fileURI = fileVersionBuilder.fileURI;
         this.filePathInSavedDirectory = fileVersionBuilder.filePathInSavedDirectory;
         this.savedFileName = fileVersionBuilder.savedFileName;
     }
@@ -22,8 +22,8 @@ public class FileVersion {
         return hash;
     }
 
-    public String getHttpAddress() {
-        return httpAddress;
+    public String getFileURI() {
+        return fileURI;
     }
 
     public String getFilePathInSavedDirectory() {
@@ -38,7 +38,7 @@ public class FileVersion {
     public String toString() {
         return "FileVersion{" +
                 "hash='" + hash + '\'' +
-                ", httpAddress='" + httpAddress + '\'' +
+                ", fileURI='" + fileURI + '\'' +
                 ", filePathInSavedDirectory='" + filePathInSavedDirectory + '\'' +
                 ", savedFileName='" + savedFileName + '\'' +
                 '}';
@@ -47,7 +47,7 @@ public class FileVersion {
     public static class FileVersionBuilder {
 
         private String hash;
-        private String httpAddress;
+        private String fileURI;
         private String filePathInSavedDirectory;
         private String savedFileName;
 
@@ -56,8 +56,8 @@ public class FileVersion {
             return this;
         }
 
-        public FileVersionBuilder withHttpAddress(String httpAddress) {
-            this.httpAddress = httpAddress;
+        public FileVersionBuilder withFileURI(String fileURI) {
+            this.fileURI = fileURI;
             return this;
         }
 

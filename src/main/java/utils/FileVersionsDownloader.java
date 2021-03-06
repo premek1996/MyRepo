@@ -17,7 +17,7 @@ public class FileVersionsDownloader {
 
     private static void downloadFileVersionToDirectory(String directoryPath,
                                                        FileVersion fileVersion) {
-        List<String> command = List.of("wget", "-O", fileVersion.getSavedFileName(), fileVersion.getHttpAddress());
+        List<String> command = List.of("wget", "-O", fileVersion.getSavedFileName(), fileVersion.getFileURI());
         ProcessExecutor.getProcessLogs(directoryPath, command);
     }
 

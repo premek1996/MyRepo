@@ -46,12 +46,12 @@ public class FileVersionsApi {
         return index -> {
             String hash = getHash(processLogs.get(index * 2));
             String filePathInRepository = processLogs.get(index * 2 + 1);
-            String httpAddress = getDownloadedFileHttpAddress(repositoryPath, hash, filePathInRepository);
+            String fileURI = getDownloadedFileURI(repositoryPath, hash, filePathInRepository);
             String savedFileName = hash + ".java";
             String filePathInSavedDirectory = directoryPath + "\\" + savedFileName;
             return FileVersion.builder()
                     .withHash(hash)
-                    .withHttpAddress(httpAddress)
+                    .withFileURI(fileURI)
                     .withSavedFileName(savedFileName)
                     .withFilePathInSavedDirectory(filePathInSavedDirectory)
                     .build();
@@ -63,9 +63,9 @@ public class FileVersionsApi {
         return processLogElements[0];
     }
 
-    private static String getDownloadedFileHttpAddress(String repositoryPath,
-                                                       String hash,
-                                                       String filePathInRepository) {
+    private static String getDownloadedFileURI(String repositoryPath,
+                                               String hash,
+                                               String filePathInRepository) {
         String user = getUser(repositoryPath);
         String project = getProject(repositoryPath);
         return MessageFormat.format("https://raw.githubusercontent.com/{0}/{1}/{2}/{3}",
