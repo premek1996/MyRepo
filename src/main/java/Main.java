@@ -1,5 +1,5 @@
 import domain.InvestigatedClass;
-import domain.InvestigatedSourceElement; .
+import domain.InvestigatedSourceElement;
 import input.InvestigatedSourceElementsProvider;
 import output.CSVWriter;
 
