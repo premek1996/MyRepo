@@ -1,10 +1,7 @@
 import domain.InvestigatedClass;
-import domain.InvestigatedSourceElement;
-import domain.Metric;
-import gitapi.ClassModificationsApi;
+import domain.InvestigatedSourceElement; .
 import input.InvestigatedSourceElementsProvider;
 import output.CSVWriter;
-import processmetrics.ProcessMetricsCalculator;
 
 import java.io.IOException;
 import java.util.List;
@@ -46,10 +43,7 @@ public class Main {
                 .filter(investigatedSourceElement -> investigatedSourceElement instanceof InvestigatedClass)
                 .collect(Collectors.toList());
 
-        System.out.println("Liczone są teraz metryki!");
-        List<List<Metric>> metrics = ProcessMetricsCalculator.getMetrics(investigatedClasses);
-
-        CSVWriter.writeCsv(CSV_OUTPUT_FILE_PATH, investigatedClasses, metrics);
+        CSVWriter.writeCSV(CSV_OUTPUT_FILE_PATH, investigatedClasses);
 
     }
 

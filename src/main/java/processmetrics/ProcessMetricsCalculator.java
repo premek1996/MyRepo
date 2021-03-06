@@ -33,13 +33,7 @@ public class ProcessMetricsCalculator {
     private ProcessMetricsCalculator() {
     }
 
-    public static List<List<Metric>> getMetrics(List<InvestigatedSourceElement> investigatedSourceElements) {
-        return investigatedSourceElements.stream()
-                .map(ProcessMetricsCalculator::getMetrics)
-                .collect(Collectors.toList());
-    }
-
-    private static List<Metric> getMetrics(InvestigatedSourceElement investigatedSourceElement) {
+    public static List<Metric> getMetrics(InvestigatedSourceElement investigatedSourceElement) {
         return PROCESS_METRICS.stream()
                 .map(processMetric -> processMetric.compute(investigatedSourceElement))
                 .collect(Collectors.toList());

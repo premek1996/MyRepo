@@ -1,8 +1,8 @@
 package input;
 
-import com.google.common.collect.Lists;
 import domain.InvestigatedSourceElement;
 import gitapi.CommitBasicInfoApi;
+import utils.ListDivider;
 
 import java.io.File;
 import java.util.List;
@@ -43,22 +43,14 @@ public class InvestigatedSourceElementsProvider {
     private static List<InvestigatedSourceElement> getInvestigatedSourceElements(List<CSVInputRow> rows) {
         int threadsNumber = Runtime.getRuntime().availableProcessors();
         ExecutorService executorService = Executors.newFixedThreadPool(threadsNumber);
-        List<List<CSVInputRow>> rowsSubSets = divideRowsIntoSubSets(rows, threadsNumber);
-        List<Supplier<List<InvestigatedSourceElement>>> investigatedSourceElementsSuppliers = getInvestigatedSourceElementsSuppliers(rowsSubSets);
+        List<List<CSVInputRow>> rowsSubLists = ListDivider.divideListIntoSubLists(rows, threadsNumber);
+        List<Supplier<List<InvestigatedSourceElement>>> investigatedSourceElementsSuppliers = getInvestigatedSourceElementsSuppliers(rowsSubLists);
         return getInvestigatedSourceElements(investigatedSourceElementsSuppliers, executorService);
     }
 
-    private static List<List<CSVInputRow>> divideRowsIntoSubSets(List<CSVInputRow> rows, int threadsNumber) {
-        int rowsSubSetSize = getRowsSubSetSize(rows, threadsNumber);
-        return Lists.partition(rows, rowsSubSetSize);
-    }
 
-    private static int getRowsSubSetSize(List<CSVInputRow> rows, int threadsNumber) {
-        return (int) Math.ceil((double) rows.size() / (double) threadsNumber);
-    }
-
-    private static List<Supplier<List<InvestigatedSourceElement>>> getInvestigatedSourceElementsSuppliers(List<List<CSVInputRow>> rowsSubSets) {
-        return rowsSubSets.stream()
+    private static List<Supplier<List<InvestigatedSourceElement>>> getInvestigatedSourceElementsSuppliers(List<List<CSVInputRow>> rowsSubLists) {
+        return rowsSubLists.stream()
                 .map(GetInvestigatedSourceElementsTask::new)
                 .collect(Collectors.toList());
     }

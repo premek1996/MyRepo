@@ -2,8 +2,10 @@ package domain;
 
 import gitapi.CommitBasicInfoApi;
 import gitapi.DevelopersApi;
+import processmetrics.ProcessMetricsCalculator;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 
 public abstract class InvestigatedSourceElement {
@@ -17,6 +19,7 @@ public abstract class InvestigatedSourceElement {
     protected LocalDate currentDate;
     protected List<Developer> repositoryDevelopers;
     protected List<Commit> commits;
+    protected List<Metric> metrics;
 
     public InvestigatedSourceElement(String repositoryURI,
                                      String repositoryPath,
@@ -33,6 +36,7 @@ public abstract class InvestigatedSourceElement {
         this.currentDate = determineCurrentDate();
         this.repositoryDevelopers = determineRepositoryDevelopers();
         this.commits = determineCommits();
+        this.metrics = determineMetrics();
     }
 
     private LocalDate determineCurrentDate() {
@@ -44,6 +48,10 @@ public abstract class InvestigatedSourceElement {
     }
 
     protected abstract List<Commit> determineCommits();
+
+    private List<Metric> determineMetrics() {
+        return commits.isEmpty() ? Collections.emptyList() : ProcessMetricsCalculator.getMetrics(this);
+    }
 
     public abstract String getClassName();
 
@@ -92,6 +100,10 @@ public abstract class InvestigatedSourceElement {
         return commits;
     }
 
+    public List<Metric> getMetrics() {
+        return metrics;
+    }
+
     @Override
     public String toString() {
         return "InvestigatedSourceElement{" +
@@ -104,6 +116,7 @@ public abstract class InvestigatedSourceElement {
                 ", currentDate=" + currentDate +
                 ", repositoryDevelopers=" + repositoryDevelopers +
                 ", commits=" + commits +
+                ", metrics=" + metrics +
                 '}';
     }
 

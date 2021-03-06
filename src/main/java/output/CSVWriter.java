@@ -8,7 +8,6 @@ import org.apache.commons.csv.CSVPrinter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -17,32 +16,20 @@ public class CSVWriter {
     private CSVWriter() {
     }
 
-    public static void writeCsv(String filePath, List<InvestigatedSourceElement> investigatedSourceElements, List<List<Metric>> metricsList) {
-        List<CSVOutputRow> rows = getRows(investigatedSourceElements, metricsList);
+    public static void writeCSV(String filePath, List<InvestigatedSourceElement> investigatedSourceElements) {
         try (FileWriter out = new FileWriter(filePath)) {
             CSVPrinter printer = CSVFormat.DEFAULT
                     .withHeader(CSVOutputHeader.class)
                     .print(out);
-            rows.forEach(row -> printRow(printer, row));
+            investigatedSourceElements.forEach(investigatedSourceElement -> printInvestigatedSourceElement(printer, investigatedSourceElement));
         } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
 
-    private static List<CSVOutputRow> getRows(List<InvestigatedSourceElement> investigatedSourceElements, List<List<Metric>> metricsList) {
-        int rowsNumber = investigatedSourceElements.size();
-        return Stream.iterate(0, index -> index < rowsNumber, index -> index + 1)
-                .map(toRow(investigatedSourceElements, metricsList))
-                .collect(Collectors.toList());
-    }
-
-    private static Function<Integer, CSVOutputRow> toRow(List<InvestigatedSourceElement> investigatedSourceElements, List<List<Metric>> metricsList) {
-        return index -> new CSVOutputRow(investigatedSourceElements.get(index), metricsList.get(index));
-    }
-
-    private static void printRow(CSVPrinter printer, CSVOutputRow row) {
-        List<String> investigatedSourceElementInfo = getInvestigatedSourceElementInfo(row.getInvestigatedSourceElement());
-        List<String> metricsValues = getMetricsValues(row.getMetrics());
+    private static void printInvestigatedSourceElement(CSVPrinter printer, InvestigatedSourceElement investigatedSourceElements) {
+        List<String> investigatedSourceElementInfo = getInvestigatedSourceElementInfo(investigatedSourceElements);
+        List<String> metricsValues = getMetricsValues(investigatedSourceElements.getMetrics());
         List<String> allInfoToPrint = Stream.concat(investigatedSourceElementInfo.stream(), metricsValues.stream())
                 .collect(Collectors.toList());
         try {
@@ -50,7 +37,6 @@ public class CSVWriter {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     private static List<String> getInvestigatedSourceElementInfo(InvestigatedSourceElement investigatedSourceElement) {
