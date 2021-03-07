@@ -45,7 +45,9 @@ public class InvestigatedSourceElementsProvider {
         ExecutorService executorService = Executors.newFixedThreadPool(threadsNumber);
         List<List<CSVInputRow>> rowsSubLists = ListDivider.divideListIntoSubLists(rows, threadsNumber);
         List<Supplier<List<InvestigatedSourceElement>>> investigatedSourceElementsSuppliers = getInvestigatedSourceElementsSuppliers(rowsSubLists);
-        return getInvestigatedSourceElements(investigatedSourceElementsSuppliers, executorService);
+        List<InvestigatedSourceElement> investigatedSourceElements = getInvestigatedSourceElements(investigatedSourceElementsSuppliers, executorService);
+        executorService.shutdown();
+        return investigatedSourceElements;
     }
 
 
