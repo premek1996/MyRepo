@@ -3,21 +3,16 @@ package input;
 import domain.InvestigatedClass;
 import domain.InvestigatedMethod;
 import domain.InvestigatedSourceElement;
+import mapper.InvestigatedClassMapper;
+import mapper.InvestigatedMethodMapper;
 
-import java.io.File;
 import java.util.List;
 import java.util.function.Supplier;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class GetInvestigatedSourceElementsTask implements Supplier<List<InvestigatedSourceElement>> {
 
-    private static final String DEFAULT_OUTPUT_REPOSITORY_NAME = "unknown-repository";
-    private static final String DEFAULT_OUTPUT_REPOSITORY_DIR = System.getProperty("user.home") + File.separator + "java-metrics-source-repos";
-    private static final Pattern PATTERN = Pattern.compile(".*:(.*)\\.git");
     private static int DONE_ELEMENTS = 0;
-
     private final List<CSVInputRow> rows;
 
     public GetInvestigatedSourceElementsTask(List<CSVInputRow> rows) {
@@ -35,27 +30,9 @@ public class GetInvestigatedSourceElementsTask implements Supplier<List<Investig
         DONE_ELEMENTS++;
         System.out.println(Thread.currentThread().getName() + " " + DONE_ELEMENTS);
         if (isClass(row.getType())) {
-            return InvestigatedClass.builder()
-                    .withRepositoryURI(row.getRepositoryURI())
-                    .withClassName(row.getClassName())
-                    .withCurrentHashCommit(row.getCurrentHashCommit())
-                    .withRepositoryPath(getRepositoryPath(row.getRepositoryURI()))
-                    .withStartLine(row.getStartLine())
-                    .withEndLine(row.getEndLine())
-                    .withFilePath(getFilePath(row.getFilePath()))
-                    .build();
+            return InvestigatedClassMapper.from(row);
         } else if (isMethodOrConstructor(row.getType())) {
-            return InvestigatedMethod.builder()
-                    .withRepositoryURI(row.getRepositoryURI())
-                    .withClassName(row.getClassName())
-                    .withCurrentHashCommit(row.getCurrentHashCommit())
-                    .withRepositoryPath(getRepositoryPath(row.getRepositoryURI()))
-                    .withStartLine(row.getStartLine())
-                    .withEndLine(row.getEndLine())
-                    .withFilePath(getFilePath(row.getFilePath()))
-                    .withMethodName(row.getMethodName())
-                    .withArguments(row.getParameters())
-                    .build();
+            return InvestigatedMethodMapper.from(row);
         } else {
             throw new RuntimeException("Found unknown value " + row.getType() + " in column 'type'!");
         }
@@ -67,22 +44,6 @@ public class GetInvestigatedSourceElementsTask implements Supplier<List<Investig
 
     private static boolean isMethodOrConstructor(String type) {
         return InvestigatedMethod.METHOD_TYPE.equals(type) || InvestigatedMethod.CONSTRUCTOR_TYPE.equals(type);
-    }
-
-    private static String getRepositoryPath(String repositoryURI) {
-        return DEFAULT_OUTPUT_REPOSITORY_DIR + "\\" + getRepositoryName(repositoryURI);
-    }
-
-    private static String getRepositoryName(String repositoryURI) {
-        Matcher matcher = PATTERN.matcher(repositoryURI);
-        if (matcher.find()) {
-            return matcher.group(1);
-        }
-        return DEFAULT_OUTPUT_REPOSITORY_NAME;
-    }
-
-    private static String getFilePath(String filePath) {
-        return filePath.substring(1);
     }
 
 }

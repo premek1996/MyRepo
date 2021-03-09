@@ -13,21 +13,23 @@ import java.util.stream.Stream;
 
 public class CSVWriter {
 
+    private static CSVPrinter printer;
+
     private CSVWriter() {
     }
 
     public static void writeCSV(String filePath, List<InvestigatedSourceElement> investigatedSourceElements) {
         try (FileWriter out = new FileWriter(filePath)) {
-            CSVPrinter printer = CSVFormat.DEFAULT
+            printer = CSVFormat.DEFAULT
                     .withHeader(CSVOutputHeader.class)
                     .print(out);
-            investigatedSourceElements.forEach(investigatedSourceElement -> printInvestigatedSourceElement(printer, investigatedSourceElement));
+            investigatedSourceElements.forEach(CSVWriter::printInvestigatedSourceElement);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
 
-    private static void printInvestigatedSourceElement(CSVPrinter printer, InvestigatedSourceElement investigatedSourceElements) {
+    private static void printInvestigatedSourceElement(InvestigatedSourceElement investigatedSourceElements) {
         List<String> investigatedSourceElementInfo = getInvestigatedSourceElementInfo(investigatedSourceElements);
         List<String> metricsValues = getMetricsValues(investigatedSourceElements.getMetrics());
         List<String> allInfoToPrint = Stream.concat(investigatedSourceElementInfo.stream(), metricsValues.stream())
