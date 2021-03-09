@@ -37,7 +37,7 @@ public class Main {
 
         System.out.println(ClassModificationsApi.getCommits(investigatedSourceElement));*/
 
-        List<InvestigatedSourceElement> investigatedSourceElements = InvestigatedSourceElementsProvider.getInvestigatedSourceElements(CSV_INPUT_FILE_PATH);
+        List<InvestigatedSourceElement> investigatedSourceElements = InvestigatedSourceElementsProvider.from(CSV_INPUT_FILE_PATH);
 
         List<InvestigatedSourceElement> investigatedClasses = investigatedSourceElements.stream()
                 .filter(investigatedSourceElement -> investigatedSourceElement instanceof InvestigatedClass)

@@ -15,6 +15,7 @@ public class GetInvestigatedSourceElementsTask implements Supplier<List<Investig
 
     private static final String DEFAULT_OUTPUT_REPOSITORY_NAME = "unknown-repository";
     private static final String DEFAULT_OUTPUT_REPOSITORY_DIR = System.getProperty("user.home") + File.separator + "java-metrics-source-repos";
+    private static final Pattern PATTERN = Pattern.compile(".*:(.*)\\.git");
     private static int DONE_ELEMENTS = 0;
 
     private final List<CSVInputRow> rows;
@@ -32,7 +33,7 @@ public class GetInvestigatedSourceElementsTask implements Supplier<List<Investig
 
     private InvestigatedSourceElement getInvestigatedSourceElement(CSVInputRow row) {
         DONE_ELEMENTS++;
-        System.out.println(Thread.currentThread().getName()+" "+DONE_ELEMENTS);
+        System.out.println(Thread.currentThread().getName() + " " + DONE_ELEMENTS);
         if (isClass(row.getType())) {
             return InvestigatedClass.builder()
                     .withRepositoryURI(row.getRepositoryURI())
@@ -61,11 +62,11 @@ public class GetInvestigatedSourceElementsTask implements Supplier<List<Investig
     }
 
     private static boolean isClass(String type) {
-        return type.equals(InvestigatedClass.CLASS_TYPE);
+        return InvestigatedClass.CLASS_TYPE.equals(type);
     }
 
     private static boolean isMethodOrConstructor(String type) {
-        return type.equals(InvestigatedMethod.METHOD_TYPE) || type.equals(InvestigatedMethod.CONSTRUCTOR_TYPE);
+        return InvestigatedMethod.METHOD_TYPE.equals(type) || InvestigatedMethod.CONSTRUCTOR_TYPE.equals(type);
     }
 
     private static String getRepositoryPath(String repositoryURI) {
@@ -73,13 +74,11 @@ public class GetInvestigatedSourceElementsTask implements Supplier<List<Investig
     }
 
     private static String getRepositoryName(String repositoryURI) {
-        Pattern pattern = Pattern.compile(".*:(.*)\\.git");
-        Matcher matcher = pattern.matcher(repositoryURI);
+        Matcher matcher = PATTERN.matcher(repositoryURI);
         if (matcher.find()) {
             return matcher.group(1);
-        } else {
-            return DEFAULT_OUTPUT_REPOSITORY_NAME;
         }
+        return DEFAULT_OUTPUT_REPOSITORY_NAME;
     }
 
     private static String getFilePath(String filePath) {

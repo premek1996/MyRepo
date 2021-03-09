@@ -4,11 +4,13 @@ import domain.CommitBasicInfo;
 import utils.ProcessExecutor;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CommitBasicInfoApi {
 
     private static final String GIT_ERROR = "fatal";
+    public static final List<String> errors = new ArrayList<>();
 
     private CommitBasicInfoApi() {
     }
@@ -18,12 +20,16 @@ public class CommitBasicInfoApi {
         List<String> command = List.of("git", "show", "-s", "--format=%ae%n%cd%n%B",
                 "--date=format:%Y-%m-%d", hash);
         List<String> processLogs = ProcessExecutor.getProcessLogs(repositoryPath, command);
-        return !isErrorInProcessLogs(processLogs);
+        boolean isErrorInProcessLogs = isErrorInProcessLogs(processLogs);
+        if (isErrorInProcessLogs) {
+            errors.add(repositoryPath + " " + hash + " " + processLogs);
+        }
+        return !isErrorInProcessLogs;
     }
 
     private static boolean isErrorInProcessLogs(List<String> processLogs) {
         return processLogs.stream()
-                .anyMatch(processLog->processLog.contains(GIT_ERROR));
+                .anyMatch(processLog -> processLog.contains(GIT_ERROR));
     }
 
     public static CommitBasicInfo getCommitBasicInfo(String repositoryPath,
