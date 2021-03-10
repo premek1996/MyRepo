@@ -2,11 +2,11 @@ package domain;
 
 public class Developer {
 
-    private final String name;
+    private final String mail;
     private final int commits;
 
     private Developer(DeveloperBuilder builder) {
-        this.name = builder.name;
+        this.mail = builder.mail;
         this.commits = builder.commits;
     }
 
@@ -14,8 +14,8 @@ public class Developer {
         return new DeveloperBuilder();
     }
 
-    public String getName() {
-        return name;
+    public String getMail() {
+        return mail;
     }
 
     public int getCommits() {
@@ -25,18 +25,18 @@ public class Developer {
     @Override
     public String toString() {
         return "Developer{" +
-                "name='" + name + '\'' +
+                "mail='" + mail + '\'' +
                 ", commits=" + commits +
                 '}';
     }
 
     public static class DeveloperBuilder {
 
-        private String name;
+        private String mail;
         private int commits;
 
-        public DeveloperBuilder withName(String name) {
-            this.name = name;
+        public DeveloperBuilder withMail(String mail) {
+            this.mail = mail;
             return this;
         }
 

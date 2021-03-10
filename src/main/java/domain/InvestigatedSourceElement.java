@@ -3,10 +3,12 @@ package domain;
 import gitapi.CommitBasicInfoApi;
 import gitapi.DevelopersApi;
 import processmetrics.ProcessMetricsCalculator;
+import utils.TextComparator;
 
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public abstract class InvestigatedSourceElement {
 
@@ -85,11 +87,19 @@ public abstract class InvestigatedSourceElement {
         return currentHashCommit;
     }
 
-    public Developer getDeveloper(String name) {
+    public Developer getDeveloper(String mail) {
         return repositoryDevelopers.stream()
-                .filter(developer -> developer.getName().equals(name))
+                .filter(developer -> developer.getMail().equals(mail))
                 .findAny()
                 .orElse(null);
+    }
+
+    public Developer getDeveloperWithMostSimilarMail(String mail) {
+        List<String> developersMails = repositoryDevelopers.stream()
+                .map(Developer::getMail)
+                .collect(Collectors.toList());
+        String mostSimilarMail = TextComparator.getMostSimilarText(mail, developersMails);
+        return getDeveloper(mostSimilarMail);
     }
 
     public LocalDate getCurrentDate() {
