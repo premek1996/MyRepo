@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -59,11 +60,10 @@ public class CSVReader {
     }
 
     private static String getRepositoryName(String repositoryURI) {
-        Matcher matcher = PATTERN.matcher(repositoryURI);
-        if (matcher.find()) {
-            return matcher.group(1);
-        }
-        return DEFAULT_OUTPUT_REPOSITORY_NAME;
+        return Optional.of(PATTERN.matcher(repositoryURI))
+                .filter(Matcher::find)
+                .map(matcher -> matcher.group(1))
+                .orElse(DEFAULT_OUTPUT_REPOSITORY_NAME);
     }
 
 }

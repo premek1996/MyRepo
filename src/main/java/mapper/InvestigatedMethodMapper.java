@@ -4,6 +4,7 @@ import domain.InvestigatedMethod;
 import input.CSVInputRow;
 
 import java.io.File;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,11 +36,10 @@ public class InvestigatedMethodMapper {
     }
 
     private static String getRepositoryName(String repositoryURI) {
-        Matcher matcher = PATTERN.matcher(repositoryURI);
-        if (matcher.find()) {
-            return matcher.group(1);
-        }
-        return DEFAULT_OUTPUT_REPOSITORY_NAME;
+        return Optional.of(PATTERN.matcher(repositoryURI))
+                .filter(Matcher::find)
+                .map(matcher -> matcher.group(1))
+                .orElse(DEFAULT_OUTPUT_REPOSITORY_NAME);
     }
 
     private static String getFilePath(String filePath) {
