@@ -20,7 +20,6 @@ public class DeveloperCommitsAverageNumber implements ProcessMetric {
         double developerCommitsAverageNumber = investigatedSourceElement.getCommits().stream()
                 .map(Commit::getDeveloper)
                 .distinct()
-                .filter(Objects::nonNull)
                 .mapToInt(Developer::getCommits)
                 .average()
                 .orElse(0);
