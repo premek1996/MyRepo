@@ -5,8 +5,6 @@ import domain.Developer;
 import domain.InvestigatedSourceElement;
 import domain.Metric;
 
-import java.util.Objects;
-
 /*
 The metric represents the average number of commits per developer.
  */
