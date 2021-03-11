@@ -12,7 +12,6 @@ import domain.Metric;
  * An empirical study. Software Qual J23, 393–422
  */
 
-
 public class NumberOfRevisions implements ProcessMetric {
 
     private static final String METRIC_NAME = "NumberOfRevisions";

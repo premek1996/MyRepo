@@ -11,7 +11,6 @@ import domain.Metric;
  * prediction capabilities. Acta Cybernetica, 23(2), 537-559
  */
 
-
 public class AverageNumberOfDeletedLines implements ProcessMetric {
 
     private static final String METRIC_NAME = "AverageNumberOfDeletedLines";
