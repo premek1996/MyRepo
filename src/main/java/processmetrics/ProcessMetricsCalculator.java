@@ -9,25 +9,25 @@ import java.util.stream.Collectors;
 public class ProcessMetricsCalculator {
 
     private static final List<ProcessMetric> PROCESS_METRICS = List.of(
-            new AddedLinesAverageNumber(),
-            new AddedLinesMaxNumber(),
+            new AverageNumberOfAddedLines(),
+            new MaxNumberOfAddedLines(),
             new Age(),
-            new AverageTimeBetweenCommits(),
-            new BugFixesNumber(),
+            new AverageTimeBetweenChanges(),
+            new NumberOfBugFixes(),
             new CodeChurn(),
-            new CommitMessageAverageLength(),
-            new CommitsNumber(),
-            new CommitsWithoutMessageNumber(),
+            new MeanCommitMessageLength(),
+            new NumberOfRevisions(),
+            new NumberOfCommitsWithoutMessage(),
             new DaysWithCommits(),
-            new DeletedLinesAverageNumber(),
-            new DeletedLinesMaxNumber(),
-            new DeveloperCommitsAverageNumber(),
-            new DistinctDevelopersNumber(),
-            new ModifiedLinesAverageNumber(),
-            new ModifiedLinesMaxNumber(),
-            new RefactoringsNumber(),
-            new SourceElementFragmentation(),
-            new TimePassedSinceLastCommit()
+            new AverageNumberOfDeletedLines(),
+            new MaxNumberOfDeletedLines(),
+            new MeanAuthorCommits(),
+            new NumberOfDistinctCommitters(),
+            new AverageNumberOfModifiedLines(),
+            new MaxNumberOfModifiedLines(),
+            new NumberOfRefactorings(),
+            new AuthorFragmentation(),
+            new TimePassedSinceTheLastChange()
     );
 
     private ProcessMetricsCalculator() {

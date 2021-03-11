@@ -8,13 +8,16 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
-/*
-Time passed in days since the last commit.
+/**
+ * Name: Time Passed Since the Last Change
+ * Description: Time passed in days since the last commit.
+ * Reference: Péter Gyimesi. 2017. Automatic calculation of process metrics and their bug
+ * prediction capabilities. Acta Cybernetica, 23(2), 537-559
  */
 
-public class TimePassedSinceLastCommit implements ProcessMetric {
+public class TimePassedSinceTheLastChange implements ProcessMetric {
 
-    private static final String METRIC_NAME = "TimePassedSinceLastCommit";
+    private static final String METRIC_NAME = "TimePassedSinceTheLastChange";
 
     @Override
     public Metric compute(InvestigatedSourceElement investigatedSourceElement) {

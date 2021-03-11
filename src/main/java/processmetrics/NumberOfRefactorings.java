@@ -6,24 +6,27 @@ import domain.Metric;
 
 import java.util.List;
 
-/*
-The number of commits with 'refactor' or 'improve'
-in the commit message.
+/**
+ * Name: Number of Refactorings
+ * Description: The number of commits with 'refactor' or 'improve' in the commit message.
+ * Reference: Linus W. Dietz, Robin Lichtenthälery, Adam Tornhillz and Simon Harrer.
+ * 2019. Code Process Metrics in University Programming Education. Software
+ * Engineering
  */
 
-public class RefactoringsNumber implements ProcessMetric {
+public class NumberOfRefactorings implements ProcessMetric {
 
-    private static final String METRIC_NAME = "RefactoringsNumber";
+    private static final String METRIC_NAME = "NumberOfRefactorings";
     private static final List<String> WORDS = List.of("refactor", "improve");
 
     @Override
     public Metric compute(InvestigatedSourceElement investigatedSourceElement) {
-        long refactoringsNumber = investigatedSourceElement.getCommits().stream()
+        long numberOfRefactorings = investigatedSourceElement.getCommits().stream()
                 .map(Commit::getMessage)
                 .map(String::toLowerCase)
-                .filter(RefactoringsNumber::containsWords)
+                .filter(NumberOfRefactorings::containsWords)
                 .count();
-        return new Metric(METRIC_NAME, refactoringsNumber);
+        return new Metric(METRIC_NAME, numberOfRefactorings);
     }
 
     private static boolean containsWords(String commitMessage) {
