@@ -6,6 +6,7 @@ public class CSVInputRow {
 
     private final String type;
     private final String repositoryURI;
+    private final String repositoryPath;
     private final String currentHashCommit;
     private final int startLine;
     private final int endLine;
@@ -17,6 +18,7 @@ public class CSVInputRow {
     private CSVInputRow(CSVInputRowBuilder builder) {
         this.type = builder.type;
         this.repositoryURI = builder.repositoryURI;
+        this.repositoryPath = builder.repositoryPath;
         this.currentHashCommit = builder.currentHashCommit;
         this.startLine = builder.startLine;
         this.endLine = builder.endLine;
@@ -36,6 +38,10 @@ public class CSVInputRow {
 
     public String getRepositoryURI() {
         return repositoryURI;
+    }
+
+    public String getRepositoryPath() {
+        return repositoryPath;
     }
 
     public String getCurrentHashCommit() {
@@ -70,6 +76,7 @@ public class CSVInputRow {
 
         private String type;
         private String repositoryURI;
+        private String repositoryPath;
         private String currentHashCommit;
         private int startLine;
         private int endLine;
@@ -85,6 +92,11 @@ public class CSVInputRow {
 
         public CSVInputRowBuilder withRepositoryURI(String repositoryURI) {
             this.repositoryURI = repositoryURI;
+            return this;
+        }
+
+        public CSVInputRowBuilder withRepositoryPath(String repositoryPath) {
+            this.repositoryPath = repositoryPath;
             return this;
         }
 

@@ -6,8 +6,6 @@ import java.util.List;
 
 public class InvestigatedClass extends InvestigatedSourceElement {
 
-    public static final String CLASS_TYPE = "class";
-
     private final String className;
 
     private InvestigatedClass(InvestigatedClassBuilder investigatedClassBuilder) {

@@ -6,8 +6,6 @@ import java.util.List;
 
 public class InvestigatedMethod extends InvestigatedSourceElement {
 
-    public static final String METHOD_TYPE = "method";
-    public static final String CONSTRUCTOR_TYPE = "constructor";
     private final String className;
     private final String methodName;
     private final List<String> arguments;
